@@ -1,0 +1,199 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------------ */
+/*  Base theme — dark charcoal/navy with industrial orange accent      */
+/* ------------------------------------------------------------------ */
+:root {
+  --background: #0b0f17;
+  --foreground: #e8eef7;
+  --accent: #ff6b35;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem; /* offset for sticky header on anchor jumps */
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-feature-settings: "ss01", "cv01";
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #0b0f17;
+}
+::-webkit-scrollbar-thumb {
+  background: #28344a;
+  border-radius: 9999px;
+  border: 2px solid #0b0f17;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3a4860;
+}
+
+::selection {
+  background: rgba(255, 107, 53, 0.85);
+  color: #0b0f17;
+}
+
+@layer components {
+  /* Glassmorphism surfaces */
+  .glass {
+    @apply border border-white/10 bg-white/[0.04] backdrop-blur-xl;
+  }
+  .glass-strong {
+    @apply border border-white/10 bg-charcoal-800/70 backdrop-blur-2xl;
+  }
+  .glass-card {
+    @apply rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-xl
+           transition-all duration-300 hover:border-accent/40 hover:bg-white/[0.06];
+  }
+
+  /* Buttons */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3
+           text-sm font-semibold tracking-wide transition-all duration-300
+           focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70
+           focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900
+           disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .btn-primary {
+    @apply btn bg-accent text-charcoal-950 shadow-lg shadow-accent/25
+           hover:bg-accent-400 hover:shadow-accent/40 hover:-translate-y-0.5;
+  }
+  .btn-outline {
+    @apply btn border border-white/20 bg-white/[0.02] text-white
+           hover:border-accent/60 hover:bg-white/[0.06];
+  }
+  .btn-ghost {
+    @apply btn text-navy-100 hover:text-white;
+  }
+
+  .container-px {
+    @apply mx-auto w-full max-w-8xl px-5 sm:px-8 lg:px-12;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 rounded-full border border-accent/30
+           bg-accent/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em]
+           text-accent-300;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-white via-navy-100 to-accent-300 bg-clip-text text-transparent;
+  }
+  .text-gradient-accent {
+    @apply bg-gradient-to-r from-accent-300 to-accent-500 bg-clip-text text-transparent;
+  }
+  /* Subtle engineered grid background */
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+  .bg-radial-glow {
+    background-image: radial-gradient(
+      60% 60% at 50% 0%,
+      rgba(255, 107, 53, 0.18) 0%,
+      rgba(11, 37, 69, 0.12) 40%,
+      transparent 75%
+    );
+  }
+  /* Fade a horizontal marquee at both edges */
+  .mask-fade-x {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 8%,
+      black 92%,
+      transparent
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 8%,
+      black 92%,
+      transparent
+    );
+  }
+}
+
+/* RTL adjustments for right-to-left languages */
+[dir="rtl"] .rtl-flip {
+  transform: scaleX(-1);
+}
+
+/* --- Google Website Translator: hide its default chrome, keep the engine --- */
+/* Covers every banner variant Google has shipped (old frame + new top bar). */
+.goog-te-banner-frame,
+.goog-te-banner-frame.skiptranslate,
+iframe.skiptranslate,
+.VIpgJd-ZVi9od-ORHb-OEVmcd,
+.VIpgJd-ZVi9od-l4eHX-hSRGPd,
+.goog-te-gadget-icon,
+#goog-gt-tt,
+.goog-te-balloon-frame {
+  display: none !important;
+  visibility: hidden !important;
+}
+.goog-te-gadget {
+  height: 0;
+  overflow: hidden;
+  font-size: 0;
+  color: transparent;
+}
+/* The widget tries to push the page down with a top banner — undo it. */
+body,
+html.translated-ltr body,
+html.translated-rtl body {
+  top: 0 !important;
+  position: static !important;
+}
+/* Remove the yellow highlight Google adds to translated text. */
+.goog-text-highlight {
+  background: none !important;
+  box-shadow: none !important;
+}
+font[style] {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+/* Visually hide the engine's mount point without removing it from the DOM. */
+#google_translate_element {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
