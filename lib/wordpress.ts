@@ -111,6 +111,15 @@ function mapPump(raw: WPPump, index: number): Product {
         ? ((brochure as { url?: string }).url ?? undefined)
         : undefined;
 
+  const mainImage = featuredImage(raw._embedded, pickImage(productImages, index));
+  // ACF FREE "gallery": the Featured Image + up to four extra image fields.
+  const galleryExtras = [
+    acf(fields, "gallery_image_1"),
+    acf(fields, "gallery_image_2"),
+    acf(fields, "gallery_image_3"),
+    acf(fields, "gallery_image_4"),
+  ].filter(Boolean);
+
   return {
     slug: raw.slug,
     name: stripHtml(raw.title.rendered),
@@ -119,8 +128,8 @@ function mapPump(raw: WPPump, index: number): Product {
     seriesName: term?.name ?? "Sewage Pumps",
     excerpt: stripHtml(raw.excerpt?.rendered) || stripHtml(raw.content?.rendered).slice(0, 160),
     description: raw.content?.rendered ?? `<p>${stripHtml(raw.excerpt?.rendered)}</p>`,
-    image: featuredImage(raw._embedded, pickImage(productImages, index)),
-    gallery: [featuredImage(raw._embedded, pickImage(productImages, index))],
+    image: mainImage,
+    gallery: [mainImage, ...galleryExtras],
     specs: {
       flowRate: acf(fields, "flow_rate", "flowrate", "flow") || "—",
       head: acf(fields, "head", "lift") || "—",
