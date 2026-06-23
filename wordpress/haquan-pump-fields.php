@@ -1,32 +1,72 @@
 <?php
 /**
- * Haquan — Product (pump) specification fields
- * Paste into your theme's functions.php (or wp-content/mu-plugins/).
+ * Haquan — Products: `pump` CPT + `pump_series` taxonomy + ACF fields
+ * Paste into functions.php, or drop in wp-content/mu-plugins/.
  *
- * Adds an ACF FREE field group to the EXISTING `pump` CPT so each product
- * is entered with a clean form. Field names match what the Next.js front-end
- * reads (lib/wordpress.ts → mapPump). No certificate fields (per brand spec).
- *
- * Product MAIN IMAGE = the post's built-in "Featured Image" (no ACF needed).
+ * Registers everything the product catalogue needs on a FRESH WordPress
+ * (ACF FREE). Field names + series slugs match the Next.js front-end
+ * (lib/wordpress.ts). No certificate fields. Product MAIN IMAGE = the
+ * post's built-in Featured Image; Gallery Image 1–4 are extra photos.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-/* Make sure the existing `pump` CPT is exposed to the REST API.
- * (Skip / harmless if it is already registered with show_in_rest = true.) */
-add_filter( 'register_post_type_args', function ( $args, $post_type ) {
-	if ( 'pump' === $post_type ) {
-		$args['show_in_rest'] = true;
-		if ( empty( $args['rest_base'] ) ) {
-			$args['rest_base'] = 'pump';
+/* ---------------------------------------------------------------------
+ * 1. Product post type + series taxonomy
+ * ------------------------------------------------------------------- */
+add_action( 'init', function () {
+	register_post_type( 'pump', array(
+		'labels' => array(
+			'name'          => 'Pumps',
+			'singular_name' => 'Pump',
+			'menu_name'     => 'Pumps',
+			'add_new_item'  => 'Add Pump',
+			'edit_item'     => 'Edit Pump',
+			'all_items'     => 'All Pumps',
+		),
+		'public'        => true,
+		'show_in_rest'  => true,            // /wp-json/wp/v2/pump
+		'rest_base'     => 'pump',
+		'menu_icon'     => 'dashicons-database',
+		'menu_position' => 20,
+		'has_archive'   => true,
+		'supports'      => array( 'title', 'editor', 'thumbnail', 'excerpt' ),
+	) );
+
+	register_taxonomy( 'pump_series', 'pump', array(
+		'labels' => array(
+			'name'          => 'Pump Series',
+			'singular_name' => 'Pump Series',
+			'menu_name'     => 'Pump Series',
+		),
+		'public'            => true,
+		'hierarchical'      => true,
+		'show_in_rest'      => true,        // /wp-json/wp/v2/pump_series
+		'rest_base'         => 'pump_series',
+		'show_admin_column' => true,
+	) );
+
+	// Seed the six series (slugs MUST match the front-end).
+	$series = array(
+		'sewage-pumps'                      => 'Sewage Pumps',
+		'grinder-pumps'                     => 'Grinder Pumps',
+		'self-priming-sewage-pumps'         => 'Self-Priming Sewage Pumps',
+		'stainless-steel-submersible-pumps' => 'Stainless Steel Submersible Pumps',
+		'aodd-pumps'                        => 'AODD Pumps',
+		'pipeline-centrifugal-pumps'        => 'Pipeline Centrifugal Pumps',
+	);
+	foreach ( $series as $slug => $name ) {
+		if ( ! term_exists( $slug, 'pump_series' ) ) {
+			wp_insert_term( $name, 'pump_series', array( 'slug' => $slug ) );
 		}
 	}
-	return $args;
-}, 10, 2 );
+}, 5 );
 
-/* Product specification fields */
+/* ---------------------------------------------------------------------
+ * 2. Product specification fields (ACF FREE)
+ * ------------------------------------------------------------------- */
 add_action( 'acf/init', function () {
 	if ( ! function_exists( 'acf_add_local_field_group' ) ) {
 		return;
@@ -49,13 +89,13 @@ add_action( 'acf/init', function () {
 		'position'        => 'normal',
 		'label_placement' => 'top',
 		'fields' => array(
-			array( 'key' => 'field_pump_model',    'label' => 'Model',                       'name' => 'model',                  'type' => 'text', 'instructions' => 'e.g. WQ, ISG, QBY' ),
-			array( 'key' => 'field_pump_flow',     'label' => 'Flow Rate (m³/h)',            'name' => 'flow_rate',              'type' => 'text', 'instructions' => 'e.g. 10 – 1200' ),
-			array( 'key' => 'field_pump_head',     'label' => 'Head (m)',                    'name' => 'head',                   'type' => 'text', 'instructions' => 'e.g. 5 – 40' ),
-			array( 'key' => 'field_pump_power',    'label' => 'Power (kW)',                  'name' => 'power',                  'type' => 'text', 'instructions' => 'e.g. 0.75 – 90' ),
+			array( 'key' => 'field_pump_model',    'label' => 'Model',                        'name' => 'model',                  'type' => 'text', 'instructions' => 'e.g. WQ, ISG, QBY' ),
+			array( 'key' => 'field_pump_flow',     'label' => 'Flow Rate (m³/h)',             'name' => 'flow_rate',              'type' => 'text', 'instructions' => 'e.g. 10 – 1200' ),
+			array( 'key' => 'field_pump_head',     'label' => 'Head (m)',                     'name' => 'head',                   'type' => 'text', 'instructions' => 'e.g. 5 – 40' ),
+			array( 'key' => 'field_pump_power',    'label' => 'Power (kW)',                   'name' => 'power',                  'type' => 'text', 'instructions' => 'e.g. 0.75 – 90' ),
 			array( 'key' => 'field_pump_diameter', 'label' => 'Inlet / Outlet Diameter (mm)', 'name' => 'inlet_outlet_diameter', 'type' => 'text', 'instructions' => 'e.g. 50 – 300' ),
-			array( 'key' => 'field_pump_material', 'label' => 'Material',                    'name' => 'material',               'type' => 'text', 'instructions' => 'e.g. Cast Iron HT200 / SS316L' ),
-			array( 'key' => 'field_pump_apps',     'label' => 'Applications',                'name' => 'applications',           'type' => 'text', 'instructions' => 'Comma-separated, e.g. Mining, Municipal Water, Marine' ),
+			array( 'key' => 'field_pump_material', 'label' => 'Material',                     'name' => 'material',               'type' => 'text', 'instructions' => 'e.g. Cast Iron HT200 / SS316L' ),
+			array( 'key' => 'field_pump_apps',     'label' => 'Applications',                 'name' => 'applications',           'type' => 'text', 'instructions' => 'Comma-separated, e.g. Mining, Municipal Water, Marine' ),
 
 			// Image gallery (ACF FREE has no Gallery field → individual Image fields).
 			// The MAIN image is the post's Featured Image; these are extra photos.
