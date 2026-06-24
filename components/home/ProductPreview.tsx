@@ -21,7 +21,7 @@ export function ProductPreview({ products }: { products: Product[] }) {
         />
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {products.map((product, i) => (
-            <Reveal key={product.slug} index={i % 3}>
+            <Reveal key={product.slug} index={i % 3} className="h-full">
               <ProductCard product={product} priority={i < 3} />
             </Reveal>
           ))}

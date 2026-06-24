@@ -10,7 +10,7 @@ export function ProductCard({ product, priority = false }: { product: Product; p
   const { t } = useTranslation();
 
   return (
-    <article className="group glass-card flex flex-col overflow-hidden p-0">
+    <article className="group glass-card flex h-full flex-col overflow-hidden p-0">
       <Link
         href={`/products/${product.slug}`}
         className="relative block aspect-[4/3] overflow-hidden"
@@ -30,10 +30,10 @@ export function ProductCard({ product, priority = false }: { product: Product; p
       </Link>
 
       <div className="flex flex-1 flex-col p-5">
-        <h3 className="font-display text-lg font-semibold text-white transition-colors group-hover:text-accent-300">
+        <h3 className="line-clamp-2 min-h-[3.5rem] font-display text-lg font-semibold text-white transition-colors group-hover:text-accent-300">
           <Link href={`/products/${product.slug}`}>{product.name}</Link>
         </h3>
-        <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-navy-100/60">
+        <p className="mt-2 line-clamp-2 min-h-[2.5rem] text-sm leading-relaxed text-navy-100/60">
           {product.excerpt}
         </p>
 
@@ -44,7 +44,7 @@ export function ProductCard({ product, priority = false }: { product: Product; p
           <SpecMini icon={<Zap className="h-3.5 w-3.5" />} label={t("specs.power")} value={`${product.specs.power}`} unit="kW" />
         </dl>
 
-        <div className="mt-5 flex items-center justify-between gap-3">
+        <div className="mt-auto flex items-center justify-between gap-3 pt-5">
           <Link
             href={`/products/${product.slug}`}
             className="inline-flex items-center gap-1 text-sm font-semibold text-accent-300 transition-colors hover:text-accent"
