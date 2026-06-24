@@ -110,3 +110,40 @@ add_action( 'acf/init', function () {
 		),
 	) );
 } );
+
+/* ---------------------------------------------------------------------
+ * 3. Expose resolved image URLs in REST.
+ *    ACF returns image fields as attachment IDs in the REST `acf` object,
+ *    so we add a `gallery` field that returns real URLs (Featured Image
+ *    first, then Gallery Image 1–4), de-duplicated.
+ * ------------------------------------------------------------------- */
+add_action( 'rest_api_init', function () {
+	register_rest_field( 'pump', 'gallery', array(
+		'get_callback' => function ( $post ) {
+			$urls  = array();
+			$thumb = get_post_thumbnail_id( $post['id'] );
+			if ( $thumb ) {
+				$u = wp_get_attachment_url( $thumb );
+				if ( $u ) {
+					$urls[] = $u;
+				}
+			}
+			foreach ( array( 'gallery_image_1', 'gallery_image_2', 'gallery_image_3', 'gallery_image_4' ) as $field ) {
+				$val = function_exists( 'get_field' ) ? get_field( $field, $post['id'] ) : '';
+				if ( is_array( $val ) && ! empty( $val['url'] ) ) {
+					$val = $val['url'];
+				} elseif ( is_numeric( $val ) ) {
+					$val = wp_get_attachment_url( (int) $val );
+				}
+				if ( is_string( $val ) && $val !== '' ) {
+					$urls[] = $val;
+				}
+			}
+			return array_values( array_unique( array_filter( $urls ) ) );
+		},
+		'schema' => array(
+			'type'  => 'array',
+			'items' => array( 'type' => 'string' ),
+		),
+	) );
+} );

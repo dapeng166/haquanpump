@@ -33,6 +33,8 @@ interface WPPump {
   content?: WPRendered;
   pump_series?: number[];
   acf?: Record<string, unknown>;
+  /** Resolved image URLs (featured + gallery) from our custom REST field. */
+  gallery?: string[];
   _embedded?: WPEmbedded;
 }
 
@@ -111,14 +113,14 @@ function mapPump(raw: WPPump, index: number): Product {
         ? ((brochure as { url?: string }).url ?? undefined)
         : undefined;
 
-  const mainImage = featuredImage(raw._embedded, pickImage(productImages, index));
-  // ACF FREE "gallery": the Featured Image + up to four extra image fields.
-  const galleryExtras = [
-    acf(fields, "gallery_image_1"),
-    acf(fields, "gallery_image_2"),
-    acf(fields, "gallery_image_3"),
-    acf(fields, "gallery_image_4"),
-  ].filter(Boolean);
+  // Resolved image URLs (Featured Image + Gallery 1–4) from our custom REST
+  // field. Falls back to the embedded featured image, then a seed image.
+  const cmsGallery = Array.isArray(raw.gallery)
+    ? raw.gallery.filter((u) => typeof u === "string" && u.startsWith("http"))
+    : [];
+  const mainImage =
+    cmsGallery[0] ?? featuredImage(raw._embedded, pickImage(productImages, index));
+  const gallery = cmsGallery.length ? cmsGallery : [mainImage];
 
   return {
     slug: raw.slug,
@@ -129,7 +131,7 @@ function mapPump(raw: WPPump, index: number): Product {
     excerpt: stripHtml(raw.excerpt?.rendered) || stripHtml(raw.content?.rendered).slice(0, 160),
     description: raw.content?.rendered ?? `<p>${stripHtml(raw.excerpt?.rendered)}</p>`,
     image: mainImage,
-    gallery: [mainImage, ...galleryExtras],
+    gallery,
     specs: {
       flowRate: acf(fields, "flow_rate", "flowrate", "flow") || "—",
       head: acf(fields, "head", "lift") || "—",
