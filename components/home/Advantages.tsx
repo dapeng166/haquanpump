@@ -28,7 +28,7 @@ export function Advantages({ items }: { items?: Advantage[] }) {
           {list.map((adv, i) => {
             const Icon = (adv.icon && icons[adv.icon]) || iconCycle[i % iconCycle.length];
             return (
-              <Reveal key={adv.title} index={i}>
+              <Reveal key={adv.title} index={i} className="h-full">
                 <div className="glass-card group h-full p-7">
                   <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-accent/10 text-accent-300 ring-1 ring-accent/20 transition-colors group-hover:bg-accent group-hover:text-charcoal-950">
                     <Icon className="h-7 w-7" aria-hidden />

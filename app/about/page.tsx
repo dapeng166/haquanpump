@@ -151,7 +151,7 @@ export default async function AboutPage() {
           />
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {differentiators.map((d, i) => (
-              <Reveal key={d.title} index={i}>
+              <Reveal key={d.title} index={i} className="h-full">
                 <div className="glass-card h-full p-6">
                   <d.icon className="h-8 w-8 text-accent-300" aria-hidden />
                   <h3 className="mt-4 font-display text-lg font-semibold text-white">{d.title}</h3>

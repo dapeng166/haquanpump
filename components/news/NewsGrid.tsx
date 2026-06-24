@@ -34,7 +34,7 @@ export function NewsGrid({ posts }: { posts: NewsPost[] }) {
     <div>
       <div className="grid gap-7 md:grid-cols-2 lg:grid-cols-3">
         {visible.map((post, i) => (
-          <Reveal as="div" key={post.slug} index={i % 3}>
+          <Reveal as="div" key={post.slug} index={i % 3} className="h-full">
             <article className="group glass-card flex h-full flex-col overflow-hidden p-0">
               <Link href={`/news/${post.slug}`} className="relative block aspect-[16/10] overflow-hidden">
                 <Image
@@ -58,15 +58,15 @@ export function NewsGrid({ posts }: { posts: NewsPost[] }) {
                     <Clock className="h-3.5 w-3.5" aria-hidden /> {post.readingTime} min
                   </span>
                 </div>
-                <h2 className="mt-3 font-display text-lg font-semibold leading-snug text-white transition-colors group-hover:text-accent-300">
+                <h2 className="mt-3 line-clamp-2 min-h-[3.5rem] font-display text-lg font-semibold leading-snug text-white transition-colors group-hover:text-accent-300">
                   <Link href={`/news/${post.slug}`}>{post.title}</Link>
                 </h2>
-                <p className="mt-2 line-clamp-3 flex-1 text-sm leading-relaxed text-navy-100/60">
+                <p className="mt-2 line-clamp-3 min-h-[3.75rem] text-sm leading-relaxed text-navy-100/60">
                   {post.excerpt}
                 </p>
                 <Link
                   href={`/news/${post.slug}`}
-                  className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-accent-300 hover:text-accent"
+                  className="mt-auto inline-flex items-center gap-1 pt-5 text-sm font-semibold text-accent-300 hover:text-accent"
                 >
                   {t("cta.readMore")}
                   <ArrowUpRight className="h-4 w-4 rtl-flip" aria-hidden />

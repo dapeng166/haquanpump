@@ -81,7 +81,7 @@ export default async function TechnicalSupportPage() {
               { icon: Phone, title: "Talk to Us", text: company.phone, href: `tel:${company.phoneHref}`, cta: "Call Now" },
               { icon: Mail, title: "Email Support", text: company.email, href: `mailto:${company.email}`, cta: "Email Us" },
             ].map((c, i) => (
-              <Reveal key={c.title} index={i}>
+              <Reveal key={c.title} index={i} className="h-full">
                 <div className="glass-card flex h-full flex-col p-7">
                   <c.icon className="h-8 w-8 text-accent-300" aria-hidden />
                   <h3 className="mt-4 font-display text-lg font-semibold text-white">{c.title}</h3>

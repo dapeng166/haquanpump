@@ -18,7 +18,7 @@ export function Testimonials() {
         />
         <div className="grid gap-6 md:grid-cols-3">
           {testimonials.map((item, i) => (
-            <Reveal key={item.author} index={i}>
+            <Reveal key={item.author} index={i} className="h-full">
               <figure className="glass-card flex h-full flex-col p-7">
                 <Quote className="h-8 w-8 text-accent/60" aria-hidden />
                 <blockquote className="mt-4 flex-1 text-sm leading-relaxed text-navy-100/80">
