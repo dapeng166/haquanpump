@@ -16,7 +16,7 @@ import { productImages, newsImages, pickImage } from "@/lib/images";
  * the site always renders real content.
  */
 
-const REVALIDATE_SECONDS = 60 * 60; // 1 hour ISR
+const REVALIDATE_SECONDS = 60; // 1 minute ISR — CMS edits appear quickly
 
 type WPMedia = { source_url?: string; alt_text?: string };
 type WPEmbedded = {
