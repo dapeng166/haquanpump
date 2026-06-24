@@ -143,6 +143,7 @@ function mapPump(raw: WPPump, index: number): Product {
       .filter(Boolean),
     brochureUrl,
     featured: Boolean(fields["featured"]),
+    seoKeywords: acf(fields, "seo_keywords") || undefined,
   };
 }
 

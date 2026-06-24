@@ -36,6 +36,9 @@ export async function generateMetadata({
   return {
     title: `${product.name} — ${product.seriesName}`,
     description: product.excerpt,
+    keywords: product.seoKeywords
+      ? product.seoKeywords.split(",").map((k) => k.trim()).filter(Boolean)
+      : undefined,
     alternates: { canonical: `/products/${product.slug}` },
     openGraph: {
       title: `${product.name} | Haquan Pump`,

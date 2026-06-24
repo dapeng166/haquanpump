@@ -31,6 +31,8 @@ export interface Product {
   applications: string[];
   brochureUrl?: string;
   featured?: boolean;
+  /** Comma-separated SEO keywords (from the CMS), used in <meta keywords>. */
+  seoKeywords?: string;
 }
 
 // Content for a single front-end page, sourced from the `site_page` CPT.

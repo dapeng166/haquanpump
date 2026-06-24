@@ -96,6 +96,7 @@ add_action( 'acf/init', function () {
 			array( 'key' => 'field_pump_diameter', 'label' => 'Inlet / Outlet Diameter (mm)', 'name' => 'inlet_outlet_diameter', 'type' => 'text', 'instructions' => 'e.g. 50 – 300' ),
 			array( 'key' => 'field_pump_material', 'label' => 'Material',                     'name' => 'material',               'type' => 'text', 'instructions' => 'e.g. Cast Iron HT200 / SS316L' ),
 			array( 'key' => 'field_pump_apps',     'label' => 'Applications',                 'name' => 'applications',           'type' => 'text', 'instructions' => 'Comma-separated, e.g. Mining, Municipal Water, Marine' ),
+			array( 'key' => 'field_pump_seo',      'label' => 'SEO Keywords',                 'name' => 'seo_keywords',           'type' => 'text', 'instructions' => 'Comma-separated keywords for Google, e.g. submersible sewage pump, WQ pump, dewatering pump' ),
 
 			// Image gallery (ACF FREE has no Gallery field → individual Image fields).
 			// The MAIN image is the post's Featured Image; these are extra photos.

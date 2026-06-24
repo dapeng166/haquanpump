@@ -11,6 +11,11 @@ const nextConfig = {
         protocol: "https",
         hostname: "flagcdn.com",
       },
+      {
+        // WordPress media library (product photos uploaded in the CMS)
+        protocol: "https",
+        hostname: "cms.haquanpump.com",
+      },
     ],
   },
 };
