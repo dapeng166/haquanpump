@@ -58,7 +58,7 @@ export const industries = [
 
 // WordPress REST API base. Override with NEXT_PUBLIC_WP_API_URL in .env.local.
 export const WP_API_URL =
-  process.env.NEXT_PUBLIC_WP_API_URL ?? "https://haquanpump.com/cms/wp-json";
+  process.env.NEXT_PUBLIC_WP_API_URL ?? "https://cms.haquanpump.com/wp-json";
 
 export const siteConfig = {
   defaultTitle: `${company.shortName} | Industrial Pump Manufacturer Since 2014`,
