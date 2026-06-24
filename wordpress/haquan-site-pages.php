@@ -1,7 +1,11 @@
 <?php
 /**
- * Haquan — Site Pages (CPT + Taxonomy + ACF "Page Content")
- * Paste into your theme's functions.php (or wp-content/mu-plugins/).
+ * Plugin Name:  Haquan — Site Pages
+ * Description:  Registers the site_page CPT, site_page_category taxonomy and the "Page Content" ACF field group (home / about / support / contact). Requires the free ACF plugin.
+ * Version:      1.0.0
+ * Author:       Haquan
+ *
+ * Can also be dropped into wp-content/mu-plugins/ or pasted into functions.php.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

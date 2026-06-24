@@ -1,12 +1,12 @@
 <?php
 /**
- * Haquan — Products: `pump` CPT + `pump_series` taxonomy + ACF fields
- * Paste into functions.php, or drop in wp-content/mu-plugins/.
+ * Plugin Name:  Haquan — Products
+ * Description:  Registers the pump CPT, pump_series taxonomy (6 series) and the product specification + gallery ACF fields. Requires the free ACF plugin. Product main image = Featured Image; Gallery Image 1–4 are extras.
+ * Version:      1.0.0
+ * Author:       Haquan
  *
- * Registers everything the product catalogue needs on a FRESH WordPress
- * (ACF FREE). Field names + series slugs match the Next.js front-end
- * (lib/wordpress.ts). No certificate fields. Product MAIN IMAGE = the
- * post's built-in Featured Image; Gallery Image 1–4 are extra photos.
+ * Field names + series slugs match the Next.js front-end (lib/wordpress.ts).
+ * No certificate fields. Can also be dropped into wp-content/mu-plugins/.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
