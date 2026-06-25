@@ -22,6 +22,10 @@ const ANY_CN_BRAND = /海泉|哈昆|哈奎|哈川|哈全|哈泉/g;
 
 function targetLang(): string {
   if (typeof document === "undefined") return "";
+  // Built-in dictionary locale (set by the switcher) takes priority — it is
+  // reliable even when Google is blocked. Fall back to Google's target.
+  const loc = document.cookie.match(/haquan_locale=([^;]+)/);
+  if (loc) return decodeURIComponent(loc[1]).toLowerCase();
   const m = document.cookie.match(/googtrans=\/[^/]+\/([^;]+)/);
   return m ? decodeURIComponent(m[1]).toLowerCase() : "";
 }
