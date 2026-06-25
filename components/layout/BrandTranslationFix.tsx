@@ -3,17 +3,21 @@
 import { useEffect } from "react";
 
 /**
- * Google's free Website Translator renders the brand "Haquan" into Chinese as
- * "哈昆" (a phonetic guess). The company's real Chinese name is 哈泉, and the free
- * widget offers no custom glossary — so we correct its output after the fact.
+ * The brand name "Haquan" must stay "Haquan" in every language. Google's free
+ * Website Translator has no glossary and phonetically renders it into Chinese
+ * several different ways (哈昆 / 海泉 / 哈泉 …), which looks inconsistent in news
+ * and article bodies. We correct its output after the fact: rewrite any of those
+ * variants back to "Haquan" in text nodes ONLY, setting `nodeValue` in place.
  *
- * We watch the DOM and rewrite 哈昆 → 哈泉 in text nodes ONLY, setting `nodeValue`
- * in place. That never adds or removes nodes, so it cannot trip React's
- * reconciler (unlike Google's own <font>-wrapping, which the layout already
- * guards against). The pass converges: once corrected there is no 哈昆 left to
- * re-trigger it.
+ * Editing text nodes never adds/removes DOM nodes, so it cannot trip React's
+ * reconciler (unlike Google's own <font>-wrapping, which the layout guards
+ * against). The pass converges: once corrected there is no variant left to
+ * re-trigger it. Brand text we control (e.g. the logo) is additionally marked
+ * translate="no" so it is never translated in the first place.
  */
-const REPLACEMENTS: Array<[RegExp, string]> = [[/哈昆/g, "哈泉"]];
+const REPLACEMENTS: Array<[RegExp, string]> = [
+  [/哈昆|海泉|哈泉|哈奎|哈川|哈全/g, "Haquan"],
+];
 
 function correct(value: string | null): string | null {
   if (!value) return value;

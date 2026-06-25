@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { SlidersHorizontal } from "lucide-react";
 import type { Product, PumpSeries } from "@/lib/types";
@@ -17,7 +18,14 @@ export function ProductsExplorer({
   initialSeries?: string;
 }) {
   const { t } = useTranslation();
+  const router = useRouter();
   const [active, setActive] = useState<string>(initialSeries);
+
+  // Keep the active filter in sync with the URL so browser back/forward (e.g.
+  // returning from a product detail page) restores the series you were viewing.
+  useEffect(() => {
+    setActive(initialSeries);
+  }, [initialSeries]);
 
   const filtered = useMemo(
     () => (active === "all" ? products : products.filter((p) => p.seriesSlug === active)),
@@ -35,10 +43,11 @@ export function ProductsExplorer({
   const visibleSeries = series.filter((s) => (counts[s.slug] ?? 0) > 0);
 
   function select(slug: string) {
-    setActive(slug);
-    // Reflect the filter in the URL without a navigation/scroll jump.
+    setActive(slug); // instant client-side filter
+    // Reflect the filter in the URL via the Next router (not raw history) so the
+    // entry is tracked — otherwise "back" from a product loses the series.
     const url = slug === "all" ? "/products" : `/products?series=${slug}`;
-    window.history.replaceState(null, "", url);
+    router.replace(url, { scroll: false });
   }
 
   const chips = [

@@ -75,9 +75,9 @@ export function Header() {
 
         <div className="flex items-center gap-2.5">
           <SiteSearch />
-          <div className="hidden sm:block">
-            <LanguageSwitcher />
-          </div>
+          {/* Always visible (compact globe on phones) so translation is easy
+              to find on mobile/iPad — not buried in the menu. */}
+          <LanguageSwitcher />
           <Link
             href="/contact"
             className="btn-primary hidden md:inline-flex"
@@ -123,9 +123,8 @@ export function Header() {
                   {t(item.key)}
                 </Link>
               ))}
-              <div className="mt-3 flex items-center justify-between gap-3 border-t border-slate-200 pt-4">
-                <LanguageSwitcher />
-                <Link href="/contact" className="btn-primary flex-1">
+              <div className="mt-3 border-t border-slate-200 pt-4">
+                <Link href="/contact" className="btn-primary w-full">
                   {t("cta.getQuote")}
                   <ArrowRight className="h-4 w-4 rtl-flip" aria-hidden />
                 </Link>
