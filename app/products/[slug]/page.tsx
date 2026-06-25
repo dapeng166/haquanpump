@@ -120,7 +120,7 @@ export default async function ProductDetailPage({
                 {product.name}
               </h1>
               <p className="mt-2 text-sm font-medium text-accent-300">Model: {product.model}</p>
-              <p className="mt-5 text-base leading-relaxed text-navy-100/70">{product.excerpt}</p>
+              <p className="mt-5 line-clamp-4 text-base leading-relaxed text-navy-100/70">{product.excerpt}</p>
 
               {/* Specification table */}
               <div className="mt-8 overflow-hidden rounded-2xl border border-white/10">

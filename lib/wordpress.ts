@@ -122,13 +122,20 @@ function mapPump(raw: WPPump, index: number): Product {
     cmsGallery[0] ?? featuredImage(raw._embedded, pickImage(productImages, index));
   const gallery = cmsGallery.length ? cmsGallery : [mainImage];
 
+  // WordPress's auto-excerpt truncates by word (spaces). Chinese text has no
+  // spaces, so the "excerpt" can end up being the entire body. Cap it to a
+  // real summary length here so cards and the detail summary stay short.
+  const rawExcerpt = stripHtml(raw.excerpt?.rendered) || stripHtml(raw.content?.rendered);
+  const excerpt =
+    rawExcerpt.length > 200 ? rawExcerpt.slice(0, 200).trimEnd() + "…" : rawExcerpt;
+
   return {
     slug: raw.slug,
     name: stripHtml(raw.title.rendered),
     model: acf(fields, "model", "model_no") || stripHtml(raw.title.rendered),
     seriesSlug: term?.slug ?? "sewage-pumps",
     seriesName: term?.name ?? "Sewage Pumps",
-    excerpt: stripHtml(raw.excerpt?.rendered) || stripHtml(raw.content?.rendered).slice(0, 160),
+    excerpt,
     description: raw.content?.rendered ?? `<p>${stripHtml(raw.excerpt?.rendered)}</p>`,
     image: mainImage,
     gallery,
