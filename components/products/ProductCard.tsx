@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Download, Droplets, Gauge, Zap } from "lucide-react";
+import { ArrowUpRight, Droplets, Gauge, Zap } from "lucide-react";
 import type { Product } from "@/lib/types";
 import { useTranslation } from "@/lib/i18n/I18nProvider";
 
@@ -52,13 +52,6 @@ export function ProductCard({ product, priority = false }: { product: Product; p
             {t("cta.viewDetails")}
             <ArrowUpRight className="h-4 w-4 rtl-flip" aria-hidden />
           </Link>
-          <a
-            href={product.brochureUrl || "#"}
-            aria-label={`${t("cta.downloadBrochure")} — ${product.name}`}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 text-slate-600 transition-colors hover:border-accent/50 hover:text-accent-600"
-          >
-            <Download className="h-4 w-4" aria-hidden />
-          </a>
         </div>
       </div>
     </article>

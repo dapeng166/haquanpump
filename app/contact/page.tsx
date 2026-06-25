@@ -79,23 +79,6 @@ export default async function ContactPage() {
                   ))}
                 </div>
               </div>
-
-              {/* Embedded Google Map — CMS embed code if provided, else default. */}
-              <div className="mt-8 overflow-hidden rounded-2xl border border-slate-200 [&_iframe]:block [&_iframe]:h-[280px] [&_iframe]:w-full">
-                {mapEmbed ? (
-                  <div dangerouslySetInnerHTML={{ __html: mapEmbed }} />
-                ) : (
-                  <iframe
-                    title="Haquan Pump location — Fengxian District, Shanghai"
-                    src={company.mapEmbed}
-                    width="100%"
-                    height="280"
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    className="block grayscale-[0.3]"
-                  />
-                )}
-              </div>
             </Reveal>
 
             {/* Form */}
@@ -113,6 +96,25 @@ export default async function ContactPage() {
               </div>
             </Reveal>
           </div>
+
+          {/* Full-width map below both columns */}
+          <Reveal className="mt-12">
+            <div className="overflow-hidden rounded-2xl border border-slate-200 [&_iframe]:block [&_iframe]:h-[360px] [&_iframe]:w-full sm:[&_iframe]:h-[440px]">
+              {mapEmbed ? (
+                <div dangerouslySetInnerHTML={{ __html: mapEmbed }} />
+              ) : (
+                <iframe
+                  title="Haquan Pump location — Fengxian District, Shanghai"
+                  src={company.mapEmbed}
+                  width="100%"
+                  height="440"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="block grayscale-[0.3]"
+                />
+              )}
+            </div>
+          </Reveal>
         </Container>
       </Section>
   );

@@ -1,14 +1,12 @@
 import type { Metadata } from "next";
 import { getProducts, getProductSeries } from "@/lib/wordpress";
-import { img } from "@/lib/images";
-import { PageHero } from "@/components/ui/PageHero";
 import { Container, Section } from "@/components/ui/Primitives";
 import { ProductsExplorer } from "@/components/products/ProductsExplorer";
 
 export const metadata: Metadata = {
   title: "Industrial Pumps — Sewage, Grinder, AODD & Centrifugal",
   description:
-    "Browse Haquan's full range of industrial pumps: sewage, grinder, self-priming, stainless submersible, AODD (WILDEN-compatible) and ISG/IRG/IHG/ISW pipeline centrifugal pumps. Filter by series and download brochures.",
+    "Browse Haquan's full range of industrial pumps: sewage, grinder, self-priming, stainless submersible, AODD (WILDEN-compatible) and ISG/IRG/IHG/ISW pipeline centrifugal pumps. Filter by series and review full specifications.",
   alternates: { canonical: "/products" },
 };
 
@@ -29,23 +27,15 @@ export default async function ProductsPage({
       : "all";
 
   return (
-    <>
-      <PageHero
-        eyebrow="Product Range"
-        title="Industrial Pumps Engineered for Every Duty"
-        intro="Six core pump series covering sewage, slurry, process and clean-water applications. Filter by series, review specifications, and download technical brochures."
-        image={img.heroSecondary}
-        breadcrumbs={[{ label: "Products" }]}
-      />
-      <Section>
-        <Container>
-          <ProductsExplorer
-            products={products}
-            series={series}
-            initialSeries={initialSeries}
-          />
-        </Container>
-      </Section>
-    </>
+    <Section className="pt-28 sm:pt-32">
+      <Container>
+        <h1 className="sr-only">Industrial Pumps Engineered for Every Duty</h1>
+        <ProductsExplorer
+          products={products}
+          series={series}
+          initialSeries={initialSeries}
+        />
+      </Container>
+    </Section>
   );
 }

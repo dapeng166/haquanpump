@@ -3,7 +3,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
   ArrowRight,
-  Download,
   Droplets,
   Gauge,
   Zap,
@@ -147,20 +146,15 @@ export default async function ProductDetailPage({
                 </table>
               </div>
 
-              {/* CTAs */}
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <Link href={`/contact?product=${encodeURIComponent(product.name)}`} className="btn-primary flex-1">
+              {/* CTA — single route straight to contact */}
+              <div className="mt-8">
+                <Link
+                  href={`/contact?product=${encodeURIComponent(product.name)}`}
+                  className="btn-primary w-full sm:w-auto"
+                >
                   Inquire About This Product
                   <ArrowRight className="h-4 w-4 rtl-flip" aria-hidden />
                 </Link>
-                <a
-                  href={product.brochureUrl || "#"}
-                  className="btn-outline flex-1"
-                  {...(product.brochureUrl ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                >
-                  <Download className="h-4 w-4" aria-hidden />
-                  Download Brochure (PDF)
-                </a>
               </div>
             </Reveal>
           </div>
