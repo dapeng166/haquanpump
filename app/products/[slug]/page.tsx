@@ -91,19 +91,19 @@ export default async function ProductDetailPage({
       <Section className="pt-28">
         <Container>
           {/* Breadcrumb */}
-          <nav aria-label="Breadcrumb" className="mb-8 text-sm text-navy-100/55">
+          <nav aria-label="Breadcrumb" className="mb-8 text-sm text-slate-500">
             <ol className="flex flex-wrap items-center gap-1.5">
-              <li><Link href="/" className="hover:text-accent-300">Home</Link></li>
+              <li><Link href="/" className="hover:text-accent-600">Home</Link></li>
               <li aria-hidden>/</li>
-              <li><Link href="/products" className="hover:text-accent-300">Products</Link></li>
+              <li><Link href="/products" className="hover:text-accent-600">Products</Link></li>
               <li aria-hidden>/</li>
               <li>
-                <Link href={`/products?series=${product.seriesSlug}`} className="hover:text-accent-300">
+                <Link href={`/products?series=${product.seriesSlug}`} className="hover:text-accent-600">
                   {product.seriesName}
                 </Link>
               </li>
               <li aria-hidden>/</li>
-              <li className="text-white">{product.name}</li>
+              <li className="text-slate-900">{product.name}</li>
             </ol>
           </nav>
 
@@ -116,30 +116,30 @@ export default async function ProductDetailPage({
             {/* Summary + specs */}
             <Reveal index={1}>
               <span className="eyebrow">{product.seriesName}</span>
-              <h1 className="mt-4 font-display text-3xl font-bold tracking-tight text-white sm:text-4xl">
+              <h1 className="mt-4 font-display text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
                 {product.name}
               </h1>
-              <p className="mt-2 text-sm font-medium text-accent-300">Model: {product.model}</p>
-              <p className="mt-5 line-clamp-4 text-base leading-relaxed text-navy-100/70">{product.excerpt}</p>
+              <p className="mt-2 text-sm font-medium text-accent-600">Model: {product.model}</p>
+              <p className="mt-5 line-clamp-4 text-base leading-relaxed text-slate-600">{product.excerpt}</p>
 
               {/* Specification table */}
-              <div className="mt-8 overflow-hidden rounded-2xl border border-white/10">
-                <div className="border-b border-white/10 bg-white/[0.03] px-5 py-3 text-sm font-semibold uppercase tracking-wider text-white">
+              <div className="mt-8 overflow-hidden rounded-2xl border border-slate-200">
+                <div className="border-b border-slate-200 bg-slate-50 px-5 py-3 text-sm font-semibold uppercase tracking-wider text-slate-900">
                   Specifications
                 </div>
                 <table className="w-full text-sm">
                   <tbody>
                     {specRows.map((row) => (
-                      <tr key={row.label} className="border-b border-white/5 last:border-0">
-                        <th scope="row" className="w-1/2 px-5 py-3.5 text-left font-medium text-navy-100/60">
+                      <tr key={row.label} className="border-b border-slate-100 last:border-0">
+                        <th scope="row" className="w-1/2 px-5 py-3.5 text-left font-medium text-slate-500">
                           <span className="inline-flex items-center gap-2">
-                            <row.icon className="h-4 w-4 text-accent-300" aria-hidden />
+                            <row.icon className="h-4 w-4 text-accent-600" aria-hidden />
                             {row.label}
                           </span>
                         </th>
-                        <td className="px-5 py-3.5 font-semibold text-white">
+                        <td className="px-5 py-3.5 font-semibold text-slate-900">
                           {row.value}
-                          {row.unit ? <span className="ml-1 text-navy-100/50">{row.unit}</span> : null}
+                          {row.unit ? <span className="ml-1 text-slate-500">{row.unit}</span> : null}
                         </td>
                       </tr>
                     ))}
@@ -168,20 +168,20 @@ export default async function ProductDetailPage({
           {/* Description + applications */}
           <div className="mt-16 grid gap-12 lg:grid-cols-3">
             <Reveal className="lg:col-span-2">
-              <h2 className="font-display text-2xl font-bold text-white">Product Overview</h2>
+              <h2 className="font-display text-2xl font-bold text-slate-900">Product Overview</h2>
               {/* Capped height + Read more so long CMS descriptions don't stretch the page. */}
               <ExpandableHtml
                 html={product.description}
-                className="prose-invert mt-4 space-y-4 text-base leading-relaxed text-navy-100/70 [&_p]:mb-4"
+                className="prose-invert mt-4 space-y-4 text-base leading-relaxed text-slate-600 [&_p]:mb-4"
               />
             </Reveal>
             <Reveal index={1}>
               <div className="glass-card p-6">
-                <h3 className="font-display text-lg font-semibold text-white">Typical Applications</h3>
+                <h3 className="font-display text-lg font-semibold text-slate-900">Typical Applications</h3>
                 <ul className="mt-4 space-y-2.5">
                   {product.applications.map((a) => (
-                    <li key={a} className="flex items-center gap-2.5 text-sm text-navy-100/70">
-                      <CheckCircle2 className="h-4 w-4 shrink-0 text-accent-300" aria-hidden />
+                    <li key={a} className="flex items-center gap-2.5 text-sm text-slate-600">
+                      <CheckCircle2 className="h-4 w-4 shrink-0 text-accent-600" aria-hidden />
                       {a}
                     </li>
                   ))}
@@ -194,9 +194,9 @@ export default async function ProductDetailPage({
 
       {/* Related */}
       {related.length > 0 && (
-        <Section className="bg-charcoal-900/30">
+        <Section className="bg-slate-50">
           <Container>
-            <h2 className="mb-10 font-display text-2xl font-bold text-white sm:text-3xl">
+            <h2 className="mb-10 font-display text-2xl font-bold text-slate-900 sm:text-3xl">
               Related Products
             </h2>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

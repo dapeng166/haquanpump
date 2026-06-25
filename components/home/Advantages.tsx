@@ -30,13 +30,13 @@ export function Advantages({ items }: { items?: Advantage[] }) {
             return (
               <Reveal key={adv.title} index={i} className="h-full">
                 <div className="glass-card group h-full p-7">
-                  <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-accent/10 text-accent-300 ring-1 ring-accent/20 transition-colors group-hover:bg-accent group-hover:text-charcoal-950">
+                  <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-accent/10 text-accent-600 ring-1 ring-accent/20 transition-colors group-hover:bg-accent group-hover:text-white">
                     <Icon className="h-7 w-7" aria-hidden />
                   </div>
-                  <h3 className="mt-6 font-display text-xl font-semibold text-white">
+                  <h3 className="mt-6 font-display text-xl font-semibold text-slate-900">
                     {adv.title}
                   </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-navy-100/65">
+                  <p className="mt-3 text-sm leading-relaxed text-slate-600">
                     {adv.description}
                   </p>
                   <span className="mt-6 block h-px w-full bg-gradient-to-r from-accent/40 to-transparent" />

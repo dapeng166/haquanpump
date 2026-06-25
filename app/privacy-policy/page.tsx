@@ -14,7 +14,7 @@ export default function PrivacyPolicyPage() {
   return (
     <Section className="pt-28">
       <Container>
-        <article className="legal mx-auto max-w-3xl text-navy-100/75 [&_a]:text-accent-300 [&_h2]:font-display [&_h2]:text-3xl [&_h2]:font-bold [&_h2]:text-white [&_p]:mt-4 [&_p]:leading-relaxed [&_strong]:text-white">
+        <article className="legal mx-auto max-w-3xl text-slate-600 [&_a]:text-accent-600 [&_h2]:font-display [&_h2]:text-3xl [&_h2]:font-bold [&_h2]:text-slate-900 [&_p]:mt-4 [&_p]:leading-relaxed [&_strong]:text-slate-900">
           <h2>Privacy Policy</h2>
           <p>Last updated: 2026-01-01</p>
 

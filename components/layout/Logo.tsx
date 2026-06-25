@@ -12,7 +12,7 @@ export function Logo({ className = "" }: { className?: string }) {
       <span className="relative inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-accent to-accent-600 shadow-lg shadow-accent/30">
         <svg
           viewBox="0 0 24 24"
-          className="h-6 w-6 text-charcoal-950"
+          className="h-6 w-6 text-white"
           fill="none"
           aria-hidden
         >
@@ -27,10 +27,10 @@ export function Logo({ className = "" }: { className?: string }) {
         </svg>
       </span>
       <span className="flex flex-col leading-none">
-        <span className="font-display text-lg font-bold tracking-tight text-white">
+        <span className="font-display text-lg font-bold tracking-tight text-slate-900">
           HAQUAN
         </span>
-        <span className="text-[0.62rem] font-medium uppercase tracking-[0.22em] text-accent-300">
+        <span className="text-[0.62rem] font-medium uppercase tracking-[0.22em] text-accent-600">
           Pump &amp; Valve
         </span>
       </span>

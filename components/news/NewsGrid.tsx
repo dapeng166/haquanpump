@@ -44,13 +44,13 @@ export function NewsGrid({ posts }: { posts: NewsPost[] }) {
                   sizes="(max-width: 768px) 100vw, 33vw"
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/80 to-transparent" />
-                <span className="absolute left-4 top-4 rounded-full border border-white/20 bg-charcoal-950/70 px-3 py-1 text-xs font-medium text-accent-300 backdrop-blur">
+                <div className="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent" />
+                <span className="absolute left-4 top-4 rounded-full border border-slate-300 bg-white/70 px-3 py-1 text-xs font-medium text-accent-600 backdrop-blur">
                   {post.category}
                 </span>
               </Link>
               <div className="flex flex-1 flex-col p-6">
-                <div className="flex items-center gap-4 text-xs text-navy-100/45">
+                <div className="flex items-center gap-4 text-xs text-slate-400">
                   <span className="inline-flex items-center gap-1.5">
                     <Calendar className="h-3.5 w-3.5" aria-hidden /> {formatDate(post.date)}
                   </span>
@@ -58,15 +58,15 @@ export function NewsGrid({ posts }: { posts: NewsPost[] }) {
                     <Clock className="h-3.5 w-3.5" aria-hidden /> {post.readingTime} min
                   </span>
                 </div>
-                <h2 className="mt-3 line-clamp-2 min-h-[3.5rem] font-display text-lg font-semibold leading-snug text-white transition-colors group-hover:text-accent-300">
+                <h2 className="mt-3 line-clamp-2 min-h-[3.5rem] font-display text-lg font-semibold leading-snug text-slate-900 transition-colors group-hover:text-accent-600">
                   <Link href={`/news/${post.slug}`}>{post.title}</Link>
                 </h2>
-                <p className="mt-2 line-clamp-3 min-h-[3.75rem] text-sm leading-relaxed text-navy-100/60">
+                <p className="mt-2 line-clamp-3 min-h-[3.75rem] text-sm leading-relaxed text-slate-500">
                   {post.excerpt}
                 </p>
                 <Link
                   href={`/news/${post.slug}`}
-                  className="mt-auto inline-flex items-center gap-1 pt-5 text-sm font-semibold text-accent-300 hover:text-accent"
+                  className="mt-auto inline-flex items-center gap-1 pt-5 text-sm font-semibold text-accent-600 hover:text-accent"
                 >
                   {t("cta.readMore")}
                   <ArrowUpRight className="h-4 w-4 rtl-flip" aria-hidden />
@@ -83,7 +83,7 @@ export function NewsGrid({ posts }: { posts: NewsPost[] }) {
             type="button"
             onClick={() => go(Math.max(1, page - 1))}
             disabled={page === 1}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-white/15 text-navy-100/70 transition-colors hover:border-accent/50 hover:text-white disabled:opacity-40"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 text-slate-600 transition-colors hover:border-accent/50 hover:text-slate-900 disabled:opacity-40"
             aria-label={t("common.previous")}
           >
             <ChevronLeft className="h-4 w-4 rtl-flip" aria-hidden />
@@ -96,8 +96,8 @@ export function NewsGrid({ posts }: { posts: NewsPost[] }) {
               aria-current={n === page}
               className={`inline-flex h-10 min-w-10 items-center justify-center rounded-lg border px-3 text-sm font-medium transition-colors ${
                 n === page
-                  ? "border-accent bg-accent/10 text-accent-300"
-                  : "border-white/15 text-navy-100/70 hover:border-white/30 hover:text-white"
+                  ? "border-accent bg-accent/10 text-accent-600"
+                  : "border-slate-200 text-slate-600 hover:border-slate-300 hover:text-slate-900"
               }`}
             >
               {n}
@@ -107,7 +107,7 @@ export function NewsGrid({ posts }: { posts: NewsPost[] }) {
             type="button"
             onClick={() => go(Math.min(totalPages, page + 1))}
             disabled={page === totalPages}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-white/15 text-navy-100/70 transition-colors hover:border-accent/50 hover:text-white disabled:opacity-40"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 text-slate-600 transition-colors hover:border-accent/50 hover:text-slate-900 disabled:opacity-40"
             aria-label={t("common.next")}
           >
             <ChevronRight className="h-4 w-4 rtl-flip" aria-hidden />

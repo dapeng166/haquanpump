@@ -9,7 +9,7 @@ export function ProductGallery({ images, alt }: { images: string[]; alt: string 
 
   return (
     <div>
-      <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-white/10 bg-charcoal-800">
+      <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-slate-200 bg-slate-100">
         <Image
           key={active}
           src={gallery[active]}
@@ -32,7 +32,7 @@ export function ProductGallery({ images, alt }: { images: string[]; alt: string 
               className={`relative aspect-square overflow-hidden rounded-xl border transition-all ${
                 i === active
                   ? "border-accent ring-2 ring-accent/40"
-                  : "border-white/10 opacity-70 hover:opacity-100"
+                  : "border-slate-200 opacity-70 hover:opacity-100"
               }`}
             >
               <Image src={src} alt="" fill sizes="120px" className="object-cover" />

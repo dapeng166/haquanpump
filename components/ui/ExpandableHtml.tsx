@@ -39,14 +39,14 @@ export function ExpandableHtml({
           dangerouslySetInnerHTML={{ __html: html }}
         />
         {collapsed && (
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-charcoal-950 to-transparent" />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white to-transparent" />
         )}
       </div>
       {overflows && (
         <button
           type="button"
           onClick={() => setExpanded((v) => !v)}
-          className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-accent-300 transition-colors hover:text-accent"
+          className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-accent-600 transition-colors hover:text-accent"
         >
           {expanded ? "Show less" : "Read more"}
           <ChevronDown

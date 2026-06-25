@@ -138,9 +138,9 @@ export function LanguageSwitcher({ compact = false }: { compact?: boolean }) {
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-label="Select language"
-        className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.03] px-3 py-2 text-sm font-medium text-navy-100 transition-colors hover:border-accent/50 hover:text-white"
+        className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-medium text-slate-600 transition-colors hover:border-accent/50 hover:text-slate-900"
       >
-        <Globe className="h-4 w-4 text-accent-300" aria-hidden />
+        <Globe className="h-4 w-4 text-accent-600" aria-hidden />
         {!compact && <span className="hidden sm:inline">{active.name}</span>}
         <ChevronDown
           className={`h-3.5 w-3.5 transition-transform ${open ? "rotate-180" : ""}`}
@@ -151,15 +151,15 @@ export function LanguageSwitcher({ compact = false }: { compact?: boolean }) {
       {open && (
         <div className="glass-strong absolute right-0 z-50 mt-2 w-64 overflow-hidden rounded-xl shadow-2xl shadow-black/40">
           {/* Search */}
-          <div className="border-b border-white/10 p-2">
-            <div className="flex items-center gap-2 rounded-lg bg-white/[0.04] px-2.5">
-              <Search className="h-4 w-4 shrink-0 text-navy-100/40" aria-hidden />
+          <div className="border-b border-slate-200 p-2">
+            <div className="flex items-center gap-2 rounded-lg bg-slate-50 px-2.5">
+              <Search className="h-4 w-4 shrink-0 text-slate-400" aria-hidden />
               <input
                 ref={inputRef}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search languages…"
-                className="w-full bg-transparent py-2 text-sm text-white placeholder:text-navy-100/35 focus:outline-none"
+                className="w-full bg-transparent py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none"
               />
             </div>
           </div>
@@ -172,8 +172,8 @@ export function LanguageSwitcher({ compact = false }: { compact?: boolean }) {
                   <button
                     type="button"
                     onClick={() => select(lang.code)}
-                    className={`flex w-full items-center gap-3 px-3.5 py-2.5 text-left text-sm transition-colors hover:bg-white/[0.06] ${
-                      isActive ? "text-white" : "text-navy-100/80"
+                    className={`flex w-full items-center gap-3 px-3.5 py-2.5 text-left text-sm transition-colors hover:bg-slate-100 ${
+                      isActive ? "text-slate-900" : "text-slate-700"
                     }`}
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -187,7 +187,7 @@ export function LanguageSwitcher({ compact = false }: { compact?: boolean }) {
                     />
                     <span className="flex-1">
                       {lang.name}
-                      <span className="ml-1.5 text-xs text-navy-100/40">{lang.native}</span>
+                      <span className="ml-1.5 text-xs text-slate-400">{lang.native}</span>
                     </span>
                     {isActive && <Check className="h-4 w-4 shrink-0 text-accent" aria-hidden />}
                   </button>
@@ -195,11 +195,11 @@ export function LanguageSwitcher({ compact = false }: { compact?: boolean }) {
               );
             })}
             {filtered.length === 0 && (
-              <li className="px-3.5 py-3 text-sm text-navy-100/45">No match.</li>
+              <li className="px-3.5 py-3 text-sm text-slate-400">No match.</li>
             )}
           </ul>
 
-          <div className="border-t border-white/10 px-3.5 py-2 text-[0.65rem] text-navy-100/35">
+          <div className="border-t border-slate-200 px-3.5 py-2 text-[0.65rem] text-slate-400">
             Real-time translation by Google
           </div>
         </div>

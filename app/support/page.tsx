@@ -83,10 +83,10 @@ export default async function TechnicalSupportPage() {
             ].map((c, i) => (
               <Reveal key={c.title} index={i} className="h-full">
                 <div className="glass-card flex h-full flex-col p-7">
-                  <c.icon className="h-8 w-8 text-accent-300" aria-hidden />
-                  <h3 className="mt-4 font-display text-lg font-semibold text-white">{c.title}</h3>
-                  <p className="mt-2 flex-1 text-sm text-navy-100/65">{c.text}</p>
-                  <Link href={c.href} className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-accent-300 hover:text-accent">
+                  <c.icon className="h-8 w-8 text-accent-600" aria-hidden />
+                  <h3 className="mt-4 font-display text-lg font-semibold text-slate-900">{c.title}</h3>
+                  <p className="mt-2 flex-1 text-sm text-slate-600">{c.text}</p>
+                  <Link href={c.href} className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-accent-600 hover:text-accent">
                     {c.cta} <ArrowRight className="h-4 w-4 rtl-flip" aria-hidden />
                   </Link>
                 </div>
@@ -97,7 +97,7 @@ export default async function TechnicalSupportPage() {
       </Section>
 
       {/* Downloads */}
-      <Section className="bg-charcoal-900/30">
+      <Section className="bg-slate-50">
         <Container>
           <SectionHeading
             eyebrow="Resources"
@@ -116,16 +116,16 @@ export default async function TechnicalSupportPage() {
                 <a
                   href={d.url}
                   {...(d.url !== "#" ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                  className="group flex h-full items-center gap-4 rounded-xl border border-white/10 bg-white/[0.02] p-4 transition-all hover:border-accent/40 hover:bg-white/[0.05]"
+                  className="group flex h-full items-center gap-4 rounded-xl border border-slate-200 bg-slate-50 p-4 transition-all hover:border-accent/40 hover:bg-slate-100"
                 >
-                  <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-accent-300 ring-1 ring-accent/20">
+                  <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-accent-600 ring-1 ring-accent/20">
                     <FileText className="h-6 w-6" aria-hidden />
                   </span>
                   <span className="flex-1">
-                    <span className="block font-medium text-white">{d.title}</span>
-                    <span className="text-xs text-navy-100/45">{d.type} · {d.size}</span>
+                    <span className="block font-medium text-slate-900">{d.title}</span>
+                    <span className="text-xs text-slate-400">{d.type} · {d.size}</span>
                   </span>
-                  <Download className="h-5 w-5 text-navy-100/40 transition-colors group-hover:text-accent-300" aria-hidden />
+                  <Download className="h-5 w-5 text-slate-400 transition-colors group-hover:text-accent-600" aria-hidden />
                 </a>
               </Reveal>
             ))}
@@ -147,10 +147,10 @@ export default async function TechnicalSupportPage() {
           <Reveal>
             <div className="glass-strong flex flex-col items-center justify-between gap-6 rounded-3xl p-10 text-center sm:flex-row sm:text-left">
               <div>
-                <h2 className="font-display text-2xl font-bold text-white sm:text-3xl">
+                <h2 className="font-display text-2xl font-bold text-slate-900 sm:text-3xl">
                   Still have a technical question?
                 </h2>
-                <p className="mt-2 text-navy-100/65">
+                <p className="mt-2 text-slate-600">
                   Our engineering team is ready to help you specify the right pump.
                 </p>
               </div>

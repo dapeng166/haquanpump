@@ -21,12 +21,12 @@ export function Testimonials() {
             <Reveal key={item.author} index={i} className="h-full">
               <figure className="glass-card flex h-full flex-col p-7">
                 <Quote className="h-8 w-8 text-accent/60" aria-hidden />
-                <blockquote className="mt-4 flex-1 text-sm leading-relaxed text-navy-100/80">
+                <blockquote className="mt-4 flex-1 text-sm leading-relaxed text-slate-700">
                   “{item.quote}”
                 </blockquote>
-                <figcaption className="mt-6 border-t border-white/10 pt-4">
-                  <div className="font-semibold text-white">{item.author}</div>
-                  <div className="text-sm text-navy-100/50">{item.role}</div>
+                <figcaption className="mt-6 border-t border-slate-200 pt-4">
+                  <div className="font-semibold text-slate-900">{item.author}</div>
+                  <div className="text-sm text-slate-500">{item.role}</div>
                 </figcaption>
               </figure>
             </Reveal>

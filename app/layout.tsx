@@ -99,7 +99,7 @@ export default async function RootLayout({
       className={`${inter.variable} ${spaceGrotesk.variable} scroll-smooth`}
       suppressHydrationWarning
     >
-      <body className="min-h-screen bg-charcoal-950 font-sans text-navy-50 antialiased">
+      <body className="min-h-screen bg-white font-sans text-slate-900 antialiased">
         {/* Runs before hydration — guards React against Google Translate's DOM edits. */}
         <script dangerouslySetInnerHTML={{ __html: REACT_TRANSLATE_FIX }} />
         <I18nProvider initialLocale={defaultLocale}>

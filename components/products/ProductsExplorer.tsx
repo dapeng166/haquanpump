@@ -50,8 +50,8 @@ export function ProductsExplorer({
     <div className="grid gap-10 lg:grid-cols-[260px_1fr]">
       {/* Sidebar / filter rail */}
       <aside className="lg:sticky lg:top-28 lg:self-start">
-        <div className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-white">
-          <SlidersHorizontal className="h-4 w-4 text-accent-300" aria-hidden />
+        <div className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-slate-900">
+          <SlidersHorizontal className="h-4 w-4 text-accent-600" aria-hidden />
           Pump Series
         </div>
         <ul className="flex flex-wrap gap-2 lg:flex-col">
@@ -65,13 +65,13 @@ export function ProductsExplorer({
                   aria-pressed={isActive}
                   className={`flex w-full items-center justify-between gap-3 rounded-xl border px-4 py-2.5 text-left text-sm font-medium transition-all ${
                     isActive
-                      ? "border-accent/60 bg-accent/10 text-accent-300"
-                      : "border-white/10 bg-white/[0.02] text-navy-100/70 hover:border-white/25 hover:text-white"
+                      ? "border-accent/60 bg-accent/10 text-accent-600"
+                      : "border-slate-200 bg-slate-50 text-slate-600 hover:border-slate-300 hover:text-slate-900"
                   }`}
                 >
                   <span>{c.name}</span>
                   {typeof c.count === "number" && (
-                    <span className={`rounded-full px-2 py-0.5 text-xs ${isActive ? "bg-accent/20" : "bg-white/5"}`}>
+                    <span className={`rounded-full px-2 py-0.5 text-xs ${isActive ? "bg-accent/20" : "bg-slate-100"}`}>
                       {c.count}
                     </span>
                   )}
@@ -84,8 +84,8 @@ export function ProductsExplorer({
 
       {/* Grid */}
       <div>
-        <p className="mb-6 text-sm text-navy-100/50">
-          Showing <span className="font-semibold text-white">{filtered.length}</span>{" "}
+        <p className="mb-6 text-sm text-slate-500">
+          Showing <span className="font-semibold text-slate-900">{filtered.length}</span>{" "}
           {filtered.length === 1 ? "product" : "products"}
         </p>
         <motion.div layout className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">

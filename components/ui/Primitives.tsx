@@ -58,11 +58,11 @@ export function SectionHeading({
   return (
     <Reveal className={`${alignment} mb-12 sm:mb-16`}>
       {eyebrow ? <Eyebrow>{eyebrow}</Eyebrow> : null}
-      <h2 className="mt-4 font-display text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-[2.75rem] lg:leading-[1.1]">
+      <h2 className="mt-4 font-display text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl lg:text-[2.75rem] lg:leading-[1.1]">
         {title}
       </h2>
       {subtitle ? (
-        <p className="mt-4 text-base leading-relaxed text-navy-100/70 sm:text-lg">
+        <p className="mt-4 text-base leading-relaxed text-slate-600 sm:text-lg">
           {subtitle}
         </p>
       ) : null}

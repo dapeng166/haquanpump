@@ -51,10 +51,10 @@ export default async function AboutPage() {
           <div className="grid items-center gap-12 lg:grid-cols-2">
             <Reveal>
               <span className="eyebrow">Our Story</span>
-              <h2 className="mt-4 font-display text-3xl font-bold tracking-tight text-white sm:text-4xl">
+              <h2 className="mt-4 font-display text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
                 Built on Hydraulics, Driven by Reliability
               </h2>
-              <div className="mt-6 space-y-4 text-base leading-relaxed text-navy-100/70">
+              <div className="mt-6 space-y-4 text-base leading-relaxed text-slate-600">
                 {storyParas.length > 0 ? (
                   storyParas.map((para, i) => <p key={i}>{para}</p>)
                 ) : (
@@ -87,7 +87,7 @@ export default async function AboutPage() {
             </Reveal>
 
             <Reveal index={1}>
-              <div className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-white/10">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-slate-200">
                 <Image
                   src={img.aboutTeam}
                   alt="Haquan engineers inspecting an industrial pump on the factory floor"
@@ -95,10 +95,10 @@ export default async function AboutPage() {
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/60 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-white/60 to-transparent" />
                 <div className="glass-strong absolute bottom-5 left-5 right-5 rounded-2xl p-5">
-                  <div className="font-display text-2xl font-bold text-white">Since {company.founded}</div>
-                  <div className="text-sm text-navy-100/60">Shanghai, China · Exporting worldwide</div>
+                  <div className="font-display text-2xl font-bold text-slate-900">Since {company.founded}</div>
+                  <div className="text-sm text-slate-500">Shanghai, China · Exporting worldwide</div>
                 </div>
               </div>
             </Reveal>
@@ -107,16 +107,16 @@ export default async function AboutPage() {
       </Section>
 
       {/* Mission & Vision */}
-      <Section className="bg-charcoal-900/30">
+      <Section className="bg-slate-50">
         <Container>
           <div className="grid gap-6 md:grid-cols-2">
             <Reveal>
               <div className="glass-card h-full p-8">
-                <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent-300 ring-1 ring-accent/20">
+                <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent-600 ring-1 ring-accent/20">
                   <Target className="h-6 w-6" aria-hidden />
                 </div>
-                <h3 className="mt-5 font-display text-2xl font-semibold text-white">Our Mission</h3>
-                <p className="mt-3 leading-relaxed text-navy-100/70">
+                <h3 className="mt-5 font-display text-2xl font-semibold text-slate-900">Our Mission</h3>
+                <p className="mt-3 leading-relaxed text-slate-600">
                   {acfStr(
                     page,
                     "mission_text",
@@ -127,11 +127,11 @@ export default async function AboutPage() {
             </Reveal>
             <Reveal index={1}>
               <div className="glass-card h-full p-8">
-                <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent-300 ring-1 ring-accent/20">
+                <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent-600 ring-1 ring-accent/20">
                   <Eye className="h-6 w-6" aria-hidden />
                 </div>
-                <h3 className="mt-5 font-display text-2xl font-semibold text-white">Our Vision</h3>
-                <p className="mt-3 leading-relaxed text-navy-100/70">
+                <h3 className="mt-5 font-display text-2xl font-semibold text-slate-900">Our Vision</h3>
+                <p className="mt-3 leading-relaxed text-slate-600">
                   To be the partner of choice for industrial buyers worldwide who value
                   technical precision over the lowest price — recognised for hydraulics that
                   last and service that earns repeat orders.
@@ -153,9 +153,9 @@ export default async function AboutPage() {
             {differentiators.map((d, i) => (
               <Reveal key={d.title} index={i} className="h-full">
                 <div className="glass-card h-full p-6">
-                  <d.icon className="h-8 w-8 text-accent-300" aria-hidden />
-                  <h3 className="mt-4 font-display text-lg font-semibold text-white">{d.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-navy-100/60">{d.text}</p>
+                  <d.icon className="h-8 w-8 text-accent-600" aria-hidden />
+                  <h3 className="mt-4 font-display text-lg font-semibold text-slate-900">{d.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-500">{d.text}</p>
                 </div>
               </Reveal>
             ))}
@@ -164,15 +164,15 @@ export default async function AboutPage() {
       </Section>
 
       {/* Timeline */}
-      <Section className="bg-charcoal-900/30">
+      <Section className="bg-slate-50">
         <Container>
           <SectionHeading eyebrow="Our Journey" title="Milestones" />
-          <ol className="relative mx-auto max-w-3xl border-l border-white/10 pl-8">
+          <ol className="relative mx-auto max-w-3xl border-l border-slate-200 pl-8">
             {milestones.map((m, i) => (
               <Reveal as="li" key={m.year} index={i} className="mb-10 last:mb-0">
-                <span className="absolute -left-[9px] mt-1.5 h-4 w-4 rounded-full border-2 border-accent bg-charcoal-950" />
-                <div className="font-display text-xl font-bold text-accent-300">{m.year}</div>
-                <p className="mt-1 leading-relaxed text-navy-100/70">{m.text}</p>
+                <span className="absolute -left-[9px] mt-1.5 h-4 w-4 rounded-full border-2 border-accent bg-white" />
+                <div className="font-display text-xl font-bold text-accent-600">{m.year}</div>
+                <p className="mt-1 leading-relaxed text-slate-600">{m.text}</p>
               </Reveal>
             ))}
           </ol>
@@ -185,10 +185,10 @@ export default async function AboutPage() {
           <Reveal>
             <div className="glass-strong flex flex-col items-center justify-between gap-6 rounded-3xl p-10 text-center sm:flex-row sm:text-left">
               <div>
-                <h2 className="font-display text-2xl font-bold text-white sm:text-3xl">
+                <h2 className="font-display text-2xl font-bold text-slate-900 sm:text-3xl">
                   Let's engineer the right pump for your process.
                 </h2>
-                <p className="mt-2 text-navy-100/65">
+                <p className="mt-2 text-slate-600">
                   Share your duty point — we'll respond with a recommendation within 24 hours.
                 </p>
               </div>

@@ -52,19 +52,19 @@ const config: Config = {
           600: "#087d92",
           700: "#0a6c7c",
         },
-        // Primary brand accent — industrial orange #FF6B35 (per design brief)
+        // Primary brand accent — professional blue (light theme)
         accent: {
-          DEFAULT: "#FF6B35",
-          50: "#fff3ee",
-          100: "#ffe2d4",
-          200: "#ffc1a8",
-          300: "#ff9a72",
-          400: "#ff7d4d",
-          500: "#FF6B35",
-          600: "#ed4d12",
-          700: "#c43a0d",
-          800: "#9b3013",
-          900: "#7c2912",
+          DEFAULT: "#2563EB",
+          50: "#eff6ff",
+          100: "#dbeafe",
+          200: "#bfdbfe",
+          300: "#93c5fd",
+          400: "#60a5fa",
+          500: "#3b82f6",
+          600: "#2563EB",
+          700: "#1d4ed8",
+          800: "#1e40af",
+          900: "#1e3a8a",
         },
         // Charcoal surface scale for the dark theme
         charcoal: {

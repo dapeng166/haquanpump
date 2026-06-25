@@ -12,7 +12,7 @@ export function FaqAccordion({ items }: { items?: Faq[] }) {
   const faqs = items && items.length > 0 ? items : defaultFaqs;
 
   return (
-    <div className="mx-auto max-w-3xl divide-y divide-white/10 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02]">
+    <div className="mx-auto max-w-3xl divide-y divide-slate-200 overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
       {faqs.map((item, i) => {
         const isOpen = open === i;
         return (
@@ -22,10 +22,10 @@ export function FaqAccordion({ items }: { items?: Faq[] }) {
                 type="button"
                 onClick={() => setOpen(isOpen ? null : i)}
                 aria-expanded={isOpen}
-                className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-white/[0.02]"
+                className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-slate-50"
               >
-                <span className="font-medium text-white">{item.q}</span>
-                <span className="shrink-0 text-accent-300">
+                <span className="font-medium text-slate-900">{item.q}</span>
+                <span className="shrink-0 text-accent-600">
                   {isOpen ? <Minus className="h-5 w-5" /> : <Plus className="h-5 w-5" />}
                 </span>
               </button>
@@ -39,7 +39,7 @@ export function FaqAccordion({ items }: { items?: Faq[] }) {
                   transition={{ duration: 0.3, ease: "easeInOut" }}
                   className="overflow-hidden"
                 >
-                  <p className="px-6 pb-5 text-sm leading-relaxed text-navy-100/65">
+                  <p className="px-6 pb-5 text-sm leading-relaxed text-slate-600">
                     {item.a}
                   </p>
                 </motion.div>

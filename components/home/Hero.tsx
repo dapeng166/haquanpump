@@ -38,7 +38,7 @@ export function Hero({
           sizes="100vw"
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-charcoal-950/85 via-charcoal-950/80 to-charcoal-950" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/85 via-white/80 to-white" />
         <div className="absolute inset-0 bg-radial-glow" />
         <div className="absolute inset-0 bg-grid opacity-40" />
       </div>
@@ -57,7 +57,7 @@ export function Hero({
             variants={fadeUp}
             initial="hidden"
             animate="visible"
-            className="mt-6 font-display text-4xl font-bold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-6xl xl:text-7xl"
+            className="mt-6 font-display text-4xl font-bold leading-[1.08] tracking-tight text-slate-900 sm:text-5xl lg:text-6xl xl:text-7xl"
           >
             {t("hero.title")}
           </motion.h1>
@@ -67,7 +67,7 @@ export function Hero({
             variants={fadeUp}
             initial="hidden"
             animate="visible"
-            className="mt-6 max-w-2xl text-lg leading-relaxed text-navy-100/75"
+            className="mt-6 max-w-2xl text-lg leading-relaxed text-slate-600"
           >
             {subtitle || t("hero.subtitle")}
           </motion.p>
@@ -95,14 +95,14 @@ export function Hero({
           variants={fadeUp}
           initial="hidden"
           animate="visible"
-          className="mt-16 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] sm:grid-cols-4"
+          className="mt-16 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 sm:grid-cols-4"
         >
           {stats.map((s) => (
-            <div key={s.labelKey} className="bg-charcoal-900/40 p-5 text-center sm:p-6">
-              <dd className="font-display text-3xl font-bold text-white sm:text-4xl">
+            <div key={s.labelKey} className="bg-slate-50 p-5 text-center sm:p-6">
+              <dd className="font-display text-3xl font-bold text-slate-900 sm:text-4xl">
                 {s.value}
               </dd>
-              <dt className="mt-1 text-xs uppercase tracking-wide text-navy-100/55 sm:text-sm">
+              <dt className="mt-1 text-xs uppercase tracking-wide text-slate-500 sm:text-sm">
                 {t(s.labelKey)}
               </dt>
             </div>

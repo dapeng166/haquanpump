@@ -16,7 +16,7 @@ export function FinalCTA() {
     <section className="py-20 sm:py-28">
       <Container>
         <Reveal>
-          <div className="relative isolate overflow-hidden rounded-3xl border border-white/10 px-6 py-16 text-center sm:px-12 sm:py-20">
+          <div className="relative isolate overflow-hidden rounded-3xl border border-slate-200 px-6 py-16 text-center sm:px-12 sm:py-20">
             <Image
               src={img.ctaBackground}
               alt=""
@@ -24,13 +24,13 @@ export function FinalCTA() {
               sizes="100vw"
               className="-z-10 object-cover"
             />
-            <div className="absolute inset-0 -z-10 bg-gradient-to-br from-navy-900/95 via-charcoal-950/92 to-charcoal-950/95" />
+            <div className="absolute inset-0 -z-10 bg-gradient-to-br from-navy-900/95 via-white/92 to-white/95" />
             <div className="absolute inset-0 -z-10 bg-radial-glow" />
 
-            <h2 className="mx-auto max-w-2xl font-display text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
+            <h2 className="mx-auto max-w-2xl font-display text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl">
               {t("sections.ctaTitle")}
             </h2>
-            <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-navy-100/75 sm:text-lg">
+            <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-slate-600 sm:text-lg">
               {t("sections.ctaSubtitle")}
             </p>
             <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">

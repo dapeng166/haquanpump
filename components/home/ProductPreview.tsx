@@ -12,7 +12,7 @@ export function ProductPreview({ products }: { products: Product[] }) {
   const { t } = useTranslation();
 
   return (
-    <Section className="bg-charcoal-900/30">
+    <Section className="bg-slate-50">
       <Container>
         <SectionHeading
           eyebrow="Product Range"

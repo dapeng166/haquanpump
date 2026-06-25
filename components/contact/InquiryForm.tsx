@@ -47,8 +47,8 @@ export function InquiryForm() {
     return (
       <div className="flex flex-col items-center justify-center rounded-2xl border border-accent/30 bg-accent/[0.06] p-10 text-center">
         <CheckCircle2 className="h-12 w-12 text-accent" aria-hidden />
-        <h3 className="mt-4 font-display text-xl font-bold text-white">Inquiry Sent</h3>
-        <p className="mt-2 max-w-sm text-sm text-navy-100/70">{t("form.success")}</p>
+        <h3 className="mt-4 font-display text-xl font-bold text-slate-900">Inquiry Sent</h3>
+        <p className="mt-2 max-w-sm text-sm text-slate-600">{t("form.success")}</p>
         <button
           type="button"
           onClick={() => setStatus("idle")}
@@ -70,7 +70,7 @@ export function InquiryForm() {
       </div>
 
       <div>
-        <label htmlFor="message" className="mb-2 block text-sm font-medium text-navy-100/80">
+        <label htmlFor="message" className="mb-2 block text-sm font-medium text-slate-700">
           {t("form.message")} <span className="text-accent">*</span>
         </label>
         <textarea
@@ -81,7 +81,7 @@ export function InquiryForm() {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Flow rate (m³/h), head (m), medium, power supply…"
-          className="w-full rounded-xl border border-white/15 bg-white/[0.03] px-4 py-3 text-sm text-white placeholder:text-navy-100/35 transition-colors focus:border-accent/60 focus:outline-none focus:ring-2 focus:ring-accent/30"
+          className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 transition-colors focus:border-accent/60 focus:outline-none focus:ring-2 focus:ring-accent/30"
         />
       </div>
 
@@ -95,9 +95,9 @@ export function InquiryForm() {
         {status === "submitting" ? t("form.sending") : t("form.send")}
         <Send className="h-4 w-4 rtl-flip" aria-hidden />
       </button>
-      <p className="text-xs text-navy-100/40">
+      <p className="text-xs text-slate-400">
         By submitting you agree to our{" "}
-        <Link href="/privacy-policy" className="underline hover:text-accent-300">
+        <Link href="/privacy-policy" className="underline hover:text-accent-600">
           Privacy Policy
         </Link>
         .
@@ -121,7 +121,7 @@ function Field({
 }) {
   return (
     <div>
-      <label htmlFor={name} className="mb-2 block text-sm font-medium text-navy-100/80">
+      <label htmlFor={name} className="mb-2 block text-sm font-medium text-slate-700">
         {label} {required && <span className="text-accent">*</span>}
       </label>
       <input
@@ -130,7 +130,7 @@ function Field({
         type={type}
         required={required}
         autoComplete={autoComplete}
-        className="w-full rounded-xl border border-white/15 bg-white/[0.03] px-4 py-3 text-sm text-white placeholder:text-navy-100/35 transition-colors focus:border-accent/60 focus:outline-none focus:ring-2 focus:ring-accent/30"
+        className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 transition-colors focus:border-accent/60 focus:outline-none focus:ring-2 focus:ring-accent/30"
       />
     </div>
   );
