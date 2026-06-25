@@ -2,9 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Mail, MapPin, Phone, Clock, Linkedin, Youtube, Facebook, MessageCircle } from "lucide-react";
 import { company } from "@/lib/site";
-import { img } from "@/lib/images";
 import { getSitePage, acfStr } from "@/lib/wordpress";
-import { PageHero } from "@/components/ui/PageHero";
 import { Container, Section } from "@/components/ui/Primitives";
 import { Reveal } from "@/components/ui/Reveal";
 import { InquiryForm } from "@/components/contact/InquiryForm";
@@ -32,21 +30,9 @@ export default async function ContactPage() {
   const mapEmbed = acfStr(page, "map_embed_code");
 
   return (
-    <>
-      <PageHero
-        eyebrow="Get in Touch"
-        title="Request a Quote or Talk to an Engineer"
-        intro={
-          page?.subtitle ||
-          "Tell us your application and duty point. Our export team replies within 24 hours, in your language."
-        }
-        image={page?.heroImage || img.contactHero}
-        breadcrumbs={[{ label: "Contact" }]}
-      />
-
-      <Section>
-        <Container>
-          <div className="grid gap-12 lg:grid-cols-[1fr_1.1fr]">
+    <Section className="pt-28 sm:pt-32">
+      <Container>
+        <div className="grid items-start gap-10 lg:grid-cols-2">
             {/* Contact details */}
             <Reveal>
               <h2 className="font-display text-2xl font-bold text-white sm:text-3xl">
@@ -114,22 +100,21 @@ export default async function ContactPage() {
 
             {/* Form */}
             <Reveal index={1}>
-              <div className="glass-card p-7 sm:p-9">
-                <h2 className="font-display text-2xl font-bold text-white">Send an Inquiry</h2>
-                <p className="mt-2 text-sm text-navy-100/60">
-                  Fields marked <span className="text-accent">*</span> are required.
-                </p>
-                <div className="mt-7">
-                  <Suspense fallback={<div className="h-80 animate-pulse rounded-xl bg-white/[0.03]" />}>
-                    <InquiryForm />
-                  </Suspense>
-                </div>
+              <h2 className="font-display text-2xl font-bold text-white sm:text-3xl">
+                Send an Inquiry
+              </h2>
+              <p className="mt-3 text-navy-100/65">
+                Fields marked <span className="text-accent">*</span> are required.
+              </p>
+              <div className="glass-card mt-8 p-7 sm:p-9">
+                <Suspense fallback={<div className="h-80 animate-pulse rounded-xl bg-white/[0.03]" />}>
+                  <InquiryForm />
+                </Suspense>
               </div>
             </Reveal>
           </div>
         </Container>
       </Section>
-    </>
   );
 }
 
