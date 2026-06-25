@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { AlertCircle, CheckCircle2, Send } from "lucide-react";
+import { company } from "@/lib/site";
 import { useTranslation } from "@/lib/i18n/I18nProvider";
 
 type Status = "idle" | "submitting" | "success" | "error";
@@ -62,6 +63,14 @@ export function InquiryForm() {
 
   return (
     <form onSubmit={onSubmit} className="space-y-5">
+      {/* Carries the product name when arriving from a product "Inquire" button. */}
+      <input type="hidden" name="product" value={product ?? ""} />
+      {/* Honeypot — hidden from people; bots that fill it are rejected server-side. */}
+      <div aria-hidden className="absolute left-[-9999px] top-[-9999px] h-0 w-0 overflow-hidden">
+        <label htmlFor="website">Leave this field empty</label>
+        <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+      </div>
+
       <div className="grid gap-5 sm:grid-cols-2">
         <Field label={t("form.name")} name="name" type="text" required autoComplete="name" />
         <Field label={t("form.email")} name="email" type="email" required autoComplete="email" />
@@ -86,8 +95,14 @@ export function InquiryForm() {
       </div>
 
       {status === "error" && (
-        <p className="flex items-center gap-2 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300">
-          <AlertCircle className="h-4 w-4 shrink-0" aria-hidden /> {t("form.error")}
+        <p className="flex flex-wrap items-center gap-x-2 gap-y-1 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          <AlertCircle className="h-4 w-4 shrink-0" aria-hidden />
+          <span>
+            {t("form.error")}{" "}
+            <a href={`mailto:${company.email}`} className="font-semibold underline">
+              {company.email}
+            </a>
+          </span>
         </p>
       )}
 
