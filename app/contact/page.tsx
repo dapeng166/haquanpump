@@ -57,7 +57,7 @@ export default async function ContactPage() {
                 tailored recommendation and quotation.
               </p>
 
-              <ul className="mt-8 space-y-5">
+              <ul className="glass-card mt-8 space-y-5 p-7">
                 <ContactRow icon={<MapPin className="h-5 w-5" />} title="Head Office">
                   {address}
                 </ContactRow>

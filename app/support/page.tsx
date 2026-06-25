@@ -112,11 +112,11 @@ export default async function TechnicalSupportPage() {
                 ]
               : downloads.map((d) => ({ ...d, url: "#" }))
             ).map((d, i) => (
-              <Reveal key={d.title} index={i % 2}>
+              <Reveal key={d.title} index={i % 2} className="h-full">
                 <a
                   href={d.url}
                   {...(d.url !== "#" ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                  className="group flex items-center gap-4 rounded-xl border border-white/10 bg-white/[0.02] p-4 transition-all hover:border-accent/40 hover:bg-white/[0.05]"
+                  className="group flex h-full items-center gap-4 rounded-xl border border-white/10 bg-white/[0.02] p-4 transition-all hover:border-accent/40 hover:bg-white/[0.05]"
                 >
                   <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-accent-300 ring-1 ring-accent/20">
                     <FileText className="h-6 w-6" aria-hidden />

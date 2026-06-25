@@ -17,6 +17,7 @@ import { Container, Section } from "@/components/ui/Primitives";
 import { Reveal } from "@/components/ui/Reveal";
 import { ProductGallery } from "@/components/products/ProductGallery";
 import { ProductCard } from "@/components/products/ProductCard";
+import { ExpandableHtml } from "@/components/ui/ExpandableHtml";
 
 // Pre-render known products; new WordPress products render on-demand (ISR).
 export async function generateStaticParams() {
@@ -168,10 +169,10 @@ export default async function ProductDetailPage({
           <div className="mt-16 grid gap-12 lg:grid-cols-3">
             <Reveal className="lg:col-span-2">
               <h2 className="font-display text-2xl font-bold text-white">Product Overview</h2>
-              <div
+              {/* Capped height + Read more so long CMS descriptions don't stretch the page. */}
+              <ExpandableHtml
+                html={product.description}
                 className="prose-invert mt-4 space-y-4 text-base leading-relaxed text-navy-100/70 [&_p]:mb-4"
-                // Content originates from our own CMS/seed data (trusted source).
-                dangerouslySetInnerHTML={{ __html: product.description }}
               />
             </Reveal>
             <Reveal index={1}>
