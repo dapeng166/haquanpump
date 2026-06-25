@@ -45,9 +45,9 @@ export function Logo({ className = "" }: { className?: string }) {
       <span className="flex flex-col leading-none">
         <span
           translate="no"
-          className="font-display text-lg font-bold tracking-tight text-slate-900"
+          className="font-display text-lg font-bold uppercase tracking-tight text-slate-900"
         >
-          HAQUAN
+          Haquan
         </span>
         <span className="text-[0.62rem] font-medium uppercase tracking-[0.22em] text-accent-600">
           Pump &amp; Valve

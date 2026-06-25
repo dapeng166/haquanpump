@@ -3,55 +3,77 @@
 import { useEffect } from "react";
 
 /**
- * The brand name "Haquan" must stay "Haquan" in every language. Google's free
- * Website Translator has no glossary and phonetically renders it into Chinese
- * several different ways (哈昆 / 海泉 / 哈泉 …), which looks inconsistent in news
- * and article bodies. We correct its output after the fact: rewrite any of those
- * variants back to "Haquan" in text nodes ONLY, setting `nodeValue` in place.
+ * Brand name per language:
+ *   - Chinese (zh-*)   → the brand reads 哈泉 (the company's Chinese name).
+ *   - every other lang → it stays "Haquan".
  *
- * Editing text nodes never adds/removes DOM nodes, so it cannot trip React's
- * reconciler (unlike Google's own <font>-wrapping, which the layout guards
- * against). The pass converges: once corrected there is no variant left to
- * re-trigger it. Brand text we control (e.g. the logo) is additionally marked
- * translate="no" so it is never translated in the first place.
+ * Google's free Website Translator has no glossary: in Chinese it renders the
+ * brand inconsistently (海泉 / 哈昆 / 哈奎 / …) and sometimes leaves "Haquan". We
+ * normalise its output ourselves by rewriting text nodes in place (setting
+ * nodeValue only — never adding/removing nodes, so React's reconciler is
+ * untouched, unlike Google's own <font>-wrapping which the layout guards
+ * against). The company domain/email (haquanpump.com) is deliberately left
+ * alone. The pass converges: once normalised there is nothing left to re-match.
  */
-const REPLACEMENTS: Array<[RegExp, string]> = [
-  [/哈昆|海泉|哈泉|哈奎|哈川|哈全/g, "Haquan"],
-];
 
-function correct(value: string | null): string | null {
-  if (!value) return value;
-  let next = value;
-  for (const [re, to] of REPLACEMENTS) next = next.replace(re, to);
-  return next;
+const CN_VARIANTS = /海泉|哈昆|哈奎|哈川|哈全/g; // Google's wrong phonetic guesses
+const LATIN_BRAND = /Haquan(?!pump)/gi; // the brand word, but not the domain
+const ANY_CN_BRAND = /海泉|哈昆|哈奎|哈川|哈全|哈泉/g;
+
+function targetLang(): string {
+  if (typeof document === "undefined") return "";
+  const m = document.cookie.match(/googtrans=\/[^/]+\/([^;]+)/);
+  return m ? decodeURIComponent(m[1]).toLowerCase() : "";
 }
 
-function fixNode(node: Node) {
-  const fixed = correct(node.nodeValue);
-  if (fixed !== node.nodeValue) node.nodeValue = fixed;
+function correct(value: string | null, chinese: boolean): string | null {
+  if (!value) return value;
+  if (chinese) {
+    return value.replace(CN_VARIANTS, "哈泉").replace(LATIN_BRAND, "哈泉");
+  }
+  return value.replace(ANY_CN_BRAND, "Haquan");
 }
 
 export function BrandTranslationFix() {
   useEffect(() => {
-    const sweep = (root: Node) => {
+    let lastLang = targetLang();
+
+    const sweep = (root: Node, chinese: boolean) => {
       const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
       let node = walker.nextNode();
       while (node) {
-        fixNode(node);
+        const fixed = correct(node.nodeValue, chinese);
+        if (fixed !== node.nodeValue) node.nodeValue = fixed;
         node = walker.nextNode();
       }
     };
 
-    sweep(document.body);
+    sweep(document.body, lastLang.startsWith("zh"));
 
     const observer = new MutationObserver((mutations) => {
+      const lang = targetLang();
+      const chinese = lang.startsWith("zh");
+
+      // Language switched (e.g. the user picked 中文) → re-normalise the whole
+      // page, including text Google never touches (the translate="no" wordmark).
+      if (lang !== lastLang) {
+        lastLang = lang;
+        sweep(document.body, chinese);
+        return;
+      }
+
       for (const m of mutations) {
         if (m.type === "characterData") {
-          fixNode(m.target);
+          const fixed = correct(m.target.nodeValue, chinese);
+          if (fixed !== m.target.nodeValue) m.target.nodeValue = fixed;
         } else {
           m.addedNodes.forEach((n) => {
-            if (n.nodeType === Node.TEXT_NODE) fixNode(n);
-            else sweep(n);
+            if (n.nodeType === Node.TEXT_NODE) {
+              const fixed = correct(n.nodeValue, chinese);
+              if (fixed !== n.nodeValue) n.nodeValue = fixed;
+            } else {
+              sweep(n, chinese);
+            }
           });
         }
       }
