@@ -9,6 +9,7 @@ import { mainNav } from "@/lib/site";
 import { useTranslation } from "@/lib/i18n/I18nProvider";
 import { Logo } from "./Logo";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { SiteSearch } from "./SiteSearch";
 
 export function Header() {
   const { t } = useTranslation();
@@ -73,6 +74,7 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2.5">
+          <SiteSearch />
           <div className="hidden sm:block">
             <LanguageSwitcher />
           </div>

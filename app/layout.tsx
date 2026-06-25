@@ -7,6 +7,7 @@ import { I18nProvider } from "@/lib/i18n/I18nProvider";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { GoogleTranslateLoader } from "@/components/layout/GoogleTranslate";
+import { BrandTranslationFix } from "@/components/layout/BrandTranslationFix";
 
 const inter = Inter({
   subsets: ["latin", "cyrillic"],
@@ -58,9 +59,11 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0B0F17",
+  themeColor: "#ffffff",
   width: "device-width",
   initialScale: 1,
+  // Allow zooming for accessibility; cap initial layout to device width.
+  maximumScale: 5,
 };
 
 // Google Translate rewrites text nodes (wrapping them in <font> tags). When
@@ -107,6 +110,8 @@ export default async function RootLayout({
           <main>{children}</main>
           <Footer />
           <GoogleTranslateLoader />
+          {/* Corrects Google Translate's 哈昆 → 哈泉 brand mistranslation. */}
+          <BrandTranslationFix />
         </I18nProvider>
       </body>
     </html>
