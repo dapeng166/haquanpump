@@ -8,6 +8,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { GoogleTranslateLoader } from "@/components/layout/GoogleTranslate";
 import { BrandTranslationFix } from "@/components/layout/BrandTranslationFix";
+import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
 
 const inter = Inter({
   subsets: ["latin", "cyrillic"],
@@ -111,6 +112,7 @@ export default async function RootLayout({
           <Header />
           <main>{children}</main>
           <Footer />
+          <WhatsAppButton />
           <GoogleTranslateLoader />
           {/* Corrects Google Translate's 哈昆 → 哈泉 brand mistranslation. */}
           <BrandTranslationFix />

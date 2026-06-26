@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { Mail, MapPin, Phone, Clock, Linkedin, Youtube, Facebook, MessageCircle } from "lucide-react";
+import { Mail, MapPin, Phone, Clock, Linkedin, Youtube, Facebook } from "lucide-react";
+import QRCode from "qrcode";
 import { company } from "@/lib/site";
 import { getSitePage, acfStr } from "@/lib/wordpress";
 import { Container, Section } from "@/components/ui/Primitives";
 import { Reveal } from "@/components/ui/Reveal";
+import { WhatsappIcon } from "@/components/ui/WhatsappIcon";
 import { InquiryForm } from "@/components/contact/InquiryForm";
 
 export const metadata: Metadata = {
@@ -18,7 +20,7 @@ const socials = [
   { href: company.social.linkedin, icon: Linkedin, label: "LinkedIn" },
   { href: company.social.youtube, icon: Youtube, label: "YouTube" },
   { href: company.social.facebook, icon: Facebook, label: "Facebook" },
-  { href: company.social.whatsapp, icon: MessageCircle, label: "WhatsApp" },
+  { href: company.social.whatsapp, icon: WhatsappIcon, label: "WhatsApp" },
 ];
 
 export default async function ContactPage() {
@@ -28,6 +30,15 @@ export default async function ContactPage() {
   const phone = acfStr(page, "phone", company.phone);
   const email = acfStr(page, "email", company.email);
   const mapEmbed = acfStr(page, "map_embed_code");
+
+  // WhatsApp click-to-chat QR — encodes the wa.me link, so scanning it opens a
+  // chat with us. Generated server-side (no external image, works in China).
+  const whatsappLink = company.social.whatsapp;
+  const whatsappQr = await QRCode.toString(whatsappLink, {
+    type: "svg",
+    margin: 1,
+    color: { dark: "#0f172a", light: "#ffffff" },
+  });
 
   return (
     <Section className="pt-28 sm:pt-32">
@@ -77,6 +88,30 @@ export default async function ContactPage() {
                       <s.icon className="h-5 w-5" />
                     </a>
                   ))}
+                </div>
+              </div>
+
+              {/* WhatsApp — scan the code (desktop) or tap to chat (mobile) */}
+              <div className="glass-card mt-8 flex items-center gap-5 p-6">
+                <div
+                  className="h-28 w-28 shrink-0 rounded-xl border border-slate-200 bg-white p-2 [&_svg]:block [&_svg]:h-full [&_svg]:w-full"
+                  dangerouslySetInnerHTML={{ __html: whatsappQr }}
+                />
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2 font-semibold text-slate-900">
+                    <WhatsappIcon className="h-5 w-5 text-[#25D366]" /> WhatsApp
+                  </div>
+                  <p className="mt-1 text-sm text-slate-600">
+                    Scan the code, or tap to chat — we reply quickly.
+                  </p>
+                  <a
+                    href={whatsappLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-3 inline-flex items-center gap-2 rounded-full bg-[#25D366] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#1da851]"
+                  >
+                    <WhatsappIcon className="h-4 w-4" /> Chat on WhatsApp
+                  </a>
                 </div>
               </div>
             </Reveal>
