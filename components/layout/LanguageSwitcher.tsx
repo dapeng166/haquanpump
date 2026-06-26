@@ -2,8 +2,6 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Check, ChevronDown, Globe, Search } from "lucide-react";
-import { useTranslation } from "@/lib/i18n/I18nProvider";
-import { type Locale } from "@/lib/i18n/config";
 
 // Each entry: Google Translate language code, English + native name, flag, RTL.
 type Lang = { code: string; name: string; native: string; flag: string; rtl?: boolean };
@@ -55,27 +53,6 @@ const LANGUAGES: Lang[] = [
 const RTL = new Set(LANGUAGES.filter((l) => l.rtl).map((l) => l.code));
 const byCode = new Map(LANGUAGES.map((l) => [l.code, l] as const));
 
-// Languages with full built-in dictionaries — translated instantly and
-// reliably with no dependency on Google (works even where Google is blocked,
-// e.g. mobile in mainland China). Google still supplements long CMS content.
-const BUILTIN: Record<string, Locale> = {
-  en: "en",
-  "zh-CN": "zh",
-  "zh-TW": "zh",
-  es: "es",
-  de: "de",
-  ru: "ru",
-  ar: "ar",
-};
-const LOCALE_TO_CODE: Record<Locale, string> = {
-  en: "en",
-  zh: "zh-CN",
-  es: "es",
-  de: "de",
-  ru: "ru",
-  ar: "ar",
-};
-
 /** Drive the hidden Google combo to translate the whole page in real time. */
 function applyTranslation(code: string) {
   if (typeof document === "undefined") return;
@@ -96,32 +73,23 @@ function applyTranslation(code: string) {
 }
 
 export function LanguageSwitcher({ compact = false }: { compact?: boolean }) {
-  const { setLocale } = useTranslation();
   const [open, setOpen] = useState(false);
   const [current, setCurrent] = useState<string>("en");
   const [query, setQuery] = useState("");
   const ref = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Restore the active language: prefer our built-in locale cookie (reliable
-  // even when Google is blocked), then fall back to Google's googtrans cookie.
+  // Restore the active language from the cookie Google sets ( /en/<code> ).
   useEffect(() => {
-    const loc = document.cookie.match(/haquan_locale=([^;]+)/)?.[1] as
-      | Locale
-      | undefined;
-    let code: string | null = null;
-    if (loc && LOCALE_TO_CODE[loc]) {
-      code = LOCALE_TO_CODE[loc];
-    } else {
-      const m = document.cookie.match(/googtrans=\/[^/]+\/([^;]+)/);
-      if (m) code = decodeURIComponent(m[1]);
+    const m = document.cookie.match(/googtrans=\/[^/]+\/([^;]+)/);
+    if (m) {
+      const code = decodeURIComponent(m[1]);
+      if (byCode.has(code)) {
+        setCurrent(code);
+        document.documentElement.dir = RTL.has(code) ? "rtl" : "ltr";
+      }
     }
-    if (code && byCode.has(code)) {
-      setCurrent(code);
-      setLocale(BUILTIN[code] ?? "en");
-      document.documentElement.dir = RTL.has(code) ? "rtl" : "ltr";
-    }
-  }, [setLocale]);
+  }, []);
 
   useEffect(() => {
     function onClick(e: MouseEvent) {
@@ -146,10 +114,6 @@ export function LanguageSwitcher({ compact = false }: { compact?: boolean }) {
   function select(code: string) {
     setCurrent(code);
     setOpen(false);
-    // 1) Built-in dictionaries → instant, reliable UI translation on any device,
-    //    even where Google is blocked (English UI for non-dictionary languages).
-    setLocale(BUILTIN[code] ?? "en");
-    // 2) Google supplements long CMS content + the ~35 non-dictionary languages.
     applyTranslation(code);
   }
 
