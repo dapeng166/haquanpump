@@ -1,11 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { Mail, Phone, MapPin, Linkedin, Youtube, Facebook, MessageCircle } from "lucide-react";
+import { Mail, Phone, MapPin, Linkedin, Youtube, Facebook } from "lucide-react";
 import { company, mainNav } from "@/lib/site";
 import { pumpSeries } from "@/lib/data/products";
 import { useTranslation } from "@/lib/i18n/I18nProvider";
 import { Logo } from "./Logo";
+import { XIcon } from "@/components/ui/XIcon";
+import { WhatsappIcon } from "@/components/ui/WhatsappIcon";
 
 export function Footer() {
   const { t } = useTranslation();
@@ -13,9 +15,10 @@ export function Footer() {
 
   const socials = [
     { href: company.social.linkedin, icon: Linkedin, label: "LinkedIn" },
+    { href: company.social.x, icon: XIcon, label: "X" },
     { href: company.social.youtube, icon: Youtube, label: "YouTube" },
     { href: company.social.facebook, icon: Facebook, label: "Facebook" },
-    { href: company.social.whatsapp, icon: MessageCircle, label: "WhatsApp" },
+    { href: company.social.whatsapp, icon: WhatsappIcon, label: "WhatsApp" },
   ];
 
   return (

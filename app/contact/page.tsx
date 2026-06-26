@@ -7,6 +7,7 @@ import { getSitePage, acfStr } from "@/lib/wordpress";
 import { Container, Section } from "@/components/ui/Primitives";
 import { Reveal } from "@/components/ui/Reveal";
 import { WhatsappIcon } from "@/components/ui/WhatsappIcon";
+import { XIcon } from "@/components/ui/XIcon";
 import { InquiryForm } from "@/components/contact/InquiryForm";
 
 export const metadata: Metadata = {
@@ -18,6 +19,7 @@ export const metadata: Metadata = {
 
 const socials = [
   { href: company.social.linkedin, icon: Linkedin, label: "LinkedIn" },
+  { href: company.social.x, icon: XIcon, label: "X" },
   { href: company.social.youtube, icon: Youtube, label: "YouTube" },
   { href: company.social.facebook, icon: Facebook, label: "Facebook" },
   { href: company.social.whatsapp, icon: WhatsappIcon, label: "WhatsApp" },

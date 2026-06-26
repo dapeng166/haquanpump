@@ -28,6 +28,7 @@ export const company = {
     "https://www.google.com/maps?q=Fengxian+District,+Shanghai,+China&output=embed",
   social: {
     linkedin: "https://www.linkedin.com/company/haquanpump",
+    x: "https://x.com/HaquanPump",
     youtube: "https://www.youtube.com/@haquanpump",
     facebook: "https://www.facebook.com/haquanpump",
     whatsapp: "https://wa.me/8615000577161",
