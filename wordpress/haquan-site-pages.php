@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name:  Haquan — Site Pages
- * Description:  Registers the site_page CPT, site_page_category taxonomy and the "Page Content" ACF field group (home / about / support / contact). Requires the free ACF plugin.
- * Version:      1.0.0
+ * Description:  Registers the site_page CPT, site_page_category taxonomy and the "Page Content" ACF field group (home / about / support / contact). Includes 6 PDF upload slots for the Support page's technical documents. Requires the free ACF plugin.
+ * Version:      1.1.0
  * Author:       Haquan
  *
  * Can also be dropped into wp-content/mu-plugins/ or pasted into functions.php.
@@ -119,7 +119,15 @@ add_action( 'acf/init', function () {
 			array( 'key' => 'field_sp_faq1_a', 'label' => 'Support · FAQ 1 Answer',   'name' => 'faq_1_answer',   'type' => 'textarea', 'rows' => 3 ),
 			array( 'key' => 'field_sp_faq2_q', 'label' => 'Support · FAQ 2 Question', 'name' => 'faq_2_question', 'type' => 'text' ),
 			array( 'key' => 'field_sp_faq2_a', 'label' => 'Support · FAQ 2 Answer',   'name' => 'faq_2_answer',   'type' => 'textarea', 'rows' => 3 ),
-			array( 'key' => 'field_sp_download', 'label' => 'Support · Download File (PDF URL)', 'name' => 'download_file', 'type' => 'url' ),
+
+			/* Support · Downloadable PDFs — upload your real documents here.
+			   Each slot maps to a card on the Support page; empty slots are hidden. */
+			array( 'key' => 'field_sp_doc1', 'label' => 'Support · Doc 1 — General Product Catalogue (PDF)',        'name' => 'doc_1_file', 'type' => 'file', 'return_format' => 'url', 'mime_types' => 'pdf' ),
+			array( 'key' => 'field_sp_doc2', 'label' => 'Support · Doc 2 — Sewage & Grinder Pump Curves (PDF)',      'name' => 'doc_2_file', 'type' => 'file', 'return_format' => 'url', 'mime_types' => 'pdf' ),
+			array( 'key' => 'field_sp_doc3', 'label' => 'Support · Doc 3 — AODD (QBY) Selection Guide (PDF)',        'name' => 'doc_3_file', 'type' => 'file', 'return_format' => 'url', 'mime_types' => 'pdf' ),
+			array( 'key' => 'field_sp_doc4', 'label' => 'Support · Doc 4 — Pipeline Centrifugal Datasheet (PDF)',    'name' => 'doc_4_file', 'type' => 'file', 'return_format' => 'url', 'mime_types' => 'pdf' ),
+			array( 'key' => 'field_sp_doc5', 'label' => 'Support · Doc 5 — Installation & Maintenance Manual (PDF)', 'name' => 'doc_5_file', 'type' => 'file', 'return_format' => 'url', 'mime_types' => 'pdf' ),
+			array( 'key' => 'field_sp_doc6', 'label' => 'Support · Doc 6 — Material & Coating Reference (PDF)',       'name' => 'doc_6_file', 'type' => 'file', 'return_format' => 'url', 'mime_types' => 'pdf' ),
 
 			/* ---- Contact ---- */
 			array( 'key' => 'field_sp_address', 'label' => 'Contact · Address', 'name' => 'address_en', 'type' => 'textarea', 'rows' => 3 ),

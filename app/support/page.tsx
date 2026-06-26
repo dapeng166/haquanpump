@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Download, FileText, LifeBuoy, Mail, Phone } from "lucide-react";
 import { company } from "@/lib/site";
-import { downloads, faqs } from "@/lib/data/content";
+import { faqs } from "@/lib/data/content";
 import { img } from "@/lib/images";
 import { getSitePage, acfStr } from "@/lib/wordpress";
 import { PageHero } from "@/components/ui/PageHero";
@@ -56,7 +56,26 @@ export default async function TechnicalSupportPage() {
       a: acfStr(page, `faq_${n}_answer`),
     }))
     .filter((f) => f.q && f.a);
-  const downloadFile = acfStr(page, "download_file");
+  // Real technical documents are uploaded via WordPress (Site Pages → Support →
+  // "Doc 1…6" PDF slots). Only slots that actually have a file are shown — no
+  // dead links. ACF returns the file as a URL string, or sometimes an object.
+  const DOC_SLOTS = [
+    { key: "doc_1_file", title: "Haquan General Product Catalogue", type: "Catalogue" },
+    { key: "doc_2_file", title: "Sewage & Grinder Pump Curves", type: "Performance Data" },
+    { key: "doc_3_file", title: "AODD (QBY) Selection & Compatibility Guide", type: "Selection Guide" },
+    { key: "doc_4_file", title: "Pipeline Centrifugal (ISG/IRG/IHG/ISW) Datasheet", type: "Datasheet" },
+    { key: "doc_5_file", title: "Installation, Operation & Maintenance Manual", type: "Manual" },
+    { key: "doc_6_file", title: "Material & Coating Reference Guide", type: "Reference" },
+  ];
+  const fileUrl = (key: string): string => {
+    const v = page?.acf?.[key];
+    if (typeof v === "string") return v.trim();
+    if (v && typeof v === "object" && typeof (v as { url?: unknown }).url === "string") {
+      return (v as { url: string }).url.trim();
+    }
+    return "";
+  };
+  const docs = DOC_SLOTS.map((d) => ({ ...d, url: fileUrl(d.key) })).filter((d) => d.url);
 
   return (
     <>
@@ -104,32 +123,50 @@ export default async function TechnicalSupportPage() {
             title="Downloadable Technical Documents"
             subtitle="Catalogues, performance curves, selection guides and datasheets for your records."
           />
-          <div className="mx-auto grid max-w-4xl gap-4 sm:grid-cols-2">
-            {(downloadFile
-              ? [
-                  { title: "Haquan Product Brochure", type: "Brochure", size: "PDF", url: downloadFile },
-                  ...downloads.map((d) => ({ ...d, url: "#" })),
-                ]
-              : downloads.map((d) => ({ ...d, url: "#" }))
-            ).map((d, i) => (
-              <Reveal key={d.title} index={i % 2} className="h-full">
-                <a
-                  href={d.url}
-                  {...(d.url !== "#" ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                  className="group flex h-full items-center gap-4 rounded-xl border border-slate-200 bg-slate-50 p-4 transition-all hover:border-accent/40 hover:bg-slate-100"
-                >
-                  <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-accent-600 ring-1 ring-accent/20">
-                    <FileText className="h-6 w-6" aria-hidden />
-                  </span>
-                  <span className="flex-1">
-                    <span className="block font-medium text-slate-900">{d.title}</span>
-                    <span className="text-xs text-slate-400">{d.type} · {d.size}</span>
-                  </span>
-                  <Download className="h-5 w-5 text-slate-400 transition-colors group-hover:text-accent-600" aria-hidden />
-                </a>
-              </Reveal>
-            ))}
-          </div>
+          {docs.length > 0 ? (
+            <div className="mx-auto grid max-w-4xl gap-4 sm:grid-cols-2">
+              {docs.map((d, i) => (
+                <Reveal key={d.key} index={i % 2} className="h-full">
+                  <a
+                    href={d.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex h-full items-center gap-4 rounded-xl border border-slate-200 bg-slate-50 p-4 transition-all hover:border-accent/40 hover:bg-slate-100"
+                  >
+                    <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-accent-600 ring-1 ring-accent/20">
+                      <FileText className="h-6 w-6" aria-hidden />
+                    </span>
+                    <span className="flex-1">
+                      <span className="block font-medium text-slate-900">{d.title}</span>
+                      <span className="text-xs text-slate-400">{d.type} · PDF</span>
+                    </span>
+                    <Download className="h-5 w-5 text-slate-400 transition-colors group-hover:text-accent-600" aria-hidden />
+                  </a>
+                </Reveal>
+              ))}
+            </div>
+          ) : (
+            <Reveal className="mx-auto max-w-2xl">
+              <div className="glass-card flex flex-col items-center gap-5 p-8 text-center sm:flex-row sm:text-left">
+                <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-accent-600 ring-1 ring-accent/20">
+                  <FileText className="h-6 w-6" aria-hidden />
+                </span>
+                <div className="flex-1">
+                  <p className="font-medium text-slate-900">
+                    Catalogues &amp; datasheets available on request
+                  </p>
+                  <p className="mt-1 text-sm text-slate-600">
+                    Tell us your application and we&apos;ll send the relevant catalogue,
+                    performance curves and datasheets for your pumps.
+                  </p>
+                </div>
+                <Link href="/contact" className="btn-primary shrink-0">
+                  Request Documents
+                  <ArrowRight className="h-4 w-4 rtl-flip" aria-hidden />
+                </Link>
+              </div>
+            </Reveal>
+          )}
         </Container>
       </Section>
 
