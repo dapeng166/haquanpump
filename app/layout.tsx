@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { company, siteConfig } from "@/lib/site";
+import { getProductSeries } from "@/lib/wordpress";
 import { defaultLocale } from "@/lib/i18n/config";
 import { I18nProvider } from "@/lib/i18n/I18nProvider";
 import { Header } from "@/components/layout/Header";
@@ -96,6 +97,8 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // Real product series for the footer (live from WordPress, ISR-cached).
+  const series = await getProductSeries();
   // English is the source language; the Google-powered switcher translates the
   // whole page on demand and manages text direction for RTL languages.
   return (
@@ -111,7 +114,7 @@ export default async function RootLayout({
         <I18nProvider initialLocale={defaultLocale}>
           <Header />
           <main>{children}</main>
-          <Footer />
+          <Footer series={series} />
           <WhatsAppButton />
           <GoogleTranslateLoader />
           {/* Corrects Google Translate's 哈昆 → 哈泉 brand mistranslation. */}

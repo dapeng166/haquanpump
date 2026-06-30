@@ -4,14 +4,23 @@ import Link from "next/link";
 import { Mail, Phone, MapPin, Linkedin } from "lucide-react";
 import { company, mainNav } from "@/lib/site";
 import { pumpSeries } from "@/lib/data/products";
+import type { PumpSeries } from "@/lib/types";
 import { useTranslation } from "@/lib/i18n/I18nProvider";
 import { Logo } from "./Logo";
 import { XIcon } from "@/components/ui/XIcon";
 import { WhatsappIcon } from "@/components/ui/WhatsappIcon";
 
-export function Footer() {
+export function Footer({ series }: { series?: PumpSeries[] }) {
   const { t } = useTranslation();
   const year = new Date().getFullYear();
+
+  // Real product series from WordPress (those that actually have products),
+  // falling back to the curated list when the CMS hasn't provided any.
+  const cms = series ?? [];
+  const withProducts = cms.filter((s) => (s.count ?? 0) > 0);
+  const productSeries = (
+    withProducts.length ? withProducts : cms.length ? cms : pumpSeries
+  ).slice(0, 8);
 
   const socials = [
     { href: company.social.linkedin, icon: Linkedin, label: "LinkedIn" },
@@ -70,7 +79,7 @@ export function Footer() {
               {t("footer.ourProducts")}
             </h3>
             <ul className="mt-5 space-y-3 text-sm">
-              {pumpSeries.map((s) => (
+              {productSeries.map((s) => (
                 <li key={s.slug}>
                   <Link
                     href={`/products?series=${s.slug}`}
