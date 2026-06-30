@@ -1,12 +1,14 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
-import { SlidersHorizontal } from "lucide-react";
+import { motion } from "framer-motion";
+import { ChevronLeft, ChevronRight, SlidersHorizontal } from "lucide-react";
 import type { Product, PumpSeries } from "@/lib/types";
 import { ProductCard } from "./ProductCard";
 import { useTranslation } from "@/lib/i18n/I18nProvider";
+
+const PAGE_SIZE = 8; // products per page
 
 export function ProductsExplorer({
   products,
@@ -20,6 +22,8 @@ export function ProductsExplorer({
   const { t } = useTranslation();
   const router = useRouter();
   const [active, setActive] = useState<string>(initialSeries);
+  const [page, setPage] = useState(1);
+  const topRef = useRef<HTMLDivElement>(null);
 
   // Keep the active filter in sync with the URL so browser back/forward (e.g.
   // returning from a product detail page) restores the series you were viewing.
@@ -27,10 +31,27 @@ export function ProductsExplorer({
     setActive(initialSeries);
   }, [initialSeries]);
 
+  // Reset to the first page whenever the filter changes.
+  useEffect(() => {
+    setPage(1);
+  }, [active]);
+
   const filtered = useMemo(
     () => (active === "all" ? products : products.filter((p) => p.seriesSlug === active)),
     [active, products],
   );
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const currentPage = Math.min(page, totalPages);
+  const paged = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+  const start = filtered.length === 0 ? 0 : (currentPage - 1) * PAGE_SIZE + 1;
+  const end = Math.min(currentPage * PAGE_SIZE, filtered.length);
+
+  function goToPage(n: number) {
+    const next = Math.min(Math.max(1, n), totalPages);
+    setPage(next);
+    topRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
 
   // Derive counts from the actual product list so chips are always accurate,
   // and only show series that contain at least one product.
@@ -92,28 +113,77 @@ export function ProductsExplorer({
       </aside>
 
       {/* Grid */}
-      <div>
+      <div ref={topRef} className="scroll-mt-28">
         <p className="mb-6 text-sm text-slate-500">
-          Showing <span className="font-semibold text-slate-900">{filtered.length}</span>{" "}
-          {filtered.length === 1 ? "product" : "products"}
+          {filtered.length === 0 ? (
+            "No products to show yet."
+          ) : (
+            <>
+              Showing{" "}
+              <span className="font-semibold text-slate-900">
+                {start}–{end}
+              </span>{" "}
+              of <span className="font-semibold text-slate-900">{filtered.length}</span>{" "}
+              {filtered.length === 1 ? "product" : "products"}
+            </>
+          )}
         </p>
         <motion.div layout className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-          <AnimatePresence mode="popLayout">
-            {filtered.map((product) => (
-              <motion.div
-                key={product.slug}
-                layout
-                initial={{ opacity: 0, scale: 0.96 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.96 }}
-                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                className="h-full"
-              >
-                <ProductCard product={product} />
-              </motion.div>
-            ))}
-          </AnimatePresence>
+          {paged.map((product) => (
+            <motion.div
+              key={product.slug}
+              layout
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              className="h-full"
+            >
+              <ProductCard product={product} />
+            </motion.div>
+          ))}
         </motion.div>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <nav
+            className="mt-12 flex flex-wrap items-center justify-center gap-1.5"
+            aria-label="Product pages"
+          >
+            <button
+              type="button"
+              onClick={() => goToPage(currentPage - 1)}
+              disabled={currentPage === 1}
+              aria-label="Previous page"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition-colors hover:border-accent/50 hover:text-accent-600 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              <ChevronLeft className="h-4 w-4 rtl-flip" aria-hidden />
+            </button>
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
+              <button
+                key={n}
+                type="button"
+                onClick={() => goToPage(n)}
+                aria-current={n === currentPage ? "page" : undefined}
+                className={`inline-flex h-10 min-w-[2.5rem] items-center justify-center rounded-lg border px-3 text-sm font-medium transition-colors ${
+                  n === currentPage
+                    ? "border-accent/60 bg-accent/10 text-accent-600"
+                    : "border-slate-200 bg-white text-slate-600 hover:border-accent/50 hover:text-accent-600"
+                }`}
+              >
+                {n}
+              </button>
+            ))}
+            <button
+              type="button"
+              onClick={() => goToPage(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              aria-label="Next page"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition-colors hover:border-accent/50 hover:text-accent-600 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              <ChevronRight className="h-4 w-4 rtl-flip" aria-hidden />
+            </button>
+          </nav>
+        )}
       </div>
     </div>
   );

@@ -36,15 +36,23 @@ export function SiteSearch() {
   const [active, setActive] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Lazy-load the index the first time the palette opens.
+  // Load the index every time the palette opens (fresh, no-store) so newly
+  // published products/news are searchable without a full page reload.
   useEffect(() => {
-    if (open && docs === null) {
-      fetch("/api/search")
-        .then((r) => r.json())
-        .then((d) => setDocs(d.docs ?? []))
-        .catch(() => setDocs([]));
-    }
-  }, [open, docs]);
+    if (!open) return;
+    let cancelled = false;
+    fetch("/api/search", { cache: "no-store" })
+      .then((r) => r.json())
+      .then((d) => {
+        if (!cancelled) setDocs(d.docs ?? []);
+      })
+      .catch(() => {
+        if (!cancelled) setDocs((prev) => prev ?? []);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [open]);
 
   // Global shortcut: Cmd/Ctrl+K toggles the palette.
   useEffect(() => {

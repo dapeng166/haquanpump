@@ -60,7 +60,9 @@ export const WP_API_URL =
   process.env.NEXT_PUBLIC_WP_API_URL ?? "https://cms.haquanpump.com/wp-json";
 
 export const siteConfig = {
-  defaultTitle: `${company.shortName} | Industrial Pump Manufacturer Since 2014`,
+  // Keyword-rich homepage title (the product lines we manufacture) + brand.
+  defaultTitle:
+    "WILDEN AODD, Cutter, Submersible, Self-Priming, Centrifugal & High-Head Pumps | Haquan",
   titleTemplate: "%s | Haquan Pump",
   defaultDescription: company.description,
   ogImage:

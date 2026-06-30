@@ -3,9 +3,10 @@ import { getProducts, getNews } from "@/lib/wordpress";
 
 // Lightweight, self-contained search index for the whole site: the six main
 // pages plus every product and news article. The client palette fetches this
-// once and filters it locally, so there is no per-keystroke server round-trip
-// and no third-party search service. Rebuilt at most every few minutes (ISR).
-export const revalidate = 300;
+// each time it opens and filters locally, so there is no per-keystroke server
+// round-trip and no third-party search service. Refreshed every minute (ISR) so
+// newly published products/news become searchable quickly.
+export const revalidate = 60;
 
 export type SearchDoc = {
   type: "Product" | "News" | "Page";

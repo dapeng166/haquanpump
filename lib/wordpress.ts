@@ -168,7 +168,7 @@ function mapPump(raw: WPPump, index: number): Product {
 //   "seed"            — curated catalogue only (offline / fully static demo).
 // ----------------------------------------------------------------------
 
-const CONTENT_MODE = (process.env.NEXT_PUBLIC_CONTENT_MODE ?? "merge").toLowerCase();
+const CONTENT_MODE = (process.env.NEXT_PUBLIC_CONTENT_MODE ?? "live").toLowerCase();
 
 /** Combine two lists, keeping `primary` on slug collisions. */
 function mergeBySlug<T extends { slug: string }>(primary: T[], secondary: T[]): T[] {
