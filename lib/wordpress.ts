@@ -65,16 +65,24 @@ interface WPTerm {
 }
 
 async function wpFetch<T>(path: string): Promise<T | null> {
+  // Hard cap each CMS request so a slow/hung WordPress can never tie up the
+  // Node server (which would cascade into 503s). On timeout/error we fall back
+  // to seed data upstream.
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 8000);
   try {
     const res = await fetch(`${WP_API_URL}${path}`, {
       next: { revalidate: REVALIDATE_SECONDS },
       headers: { Accept: "application/json" },
+      signal: controller.signal,
     });
     if (!res.ok) return null;
     return (await res.json()) as T;
   } catch {
-    // Network error / DNS / CMS down — fall back to seed data upstream.
+    // Network error / DNS / CMS down / timeout — fall back to seed data.
     return null;
+  } finally {
+    clearTimeout(timer);
   }
 }
 

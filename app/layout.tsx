@@ -98,7 +98,13 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   // Real product series for the footer (live from WordPress, ISR-cached).
-  const series = await getProductSeries();
+  // Defensive: a CMS problem here must never break every page.
+  let series: Awaited<ReturnType<typeof getProductSeries>> = [];
+  try {
+    series = await getProductSeries();
+  } catch {
+    series = [];
+  }
   // English is the source language; the Google-powered switcher translates the
   // whole page on demand and manages text direction for RTL languages.
   return (
