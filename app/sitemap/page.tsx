@@ -80,10 +80,13 @@ export default async function SitemapPage() {
     { label: "Contact", href: "/contact" },
   ];
 
-  const seriesLinks: LinkItem[] = series.map((s) => ({
-    label: s.name,
-    href: `/products?series=${s.slug}`,
-  }));
+  // Only series that actually have products (hide empty/seeded categories).
+  const seriesLinks: LinkItem[] = series
+    .filter((s) => (s.count ?? 0) > 0)
+    .map((s) => ({
+      label: s.name,
+      href: `/products?series=${s.slug}`,
+    }));
 
   const productLinks: LinkItem[] = products.map((p) => ({
     label: p.name,
