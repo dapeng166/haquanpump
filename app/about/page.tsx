@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Target, Eye, ShieldCheck, Wrench, Globe2, BadgeCheck } from "lucide-react";
-import { company, siteConfig } from "@/lib/site";
+import { company } from "@/lib/site";
 import { milestones } from "@/lib/data/content";
 import { img } from "@/lib/images";
 import { getSitePage, acfStr } from "@/lib/wordpress";
@@ -11,8 +11,11 @@ import { Container, Section, SectionHeading } from "@/components/ui/Primitives";
 import { Reveal } from "@/components/ui/Reveal";
 
 export const metadata: Metadata = {
-  // Same keyword title as the homepage (absolute = no "| Haquan Pump" suffix).
-  title: { absolute: siteConfig.defaultTitle },
+  // Distinct About-page title (absolute = no "| Haquan Pump" suffix).
+  title: {
+    absolute:
+      "Haquan Pump Valve – Professional Sewage Pump Manufacturer & Supplier in China",
+  },
   description:
     "Founded in 2014, Shanghai Haquan Pump Valve Manufacturing Co., Ltd. engineers and manufactures industrial pumps for global B2B clients across mining, municipal, marine and process industries.",
   alternates: { canonical: "/about" },
