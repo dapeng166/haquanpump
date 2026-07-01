@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name:  Haquan — Products
- * Description:  Registers the pump CPT, pump_series taxonomy (6 series) and the product specification + gallery ACF fields. Requires the free ACF plugin. Product main image = Featured Image; Gallery Image 1–4 are extras.
- * Version:      1.0.0
+ * Description:  Registers the pump CPT, the pump_series taxonomy and the product specification + gallery ACF fields. Requires the free ACF plugin. Product main image = Featured Image; Gallery Image 1–4 are extras. You create your own Pump Series in wp-admin (no pre-seeded categories).
+ * Version:      1.1.0
  * Author:       Haquan
  *
  * Field names + series slugs match the Next.js front-end (lib/wordpress.ts).
@@ -48,20 +48,8 @@ add_action( 'init', function () {
 		'show_admin_column' => true,
 	) );
 
-	// Seed the six series (slugs MUST match the front-end).
-	$series = array(
-		'sewage-pumps'                      => 'Sewage Pumps',
-		'grinder-pumps'                     => 'Grinder Pumps',
-		'self-priming-sewage-pumps'         => 'Self-Priming Sewage Pumps',
-		'stainless-steel-submersible-pumps' => 'Stainless Steel Submersible Pumps',
-		'aodd-pumps'                        => 'AODD Pumps',
-		'pipeline-centrifugal-pumps'        => 'Pipeline Centrifugal Pumps',
-	);
-	foreach ( $series as $slug => $name ) {
-		if ( ! term_exists( $slug, 'pump_series' ) ) {
-			wp_insert_term( $name, 'pump_series', array( 'slug' => $slug ) );
-		}
-	}
+	// No pre-seeded series — create your own Pump Series in wp-admin, so the
+	// taxonomy stays clean (empty categories you delete will not come back).
 }, 5 );
 
 /* ---------------------------------------------------------------------
