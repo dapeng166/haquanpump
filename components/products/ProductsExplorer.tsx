@@ -128,7 +128,7 @@ export function ProductsExplorer({
             </>
           )}
         </p>
-        <motion.div layout className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+        <motion.div layout className="grid gap-6 sm:grid-cols-2">
           {paged.map((product) => (
             <motion.div
               key={product.slug}
