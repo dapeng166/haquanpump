@@ -59,3 +59,10 @@ export interface NewsPost {
   category: string;
   readingTime: number; // minutes
 }
+
+// A downloadable technical document (Support page), from the `document` CPT.
+export interface TechDocument {
+  title: string;
+  url: string;
+  type: string;
+}

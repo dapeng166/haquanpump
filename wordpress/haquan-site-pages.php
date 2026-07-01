@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name:  Haquan — Site Pages
- * Description:  Registers the site_page CPT, site_page_category taxonomy and the "Page Content" ACF field group (home / about / support / contact). Includes 6 PDF upload slots for the Support page's technical documents. Requires the free ACF plugin.
- * Version:      1.1.0
+ * Description:  Registers the site_page CPT, site_page_category taxonomy and the "Page Content" ACF field group (home / about / support / contact) — including editable home testimonials and up to 8 Support FAQs. Downloadable documents are managed under the separate "Documents" menu. Requires the free ACF plugin.
+ * Version:      1.2.0
  * Author:       Haquan
  *
  * Can also be dropped into wp-content/mu-plugins/ or pasted into functions.php.
@@ -109,6 +109,17 @@ add_action( 'acf/init', function () {
 			array( 'key' => 'field_sp_adv3_desc',  'label' => 'Home · Advantage 3 Desc',  'name' => 'advantage_3_desc',  'type' => 'textarea', 'rows' => 3 ),
 			array( 'key' => 'field_sp_trust',      'label' => 'Home · Trust Bar Text',    'name' => 'trust_bar_text',    'type' => 'text' ),
 
+			/* Home · Testimonials ("Trusted by Industry Leaders") — fill any of the three. */
+			array( 'key' => 'field_sp_t1_q', 'label' => 'Home · Testimonial 1 — Quote',     'name' => 'testimonial_1_quote',   'type' => 'textarea', 'rows' => 3 ),
+			array( 'key' => 'field_sp_t1_n', 'label' => 'Home · Testimonial 1 — Name/Role', 'name' => 'testimonial_1_name',    'type' => 'text' ),
+			array( 'key' => 'field_sp_t1_c', 'label' => 'Home · Testimonial 1 — Company',   'name' => 'testimonial_1_company', 'type' => 'text' ),
+			array( 'key' => 'field_sp_t2_q', 'label' => 'Home · Testimonial 2 — Quote',     'name' => 'testimonial_2_quote',   'type' => 'textarea', 'rows' => 3 ),
+			array( 'key' => 'field_sp_t2_n', 'label' => 'Home · Testimonial 2 — Name/Role', 'name' => 'testimonial_2_name',    'type' => 'text' ),
+			array( 'key' => 'field_sp_t2_c', 'label' => 'Home · Testimonial 2 — Company',   'name' => 'testimonial_2_company', 'type' => 'text' ),
+			array( 'key' => 'field_sp_t3_q', 'label' => 'Home · Testimonial 3 — Quote',     'name' => 'testimonial_3_quote',   'type' => 'textarea', 'rows' => 3 ),
+			array( 'key' => 'field_sp_t3_n', 'label' => 'Home · Testimonial 3 — Name/Role', 'name' => 'testimonial_3_name',    'type' => 'text' ),
+			array( 'key' => 'field_sp_t3_c', 'label' => 'Home · Testimonial 3 — Company',   'name' => 'testimonial_3_company', 'type' => 'text' ),
+
 			/* ---- About ---- */
 			array( 'key' => 'field_sp_mission', 'label' => 'About · Mission', 'name' => 'mission_text', 'type' => 'textarea', 'rows' => 3 ),
 			array( 'key' => 'field_sp_story',   'label' => 'About · Story',   'name' => 'story_text',   'type' => 'textarea', 'rows' => 6 ),
@@ -119,15 +130,21 @@ add_action( 'acf/init', function () {
 			array( 'key' => 'field_sp_faq1_a', 'label' => 'Support · FAQ 1 Answer',   'name' => 'faq_1_answer',   'type' => 'textarea', 'rows' => 3 ),
 			array( 'key' => 'field_sp_faq2_q', 'label' => 'Support · FAQ 2 Question', 'name' => 'faq_2_question', 'type' => 'text' ),
 			array( 'key' => 'field_sp_faq2_a', 'label' => 'Support · FAQ 2 Answer',   'name' => 'faq_2_answer',   'type' => 'textarea', 'rows' => 3 ),
+			array( 'key' => 'field_sp_faq3_q', 'label' => 'Support · FAQ 3 Question', 'name' => 'faq_3_question', 'type' => 'text' ),
+			array( 'key' => 'field_sp_faq3_a', 'label' => 'Support · FAQ 3 Answer',   'name' => 'faq_3_answer',   'type' => 'textarea', 'rows' => 3 ),
+			array( 'key' => 'field_sp_faq4_q', 'label' => 'Support · FAQ 4 Question', 'name' => 'faq_4_question', 'type' => 'text' ),
+			array( 'key' => 'field_sp_faq4_a', 'label' => 'Support · FAQ 4 Answer',   'name' => 'faq_4_answer',   'type' => 'textarea', 'rows' => 3 ),
+			array( 'key' => 'field_sp_faq5_q', 'label' => 'Support · FAQ 5 Question', 'name' => 'faq_5_question', 'type' => 'text' ),
+			array( 'key' => 'field_sp_faq5_a', 'label' => 'Support · FAQ 5 Answer',   'name' => 'faq_5_answer',   'type' => 'textarea', 'rows' => 3 ),
+			array( 'key' => 'field_sp_faq6_q', 'label' => 'Support · FAQ 6 Question', 'name' => 'faq_6_question', 'type' => 'text' ),
+			array( 'key' => 'field_sp_faq6_a', 'label' => 'Support · FAQ 6 Answer',   'name' => 'faq_6_answer',   'type' => 'textarea', 'rows' => 3 ),
+			array( 'key' => 'field_sp_faq7_q', 'label' => 'Support · FAQ 7 Question', 'name' => 'faq_7_question', 'type' => 'text' ),
+			array( 'key' => 'field_sp_faq7_a', 'label' => 'Support · FAQ 7 Answer',   'name' => 'faq_7_answer',   'type' => 'textarea', 'rows' => 3 ),
+			array( 'key' => 'field_sp_faq8_q', 'label' => 'Support · FAQ 8 Question', 'name' => 'faq_8_question', 'type' => 'text' ),
+			array( 'key' => 'field_sp_faq8_a', 'label' => 'Support · FAQ 8 Answer',   'name' => 'faq_8_answer',   'type' => 'textarea', 'rows' => 3 ),
 
-			/* Support · Downloadable PDFs — upload your real documents here.
-			   Each slot maps to a card on the Support page; empty slots are hidden. */
-			array( 'key' => 'field_sp_doc1', 'label' => 'Support · Doc 1 — General Product Catalogue (PDF)',        'name' => 'doc_1_file', 'type' => 'file', 'return_format' => 'url', 'mime_types' => 'pdf' ),
-			array( 'key' => 'field_sp_doc2', 'label' => 'Support · Doc 2 — Sewage & Grinder Pump Curves (PDF)',      'name' => 'doc_2_file', 'type' => 'file', 'return_format' => 'url', 'mime_types' => 'pdf' ),
-			array( 'key' => 'field_sp_doc3', 'label' => 'Support · Doc 3 — AODD (QBY) Selection Guide (PDF)',        'name' => 'doc_3_file', 'type' => 'file', 'return_format' => 'url', 'mime_types' => 'pdf' ),
-			array( 'key' => 'field_sp_doc4', 'label' => 'Support · Doc 4 — Pipeline Centrifugal Datasheet (PDF)',    'name' => 'doc_4_file', 'type' => 'file', 'return_format' => 'url', 'mime_types' => 'pdf' ),
-			array( 'key' => 'field_sp_doc5', 'label' => 'Support · Doc 5 — Installation & Maintenance Manual (PDF)', 'name' => 'doc_5_file', 'type' => 'file', 'return_format' => 'url', 'mime_types' => 'pdf' ),
-			array( 'key' => 'field_sp_doc6', 'label' => 'Support · Doc 6 — Material & Coating Reference (PDF)',       'name' => 'doc_6_file', 'type' => 'file', 'return_format' => 'url', 'mime_types' => 'pdf' ),
+			/* Downloadable PDFs are now managed under the separate "Documents"
+			   menu (add as many as you like — no fixed slots, no overwriting). */
 
 			/* ---- Contact ---- */
 			array( 'key' => 'field_sp_address', 'label' => 'Contact · Address', 'name' => 'address_en', 'type' => 'textarea', 'rows' => 3 ),

@@ -1,5 +1,5 @@
 import { WP_API_URL } from "@/lib/site";
-import type { NewsPost, Product, PumpSeries, SitePage } from "@/lib/types";
+import type { NewsPost, Product, PumpSeries, SitePage, TechDocument } from "@/lib/types";
 import { pumpSeries, seedProducts, seriesWithCounts } from "@/lib/data/products";
 import { seedNews } from "@/lib/data/news";
 import { productImages, newsImages, pickImage } from "@/lib/images";
@@ -310,4 +310,31 @@ export function acfStr(
 ): string {
   const v = page?.acf?.[key];
   return typeof v === "string" && v.trim() ? v.trim() : fallback;
+}
+
+interface WPDocument {
+  id: number;
+  title: WPRendered;
+  file_url?: string; // resolved by the Haquan — Documents plugin
+  acf?: Record<string, unknown>;
+}
+
+/**
+ * Downloadable technical documents from the `document` CPT (Support page).
+ * Unlimited — add as many as you like in wp-admin. Only documents with an
+ * actual file are returned; empty if the CPT/plugin isn't present.
+ */
+export async function getDocuments(): Promise<TechDocument[]> {
+  const raw = await wpFetch<WPDocument[]>("/wp/v2/document?per_page=100&orderby=menu_order&order=asc");
+  if (!raw) return [];
+  return raw
+    .map((d) => ({
+      title: stripHtml(d.title?.rendered),
+      url: typeof d.file_url === "string" ? d.file_url.trim() : "",
+      type:
+        typeof d.acf?.doc_type === "string" && (d.acf.doc_type as string).trim()
+          ? (d.acf.doc_type as string).trim()
+          : "Document",
+    }))
+    .filter((d) => d.url);
 }

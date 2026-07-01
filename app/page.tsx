@@ -54,6 +54,16 @@ export default async function HomePage() {
     }))
     .filter((a) => a.title && a.description);
 
+  // Editable testimonials (home site_page → "Testimonial 1–3"); shows whichever
+  // are filled in, else the curated quotes.
+  const cmsTestimonials = [1, 2, 3]
+    .map((n) => ({
+      quote: acfStr(page, `testimonial_${n}_quote`),
+      author: acfStr(page, `testimonial_${n}_name`),
+      role: acfStr(page, `testimonial_${n}_company`),
+    }))
+    .filter((tt) => tt.quote && tt.author);
+
   return (
     <>
       <OrganizationJsonLd />
@@ -61,7 +71,7 @@ export default async function HomePage() {
       <TrustBar text={acfStr(page, "trust_bar_text") || undefined} />
       <Advantages items={cmsAdvantages.length === 3 ? cmsAdvantages : undefined} />
       <ProductPreview products={preview} />
-      <Testimonials />
+      <Testimonials items={cmsTestimonials.length > 0 ? cmsTestimonials : undefined} />
       <FinalCTA />
     </>
   );
