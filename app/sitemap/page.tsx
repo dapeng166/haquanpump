@@ -88,10 +88,19 @@ export default async function SitemapPage() {
       href: `/products?series=${s.slug}`,
     }));
 
-  const productLinks: LinkItem[] = products.map((p) => ({
+  // Cap the human-readable product list so this page stays browsable even with
+  // a large catalogue; the full list lives in /sitemap.xml for search engines.
+  const PRODUCT_CAP = 24;
+  const productLinks: LinkItem[] = products.slice(0, PRODUCT_CAP).map((p) => ({
     label: p.name,
     href: `/products/${p.slug}`,
   }));
+  if (products.length > PRODUCT_CAP) {
+    productLinks.push({
+      label: `+ ${products.length - PRODUCT_CAP} more — browse all products`,
+      href: "/products",
+    });
+  }
 
   const newsLinks: LinkItem[] = news.slice(0, 8).map((n) => ({
     label: n.title,
