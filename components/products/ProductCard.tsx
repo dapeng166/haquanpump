@@ -6,13 +6,23 @@ import { ArrowUpRight, Droplets, Gauge, Zap } from "lucide-react";
 import type { Product } from "@/lib/types";
 import { useTranslation } from "@/lib/i18n/I18nProvider";
 
-export function ProductCard({ product, priority = false }: { product: Product; priority?: boolean }) {
+export function ProductCard({
+  product,
+  priority = false,
+  hrefBase = "",
+}: {
+  product: Product;
+  priority?: boolean;
+  /** Locale URL prefix, e.g. "/es". Empty for the English (root) routes. */
+  hrefBase?: string;
+}) {
   const { t } = useTranslation();
+  const href = `${hrefBase}/products/${product.slug}`;
 
   return (
     <article className="group glass-card flex h-full flex-col overflow-hidden p-0">
       <Link
-        href={`/products/${product.slug}`}
+        href={href}
         className="relative block aspect-[4/3] overflow-hidden"
       >
         <Image
@@ -31,7 +41,7 @@ export function ProductCard({ product, priority = false }: { product: Product; p
 
       <div className="flex flex-1 flex-col p-5">
         <h3 className="line-clamp-2 min-h-[3.5rem] font-display text-lg font-semibold text-slate-900 transition-colors group-hover:text-accent-600">
-          <Link href={`/products/${product.slug}`}>{product.name}</Link>
+          <Link href={href}>{product.name}</Link>
         </h3>
         <p className="mt-2 line-clamp-2 min-h-[2.5rem] text-sm leading-relaxed text-slate-500">
           {product.excerpt}
@@ -46,7 +56,7 @@ export function ProductCard({ product, priority = false }: { product: Product; p
 
         <div className="mt-auto flex items-center justify-between gap-3 pt-5">
           <Link
-            href={`/products/${product.slug}`}
+            href={href}
             className="inline-flex items-center gap-1 text-sm font-semibold text-accent-600 transition-colors hover:text-accent"
           >
             {t("cta.viewDetails")}
