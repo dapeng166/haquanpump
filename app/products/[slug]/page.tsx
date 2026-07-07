@@ -4,25 +4,9 @@ import { getProductBySlug, getProducts, getRelatedProducts } from "@/lib/wordpre
 import { company } from "@/lib/site";
 import {
   ProductDetailView,
-  type ProductDetailLabels,
+  EN_PRODUCT_LABELS,
 } from "@/components/products/ProductDetailView";
-
-// English source strings; localized routes translate these before rendering.
-const EN_LABELS: ProductDetailLabels = {
-  home: "Home",
-  products: "Products",
-  model: "Model:",
-  specifications: "Specifications",
-  flowRate: "Flow Rate",
-  head: "Head",
-  power: "Power",
-  diameter: "Inlet / Outlet Diameter",
-  material: "Material",
-  overview: "Product Overview",
-  applications: "Typical Applications",
-  related: "Related Products",
-  inquire: "Inquire About This Product",
-};
+import { localeAlternates } from "@/lib/i18n/alternates";
 
 // Pre-render known products; new WordPress products render on-demand (ISR).
 export async function generateStaticParams() {
@@ -48,7 +32,10 @@ export async function generateMetadata({
     keywords: product.seoKeywords
       ? product.seoKeywords.split(",").map((k) => k.trim()).filter(Boolean)
       : undefined,
-    alternates: { canonical: `/products/${product.slug}` },
+    alternates: {
+      canonical: `/products/${product.slug}`,
+      languages: localeAlternates(`/products/${product.slug}`),
+    },
     openGraph: {
       title: `${product.name} | Haquan Pump`,
       description: product.excerpt,
@@ -88,7 +75,7 @@ export default async function ProductDetailPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <ProductDetailView product={product} related={related} labels={EN_LABELS} />
+      <ProductDetailView product={product} related={related} labels={EN_PRODUCT_LABELS} />
     </>
   );
 }

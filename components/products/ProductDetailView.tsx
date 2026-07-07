@@ -33,6 +33,23 @@ export type ProductDetailLabels = {
   inquire: string;
 };
 
+/** English source strings; localized routes translate these before rendering. */
+export const EN_PRODUCT_LABELS: ProductDetailLabels = {
+  home: "Home",
+  products: "Products",
+  model: "Model:",
+  specifications: "Specifications",
+  flowRate: "Flow Rate",
+  head: "Head",
+  power: "Power",
+  diameter: "Inlet / Outlet Diameter",
+  material: "Material",
+  overview: "Product Overview",
+  applications: "Typical Applications",
+  related: "Related Products",
+  inquire: "Inquire About This Product",
+};
+
 /**
  * Shared product-detail view rendered by both the English route (`/products/…`)
  * and the localized routes (`/[locale]/products/…`). All translatable content
