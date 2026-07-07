@@ -86,6 +86,54 @@ async function wpFetch<T>(path: string): Promise<T | null> {
   }
 }
 
+/**
+ * Fetch one page of a WordPress collection, returning both the body and the
+ * `X-WP-TotalPages` header so callers can page through the whole collection.
+ */
+async function wpFetchPage<T>(
+  path: string,
+): Promise<{ data: T[]; totalPages: number } | null> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 8000);
+  try {
+    const res = await fetch(`${WP_API_URL}${path}`, {
+      next: { revalidate: REVALIDATE_SECONDS },
+      headers: { Accept: "application/json" },
+      signal: controller.signal,
+    });
+    if (!res.ok) return null;
+    const totalPages = Number(res.headers.get("x-wp-totalpages") ?? "1") || 1;
+    const data = (await res.json()) as T[];
+    return { data, totalPages };
+  } catch {
+    return null;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+/**
+ * Fetch an ENTIRE WordPress collection, transparently paging past the REST
+ * API's hard `per_page=100` limit. Page 1 tells us the total page count; the
+ * remaining pages are fetched in parallel. `maxPages` caps the total requests
+ * as a safety valve (100 × 30 = up to 3,000 items). Returns null only if the
+ * very first request fails, so callers can fall back to seed data.
+ */
+async function wpFetchAll<T>(path: string, maxPages = 30): Promise<T[] | null> {
+  const sep = path.includes("?") ? "&" : "?";
+  const first = await wpFetchPage<T>(`${path}${sep}per_page=100&page=1`);
+  if (!first) return null;
+  if (first.totalPages <= 1) return first.data;
+
+  const pages = Math.min(first.totalPages, maxPages);
+  const rest = await Promise.all(
+    Array.from({ length: pages - 1 }, (_, i) =>
+      wpFetchPage<T>(`${path}${sep}per_page=100&page=${i + 2}`),
+    ),
+  );
+  return rest.reduce<T[]>((all, r) => (r ? all.concat(r.data) : all), first.data);
+}
+
 function stripHtml(html = ""): string {
   return html
     .replace(/<[^>]*>/g, "")
@@ -186,7 +234,9 @@ function mergeBySlug<T extends { slug: string }>(primary: T[], secondary: T[]): 
 
 export async function getProducts(): Promise<Product[]> {
   if (CONTENT_MODE === "seed") return seedProducts;
-  const raw = await wpFetch<WPPump[]>("/wp/v2/pump?_embed&per_page=100");
+  // Page through the whole `pump` collection — WP caps per_page at 100, so a
+  // catalogue larger than 100 needs pagination or products silently disappear.
+  const raw = await wpFetchAll<WPPump>("/wp/v2/pump?_embed");
   const live = raw ? raw.map(mapPump) : [];
   if (CONTENT_MODE === "merge") return mergeBySlug(seedProducts, live);
   return live.length ? live : seedProducts; // "live"
@@ -325,7 +375,9 @@ interface WPDocument {
  * actual file are returned; empty if the CPT/plugin isn't present.
  */
 export async function getDocuments(): Promise<TechDocument[]> {
-  const raw = await wpFetch<WPDocument[]>("/wp/v2/document?per_page=100&orderby=menu_order&order=asc");
+  // Documents are "unlimited" too — page past the 100 cap so a long list is
+  // never truncated on the Support page.
+  const raw = await wpFetchAll<WPDocument>("/wp/v2/document?orderby=menu_order&order=asc");
   if (!raw) return [];
   return raw
     .map((d) => ({
