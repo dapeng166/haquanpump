@@ -32,7 +32,7 @@ export function Hero({
       <div className="absolute inset-0 -z-10">
         <Image
           src={heroImage || img.heroPrimary}
-          alt="Industrial pumping facility with stainless steel pipework"
+          alt="Sewage pump manufacturing facility with stainless steel pipework"
           fill
           priority
           sizes="100vw"

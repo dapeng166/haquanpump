@@ -4,9 +4,9 @@ import { Container, Section } from "@/components/ui/Primitives";
 import { ProductsExplorer } from "@/components/products/ProductsExplorer";
 
 export const metadata: Metadata = {
-  title: "Industrial Pumps — Sewage, Grinder, AODD & Centrifugal",
+  title: "Sewage Pumps — Submersible, Grinder, WILDEN AODD & Centrifugal",
   description:
-    "Browse Haquan's full range of industrial pumps: sewage, grinder, self-priming, stainless submersible, AODD (WILDEN-compatible) and ISG/IRG/IHG/ISW pipeline centrifugal pumps. Filter by series and review full specifications.",
+    "Browse Haquan's full range of sewage and process pumps: sewage, grinder, self-priming, stainless submersible, WILDEN AODD and QBY diaphragm, and IHG/IRG/IHW/IRW pipeline centrifugal pumps. Filter by series and review full specifications.",
   alternates: { canonical: "/products" },
 };
 
@@ -29,7 +29,7 @@ export default async function ProductsPage({
   return (
     <Section className="pt-28 sm:pt-32">
       <Container>
-        <h1 className="sr-only">Industrial Pumps Engineered for Every Duty</h1>
+        <h1 className="sr-only">Sewage Pumps Engineered for Every Duty</h1>
         <ProductsExplorer
           products={products}
           series={series}

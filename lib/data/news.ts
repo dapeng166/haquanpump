@@ -33,12 +33,12 @@ export const seedNews: NewsPost[] = [
     readingTime: 6,
   },
   {
-    slug: "haquan-aodd-pumps-wilden-interchangeable",
-    title: "Haquan AODD Pumps Now Fully Interchangeable with WILDEN®",
+    slug: "haquan-qby-aodd-diaphragm-pump-range",
+    title: "Haquan QBY Air-Operated Diaphragm Pumps for Tough Chemical Duty",
     excerpt:
-      "Our QBY air-operated diaphragm pumps match WILDEN® bolt patterns and porting, enabling drop-in replacement and shared spares.",
+      "Our QBY AODD range transfers solvents, acids and abrasive slurries with seal-less, self-priming reliability and a wide choice of body and elastomer materials.",
     content:
-      "<p>Haquan's QBY air-operated double-diaphragm (AODD) pumps are now confirmed dimensionally interchangeable with WILDEN® originals across the most common 1\", 1.5\" and 2\" sizes. Maintenance teams can retrofit without changing pipework or mounting, and stock a single set of diaphragm and valve-ball spares.</p><p>The range covers aluminium, cast-iron, stainless-steel and polypropylene bodies with PTFE, Santoprene and NBR elastomers for chemical compatibility across solvents, acids and abrasive slurries.</p>",
+      "<p>Haquan's QBY air-operated double-diaphragm (AODD) pumps are built for the fluids that defeat conventional pumps — solvents, acids, viscous media and abrasive slurries. Because they are seal-less and air-driven, they run dry, self-prime and handle solids without the wear points of a rotating seal.</p><p>The range covers aluminium, cast-iron, stainless-steel and polypropylene bodies with PTFE, Santoprene and NBR elastomers, so the wetted parts can be matched to each chemical duty. Please note the QBY series is Haquan's own diaphragm-pump platform and is separate from our WILDEN sanitary diaphragm pumps — the two lines use different parts and are not interchangeable.</p>",
     image: newsImages[2],
     date: "2026-03-11",
     author: "Haquan Sales Team",
@@ -49,9 +49,9 @@ export const seedNews: NewsPost[] = [
     slug: "haquan-pumps-shipped-to-60-countries",
     title: "Milestone: Haquan Pumps Now Shipped to Over 60 Countries",
     excerpt:
-      "A decade after our 2014 founding, Haquan equipment is operating on six continents across mining, municipal and marine sectors.",
+      "A decade after our 2014 founding, Haquan equipment is operating on six continents across municipal, wastewater and process industries.",
     content:
-      "<p>Founded in 2014, Shanghai Haquan has reached a milestone: our pumps now operate in more than 60 countries across six continents. Recent project shipments include mine-dewatering pumps for South America, municipal lifting stations across Southeast Asia, and marine-grade stainless pumps for the Middle East.</p><p>The growth reflects sustained investment in export documentation, multilingual support and a global spares network that keeps customer downtime to a minimum.</p>",
+      "<p>Founded in 2014, Shanghai Haquan has reached a milestone: our pumps now operate in more than 60 countries across six continents. Recent project shipments include sewage and drainage pumps for South America, municipal lifting stations across Southeast Asia, and stainless diaphragm pumps for food and pharmaceutical plants in the Middle East.</p><p>The growth reflects sustained investment in export documentation, multilingual support and a global spares network that keeps customer downtime to a minimum.</p>",
     image: newsImages[3],
     date: "2026-02-20",
     author: "Haquan",

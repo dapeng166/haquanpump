@@ -7,7 +7,7 @@ export const company = {
   founded: 2014,
   tagline: "Engineered Fluid Solutions for Global Industry",
   description:
-    "Shanghai Haquan Pump Valve Manufacturing Co., Ltd. is an industrial pump manufacturer founded in 2014, supplying sewage, grinder, self-priming, submersible, AODD and pipeline centrifugal pumps to clients in over 60 countries.",
+    "Shanghai Haquan Pump Valve Manufacturing Co., Ltd. is a professional sewage pump manufacturer founded in 2014, supplying sewage, grinder, self-priming, submersible, WILDEN AODD diaphragm and pipeline centrifugal pumps to clients in over 60 countries.",
   email: "sales@haquanpump.com",
   salesEmail: "sales@haquanpump.com",
   phone: "+86 150 0057 7161",
@@ -43,16 +43,16 @@ export const mainNav = [
 ] as const;
 
 export const industries = [
-  "Mining",
+  "Sewage & Wastewater",
   "Municipal Water",
+  "Food & Beverage",
   "Irrigation",
+  "Biopharmaceutical",
+  "Septic Tank Treatment",
   "Petrochemical",
-  "Power Plants",
-  "Metallurgy",
   "Marine",
   "HVAC",
-  "Pharmaceuticals",
-  "Boilers",
+  "Power Plants",
 ] as const;
 
 // WordPress REST API base. Override with NEXT_PUBLIC_WP_API_URL in .env.local.
@@ -62,7 +62,7 @@ export const WP_API_URL =
 export const siteConfig = {
   // Keyword-rich homepage title (the product lines we manufacture) + brand.
   defaultTitle:
-    "WILDEN AODD, Cutter, Submersible, Self-Priming, Centrifugal & High-Head Pumps | Haquan",
+    "Sewage Pumps, WILDEN AODD, Submersible, Self-Priming & Centrifugal Pumps | Haquan",
   titleTemplate: "%s | Haquan Pump",
   defaultDescription: company.description,
   ogImage:

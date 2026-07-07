@@ -19,9 +19,9 @@ export type SearchDoc = {
 };
 
 const PAGES: SearchDoc[] = [
-  { type: "Page", title: "Home", excerpt: "Industrial pump manufacturer since 2014.", href: "/", keywords: "haquan home overview company landing" },
+  { type: "Page", title: "Home", excerpt: "Sewage pump manufacturer since 2014.", href: "/", keywords: "haquan home overview company landing" },
   { type: "Page", title: "About Us", excerpt: "Our story, factory, capabilities and mission.", href: "/about", keywords: "about history factory mission team company profile" },
-  { type: "Page", title: "Products", excerpt: "Browse the full range of industrial pumps.", href: "/products", keywords: "products catalogue catalog pumps range series filter" },
+  { type: "Page", title: "Products", excerpt: "Browse the full range of sewage and process pumps.", href: "/products", keywords: "products catalogue catalog pumps range series filter" },
   { type: "Page", title: "News", excerpt: "Latest company news, articles and updates.", href: "/news", keywords: "news blog articles updates press" },
   { type: "Page", title: "Support", excerpt: "Technical documents, FAQ and after-sales service.", href: "/support", keywords: "support faq downloads documents help service warranty manual" },
   { type: "Page", title: "Contact", excerpt: "Request a quote or reach our engineers.", href: "/contact", keywords: "contact quote rfq inquiry email phone address map location" },

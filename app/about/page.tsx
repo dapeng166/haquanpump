@@ -17,7 +17,7 @@ export const metadata: Metadata = {
       "Haquan Pump Valve – Professional Sewage Pump Manufacturer & Supplier in China",
   },
   description:
-    "Founded in 2014, Shanghai Haquan Pump Valve Manufacturing Co., Ltd. engineers and manufactures industrial pumps for global B2B clients across mining, municipal, marine and process industries.",
+    "Founded in 2014, Shanghai Haquan Pump Valve Manufacturing Co., Ltd. is a professional sewage pump manufacturer supplying WILDEN AODD, QBY diaphragm, submersible, self-priming, grinder and pipeline pumps to B2B clients across wastewater, food & beverage, irrigation, biopharmaceutical and petrochemical industries.",
   alternates: { canonical: "/about" },
 };
 
@@ -65,21 +65,24 @@ export default async function AboutPage() {
                   <>
                     <p>
                       {company.name} was founded in {company.founded} in Fengxian District,
-                      Shanghai, with a simple conviction: industrial buyers deserve pumps that
-                      are engineered for their exact application — not generic units that fail
-                      early in the field.
+                      Shanghai, as a professional sewage pump manufacturer — built on the
+                      conviction that buyers deserve pumps engineered for their exact
+                      application, not generic units that fail early in the field.
                     </p>
                     <p>
-                      Today we manufacture more than 200 pump models across six core series —
-                      sewage, grinder, self-priming, stainless submersible, AODD and pipeline
-                      centrifugal — shipping to customers in over 60 countries. From mine
-                      dewatering in the Andes to municipal lifting stations in Southeast Asia,
-                      Haquan pumps keep critical processes flowing.
+                      Today we design, manufacture and export a full sewage-focused range:
+                      WILDEN AODD diaphragm pumps, stainless-steel sewage pumps, ZW self-priming
+                      pumps, YW submersible sewage pumps, the QBY diaphragm series, irrigation
+                      and drainage mobile pump trucks, GNWQ cutter sewage pumps, IHG/IHW/IRG/IRW
+                      pipeline pumps, metering pumps, high-head sewage pumps, and QDX and QD
+                      submersible pumps — shipped to customers in over 60 countries.
                     </p>
                     <p>
-                      Our growth has been earned one duty point at a time: precise hydraulic
-                      selection, robust materials, rigorous testing and after-sales support that
-                      international buyers can rely on.
+                      From municipal septic-tank treatment and food &amp; beverage plants to
+                      farmland irrigation, biopharmaceutical and petrochemical sites, Haquan
+                      pumps keep critical processes flowing. Our growth has been earned one duty
+                      point at a time: precise hydraulic selection, robust materials, rigorous
+                      testing and after-sales support international buyers can rely on.
                     </p>
                   </>
                 )}
@@ -94,7 +97,7 @@ export default async function AboutPage() {
               <div className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-slate-200">
                 <Image
                   src={img.aboutTeam}
-                  alt="Haquan engineers inspecting an industrial pump on the factory floor"
+                  alt="Haquan engineers inspecting a sewage pump on the factory floor"
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover"

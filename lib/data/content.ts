@@ -38,7 +38,7 @@ export const testimonials = [
   },
   {
     quote:
-      "We replaced our WILDEN diaphragm pumps with Haquan QBY units as a drop-in — same footprint, shared spares, and a noticeably better price. Chemical compatibility has been flawless.",
+      "Haquan's QBY air-operated diaphragm pumps have handled our aggressive chemical transfer without a hiccup — reliable metering, easy maintenance and responsive engineering support made them an easy standardisation choice.",
     author: "Maintenance Lead",
     role: "Petrochemical Plant, Middle East",
   },
@@ -68,10 +68,6 @@ export const faqs = [
     a: "Our pumps carry a 12-month warranty against manufacturing defects from the date of shipment. We back claims with spare parts and engineering guidance, and keep common wear parts in stock for fast turnaround.",
   },
   {
-    q: "Are your AODD pumps compatible with WILDEN®?",
-    a: "Our QBY air-operated double-diaphragm pumps are dimensionally interchangeable with WILDEN® in the common 1\", 1.5\" and 2\" sizes, allowing drop-in replacement and shared spare parts.",
-  },
-  {
     q: "What is your typical lead time and MOQ?",
     a: "Standard models ship in 7–15 working days; engineered or fully-stainless configurations typically 20–30 days. There is no rigid minimum order quantity — we support both single-unit replacements and project volumes.",
   },
@@ -88,7 +84,7 @@ export const faqs = [
 export const downloads = [
   { title: "Haquan General Product Catalogue (PDF)", size: "8.4 MB", type: "Catalogue" },
   { title: "Sewage & Grinder Pump Curves", size: "3.1 MB", type: "Performance Data" },
-  { title: "AODD (QBY) Selection & Compatibility Guide", size: "2.2 MB", type: "Selection Guide" },
+  { title: "AODD (QBY) Diaphragm Pump Selection Guide", size: "2.2 MB", type: "Selection Guide" },
   { title: "Pipeline Centrifugal (ISG/IRG/IHG/ISW) Datasheet", size: "4.0 MB", type: "Datasheet" },
   { title: "Installation, Operation & Maintenance Manual", size: "5.6 MB", type: "Manual" },
   { title: "Material & Coating Reference Guide", size: "1.3 MB", type: "Reference" },

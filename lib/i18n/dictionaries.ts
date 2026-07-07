@@ -29,7 +29,7 @@ const en = {
     badge: "Trusted Pump Manufacturer Since 2014",
     title: "Engineered Fluid Solutions for the World's Toughest Industries",
     subtitle:
-      "Shanghai Haquan designs and manufactures high-performance industrial pumps for mining, municipal, petrochemical, marine and power applications — delivered to 60+ countries.",
+      "Shanghai Haquan is a professional sewage pump manufacturer, engineering high-performance pumps for wastewater discharge, food & beverage, farmland irrigation, biopharmaceutical, municipal septic-tank treatment and petrochemical industries — delivered to 60+ countries.",
   },
   stats: {
     experience: "Years of Expertise",
@@ -43,7 +43,7 @@ const en = {
       "A decade of engineering discipline, in-house manufacturing and export experience behind every pump we ship.",
     productsTitle: "Our Pump Series",
     productsSubtitle:
-      "Six core product families engineered for sewage, slurry, process and clean-water duty.",
+      "We manufacture and supply WILDEN AODD diaphragm pumps, stainless-steel sewage pumps, ZW self-priming pumps, YW submersible sewage pumps, the QBY diaphragm series, irrigation & drainage mobile pump trucks, GNWQ cutter sewage pumps, IHG/IHW/IRG/IRW pipeline pumps, metering pumps, high-head sewage pumps, QDX submersible pumps and QD oil-filled submersible pumps.",
     testimonialsTitle: "Trusted by Industry Leaders",
     newsTitle: "News & Engineering Insights",
     ctaTitle: "Ready to Solve Your Fluid Challenge?",
@@ -52,7 +52,7 @@ const en = {
   },
   footer: {
     tagline:
-      "Industrial pump manufacturing since 2014. Reliable fluid handling solutions for global industry.",
+      "A professional sewage pump manufacturer since 2014 — reliable wastewater and fluid-handling solutions for industry worldwide.",
     quickLinks: "Quick Links",
     ourProducts: "Our Products",
     contactUs: "Contact Us",
@@ -110,21 +110,22 @@ const zh: DeepPartial<Dictionary> = {
     badge: "自 2014 年起值得信赖的水泵制造商",
     title: "为全球严苛工况提供专业流体解决方案",
     subtitle:
-      "上海哈泉专注于高性能工业泵的设计与制造，广泛应用于矿山、市政、石化、船舶及电力领域，产品远销 60 多个国家和地区。",
+      "上海哈泉是专业的排污泵生产制造厂家，为排污水、食品饮料、农田灌溉、生物制药、市政化粪池处理及石油化工等基础行业提供高性能水泵，产品远销 60 多个国家和地区。",
   },
   stats: { experience: "年专业经验", countries: "服务国家", models: "泵型号", delivered: "交付台数" },
   sections: {
     advantagesTitle: "全球客户为何选择哈泉",
     advantagesSubtitle: "十年如一的工程标准、自有制造能力与丰富的出口经验，铸就每一台水泵。",
     productsTitle: "产品系列",
-    productsSubtitle: "六大核心产品系列，覆盖污水、泥浆、工艺流程与清水工况。",
+    productsSubtitle:
+      "专业生产销售威尔顿隔膜泵、不锈钢排污泵、ZW 自吸泵、YW 液下式排污泵、QBY 隔膜泵系列、农田灌溉/排水移动泵车、GNWQ 带切割刀排污泵、IHG/IHW/IRG/IRW 系列管道排污泵、计量泵、高扬程排污泵、QDX 系列潜水电泵、QD 系列油浸式潜水电泵。",
     testimonialsTitle: "深受行业领军企业信赖",
     newsTitle: "新闻与工程洞察",
     ctaTitle: "准备好解决您的流体难题了吗？",
     ctaSubtitle: "请告知您的工况参数与应用场景，我们的工程师将推荐合适的泵型并在 24 小时内回复报价。",
   },
   footer: {
-    tagline: "自 2014 年专注工业泵制造，为全球工业提供可靠的流体输送解决方案。",
+    tagline: "自 2014 年起专业排污泵生产制造厂家，为全球工业提供可靠的排污与流体输送解决方案。",
     quickLinks: "快速链接", ourProducts: "产品系列", contactUs: "联系我们", followUs: "关注我们",
     rights: "版权所有。", privacy: "隐私政策", terms: "使用条款", sitemap: "网站地图",
   },
@@ -156,21 +157,22 @@ const es: DeepPartial<Dictionary> = {
     badge: "Fabricante de Bombas de Confianza Desde 2014",
     title: "Soluciones de Fluidos de Ingeniería para las Industrias Más Exigentes",
     subtitle:
-      "Shanghai Haquan diseña y fabrica bombas industriales de alto rendimiento para minería, agua municipal, petroquímica, marina y energía — entregadas en más de 60 países.",
+      "Shanghai Haquan es un fabricante profesional de bombas de aguas residuales, con bombas de alto rendimiento para el tratamiento de aguas residuales, alimentación y bebidas, riego agrícola, biofarmacia, tratamiento de fosas sépticas municipales y petroquímica — entregadas en más de 60 países.",
   },
   stats: { experience: "Años de Experiencia", countries: "Países Atendidos", models: "Modelos de Bombas", delivered: "Unidades Entregadas" },
   sections: {
     advantagesTitle: "Por Qué los Compradores Globales Eligen Haquan",
     advantagesSubtitle: "Una década de disciplina de ingeniería, fabricación propia y experiencia exportadora detrás de cada bomba.",
     productsTitle: "Nuestras Series de Bombas",
-    productsSubtitle: "Seis familias de productos para aguas residuales, lodos, procesos y agua limpia.",
+    productsSubtitle:
+      "Fabricamos y suministramos bombas de diafragma WILDEN AODD, bombas de aguas residuales de acero inoxidable, bombas autocebantes ZW, bombas sumergibles de aguas residuales YW, la serie de diafragma QBY, carros-bomba móviles de riego y drenaje, bombas trituradoras GNWQ, bombas de tubería IHG/IHW/IRG/IRW, bombas dosificadoras, bombas de aguas residuales de gran altura, bombas sumergibles QDX y bombas sumergibles en baño de aceite QD.",
     testimonialsTitle: "La Confianza de Líderes de la Industria",
     newsTitle: "Noticias e Información Técnica",
     ctaTitle: "¿Listo para Resolver su Desafío de Fluidos?",
     ctaSubtitle: "Envíenos su punto de trabajo y aplicación — nuestros ingenieros recomendarán la bomba adecuada y responderán con una cotización en 24 horas.",
   },
   footer: {
-    tagline: "Fabricación de bombas industriales desde 2014. Soluciones fiables de manejo de fluidos para la industria global.",
+    tagline: "Fabricante profesional de bombas de aguas residuales desde 2014: soluciones fiables de aguas residuales y manejo de fluidos para la industria mundial.",
     quickLinks: "Enlaces Rápidos", ourProducts: "Nuestros Productos", contactUs: "Contáctenos", followUs: "Síganos",
     rights: "Todos los derechos reservados.", privacy: "Política de Privacidad", terms: "Términos de Uso", sitemap: "Mapa del Sitio",
   },
@@ -202,21 +204,22 @@ const de: DeepPartial<Dictionary> = {
     badge: "Zuverlässiger Pumpenhersteller Seit 2014",
     title: "Technische Fluidlösungen für die Anspruchsvollsten Industrien der Welt",
     subtitle:
-      "Shanghai Haquan entwickelt und fertigt Hochleistungs-Industriepumpen für Bergbau, kommunale Wasserwirtschaft, Petrochemie, Schifffahrt und Energie — geliefert in über 60 Länder.",
+      "Shanghai Haquan ist ein professioneller Hersteller von Abwasserpumpen und fertigt Hochleistungspumpen für Abwasserförderung, Lebensmittel- und Getränkeindustrie, Feldbewässerung, Biopharmazie, kommunale Klärgrubenbehandlung und Petrochemie — geliefert in über 60 Länder.",
   },
   stats: { experience: "Jahre Erfahrung", countries: "Belieferte Länder", models: "Pumpenmodelle", delivered: "Gelieferte Einheiten" },
   sections: {
     advantagesTitle: "Warum Globale Einkäufer Haquan Wählen",
     advantagesSubtitle: "Ein Jahrzehnt technischer Disziplin, eigene Fertigung und Exporterfahrung in jeder Pumpe.",
     productsTitle: "Unsere Pumpenserien",
-    productsSubtitle: "Sechs Kernproduktfamilien für Abwasser, Schlamm, Prozess- und Reinwasseranwendungen.",
+    productsSubtitle:
+      "Wir fertigen und liefern WILDEN AODD Membranpumpen, Abwasserpumpen aus Edelstahl, ZW Selbstansaugpumpen, YW Tauch-Abwasserpumpen, die QBY Membranpumpen-Serie, mobile Bewässerungs- und Entwässerungs-Pumpwagen, GNWQ Schneidrad-Abwasserpumpen, IHG/IHW/IRG/IRW Rohrpumpen, Dosierpumpen, Hochdruck-Abwasserpumpen, QDX Tauchpumpen und QD ölgefüllte Tauchpumpen.",
     testimonialsTitle: "Vertrauen der Branchenführer",
     newsTitle: "Aktuelles & Technische Einblicke",
     ctaTitle: "Bereit, Ihre Fluid-Herausforderung zu Lösen?",
     ctaSubtitle: "Senden Sie uns Ihren Betriebspunkt und Ihre Anwendung — unsere Ingenieure empfehlen die richtige Pumpe und antworten innerhalb von 24 Stunden mit einem Angebot.",
   },
   footer: {
-    tagline: "Industriepumpenfertigung seit 2014. Zuverlässige Lösungen für die Fluidförderung der globalen Industrie.",
+    tagline: "Professioneller Hersteller von Abwasserpumpen seit 2014 – zuverlässige Lösungen für Abwasser- und Fluidförderung für die Industrie weltweit.",
     quickLinks: "Schnelllinks", ourProducts: "Unsere Produkte", contactUs: "Kontakt", followUs: "Folgen Sie Uns",
     rights: "Alle Rechte vorbehalten.", privacy: "Datenschutzerklärung", terms: "Nutzungsbedingungen", sitemap: "Sitemap",
   },
@@ -248,21 +251,22 @@ const ru: DeepPartial<Dictionary> = {
     badge: "Надёжный Производитель Насосов с 2014 Года",
     title: "Инженерные Решения для Перекачки Жидкостей в Самых Сложных Отраслях",
     subtitle:
-      "Shanghai Haquan разрабатывает и производит высокопроизводительные промышленные насосы для горнодобывающей, муниципальной, нефтехимической, судовой и энергетической отраслей — с поставками в более чем 60 стран.",
+      "Shanghai Haquan — профессиональный производитель канализационных насосов, выпускающий высокопроизводительные насосы для отвода сточных вод, пищевой промышленности, орошения полей, биофармацевтики, обработки муниципальных септиков и нефтехимии — с поставками более чем в 60 стран.",
   },
   stats: { experience: "Лет Опыта", countries: "Стран Поставок", models: "Моделей Насосов", delivered: "Поставлено Единиц" },
   sections: {
     advantagesTitle: "Почему Покупатели по Всему Миру Выбирают Haquan",
     advantagesSubtitle: "Десятилетие инженерной дисциплины, собственное производство и опыт экспорта в каждом насосе.",
     productsTitle: "Наши Серии Насосов",
-    productsSubtitle: "Шесть основных продуктовых линеек для сточных вод, шламов, технологических процессов и чистой воды.",
+    productsSubtitle:
+      "Мы производим и поставляем мембранные насосы WILDEN AODD, канализационные насосы из нержавеющей стали, самовсасывающие насосы ZW, погружные канализационные насосы YW, серию мембранных насосов QBY, мобильные насосные установки для орошения и дренажа, канализационные насосы с режущим механизмом GNWQ, трубопроводные насосы IHG/IHW/IRG/IRW, дозирующие насосы, канализационные насосы с большим напором, погружные насосы QDX и маслозаполненные погружные насосы QD.",
     testimonialsTitle: "Нам Доверяют Лидеры Отрасли",
     newsTitle: "Новости и Технические Материалы",
     ctaTitle: "Готовы Решить Вашу Задачу по Перекачке?",
     ctaSubtitle: "Сообщите нам рабочую точку и применение — наши инженеры подберут нужный насос и пришлют коммерческое предложение в течение 24 часов.",
   },
   footer: {
-    tagline: "Производство промышленных насосов с 2014 года. Надёжные решения для перекачки жидкостей в мировой промышленности.",
+    tagline: "Профессиональный производитель канализационных насосов с 2014 года — надёжные решения для отвода сточных вод и перекачки жидкостей для мировой промышленности.",
     quickLinks: "Быстрые Ссылки", ourProducts: "Наша Продукция", contactUs: "Контакты", followUs: "Мы в Соцсетях",
     rights: "Все права защищены.", privacy: "Политика Конфиденциальности", terms: "Условия Использования", sitemap: "Карта Сайта",
   },
@@ -294,21 +298,22 @@ const ar: DeepPartial<Dictionary> = {
     badge: "مُصنّع مضخات موثوق منذ عام 2014",
     title: "حلول هندسية لنقل السوائل لأصعب الصناعات في العالم",
     subtitle:
-      "تصمم شركة شنغهاي هاكوان وتصنّع مضخات صناعية عالية الأداء لقطاعات التعدين والمياه البلدية والبتروكيماويات والبحرية والطاقة — وتُصدّر إلى أكثر من 60 دولة.",
+      "شنغهاي هاكوان مُصنّع محترف لمضخات الصرف الصحي، تصمم مضخات عالية الأداء لتصريف مياه الصرف والأغذية والمشروبات والري الزراعي والصناعات الحيوية الدوائية ومعالجة خزانات الصرف البلدية والبتروكيماويات — وتُصدّر إلى أكثر من 60 دولة.",
   },
   stats: { experience: "سنوات الخبرة", countries: "الدول المخدومة", models: "موديلات المضخات", delivered: "وحدة تم تسليمها" },
   sections: {
     advantagesTitle: "لماذا يختار المشترون حول العالم هاكوان",
     advantagesSubtitle: "عقد من الانضباط الهندسي والتصنيع الذاتي وخبرة التصدير وراء كل مضخة.",
     productsTitle: "سلاسل المضخات لدينا",
-    productsSubtitle: "ست عائلات منتجات أساسية لمياه الصرف والحمأة والعمليات والمياه النظيفة.",
+    productsSubtitle:
+      "نصنّع ونورّد مضخات الحجاب الحاجز WILDEN AODD، ومضخات الصرف من الفولاذ المقاوم للصدأ، ومضخات ZW ذاتية التحضير، ومضخات الصرف الغاطسة YW، وسلسلة الحجاب الحاجز QBY، وعربات الضخ المتنقلة للري والصرف، ومضخات الصرف بسكين القطع GNWQ، ومضخات الأنابيب IHG/IHW/IRG/IRW، ومضخات القياس والجرعات، ومضخات الصرف عالية الرفع، ومضخات QDX الغاطسة، ومضخات QD الغاطسة المغمورة بالزيت.",
     testimonialsTitle: "ثقة كبار قادة الصناعة",
     newsTitle: "الأخبار والرؤى الهندسية",
     ctaTitle: "هل أنت مستعد لحل تحدي السوائل لديك؟",
     ctaSubtitle: "أرسل لنا نقطة التشغيل والتطبيق — سيوصي مهندسونا بالمضخة المناسبة ويردّون بعرض سعر خلال 24 ساعة.",
   },
   footer: {
-    tagline: "تصنيع المضخات الصناعية منذ عام 2014. حلول موثوقة لمناولة السوائل للصناعة العالمية.",
+    tagline: "مُصنّع محترف لمضخات الصرف الصحي منذ عام 2014 — حلول موثوقة لمعالجة مياه الصرف ومناولة السوائل للصناعة حول العالم.",
     quickLinks: "روابط سريعة", ourProducts: "منتجاتنا", contactUs: "اتصل بنا", followUs: "تابعنا",
     rights: "جميع الحقوق محفوظة.", privacy: "سياسة الخصوصية", terms: "شروط الاستخدام", sitemap: "خريطة الموقع",
   },
