@@ -34,7 +34,10 @@ export async function generateMetadata({
   if (!product) return { title: "Product Not Found" };
 
   return {
-    title: `${product.name} — ${product.seriesName}`,
+    // Use the product name alone; the site template appends " | Haquan Pump".
+    // Appending the series name here duplicated keywords (e.g. "WQK … Sewage
+    // Pump — WQK … Sewage Pump") and pushed the title past Google's ~60-char cut.
+    title: product.name,
     description: product.excerpt,
     keywords: product.seoKeywords
       ? product.seoKeywords.split(",").map((k) => k.trim()).filter(Boolean)
