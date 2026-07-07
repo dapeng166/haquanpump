@@ -40,7 +40,7 @@ export default async function AboutPage() {
     <>
       <PageHero
         eyebrow="About Haquan"
-        title="A Decade of Engineering Reliable Fluid Solutions"
+        title="A Decade of Engineering Reliable Sewage Pumps"
         intro={
           page?.subtitle ||
           "Since 2014, Shanghai Haquan has grown from a specialist pump workshop into a global industrial manufacturer trusted across the world's most demanding industries."

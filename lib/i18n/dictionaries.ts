@@ -27,7 +27,7 @@ const en = {
   },
   hero: {
     badge: "Trusted Pump Manufacturer Since 2014",
-    title: "Engineered Fluid Solutions for the World's Toughest Industries",
+    title: "Sewage Pumps Engineered for the World's Toughest Industries",
     subtitle:
       "Shanghai Haquan is a professional sewage pump manufacturer, engineering high-performance pumps for wastewater discharge, food & beverage, farmland irrigation, biopharmaceutical, municipal septic-tank treatment and petrochemical industries — delivered to 60+ countries.",
   },
@@ -108,7 +108,7 @@ const zh: DeepPartial<Dictionary> = {
   },
   hero: {
     badge: "自 2014 年起值得信赖的水泵制造商",
-    title: "为全球严苛工况提供专业流体解决方案",
+    title: "为全球严苛工况打造专业排污泵",
     subtitle:
       "上海哈泉是专业的排污泵生产制造厂家，为排污水、食品饮料、农田灌溉、生物制药、市政化粪池处理及石油化工等基础行业提供高性能水泵，产品远销 60 多个国家和地区。",
   },
@@ -155,7 +155,7 @@ const es: DeepPartial<Dictionary> = {
   },
   hero: {
     badge: "Fabricante de Bombas de Confianza Desde 2014",
-    title: "Soluciones de Fluidos de Ingeniería para las Industrias Más Exigentes",
+    title: "Bombas de Aguas Residuales para las Industrias Más Exigentes del Mundo",
     subtitle:
       "Shanghai Haquan es un fabricante profesional de bombas de aguas residuales, con bombas de alto rendimiento para el tratamiento de aguas residuales, alimentación y bebidas, riego agrícola, biofarmacia, tratamiento de fosas sépticas municipales y petroquímica — entregadas en más de 60 países.",
   },
@@ -202,7 +202,7 @@ const de: DeepPartial<Dictionary> = {
   },
   hero: {
     badge: "Zuverlässiger Pumpenhersteller Seit 2014",
-    title: "Technische Fluidlösungen für die Anspruchsvollsten Industrien der Welt",
+    title: "Abwasserpumpen für die anspruchsvollsten Industrien der Welt",
     subtitle:
       "Shanghai Haquan ist ein professioneller Hersteller von Abwasserpumpen und fertigt Hochleistungspumpen für Abwasserförderung, Lebensmittel- und Getränkeindustrie, Feldbewässerung, Biopharmazie, kommunale Klärgrubenbehandlung und Petrochemie — geliefert in über 60 Länder.",
   },
@@ -249,7 +249,7 @@ const ru: DeepPartial<Dictionary> = {
   },
   hero: {
     badge: "Надёжный Производитель Насосов с 2014 Года",
-    title: "Инженерные Решения для Перекачки Жидкостей в Самых Сложных Отраслях",
+    title: "Канализационные насосы для самых сложных отраслей мира",
     subtitle:
       "Shanghai Haquan — профессиональный производитель канализационных насосов, выпускающий высокопроизводительные насосы для отвода сточных вод, пищевой промышленности, орошения полей, биофармацевтики, обработки муниципальных септиков и нефтехимии — с поставками более чем в 60 стран.",
   },
@@ -296,7 +296,7 @@ const ar: DeepPartial<Dictionary> = {
   },
   hero: {
     badge: "مُصنّع مضخات موثوق منذ عام 2014",
-    title: "حلول هندسية لنقل السوائل لأصعب الصناعات في العالم",
+    title: "مضخات الصرف الصحي لأصعب الصناعات في العالم",
     subtitle:
       "شنغهاي هاكوان مُصنّع محترف لمضخات الصرف الصحي، تصمم مضخات عالية الأداء لتصريف مياه الصرف والأغذية والمشروبات والري الزراعي والصناعات الحيوية الدوائية ومعالجة خزانات الصرف البلدية والبتروكيماويات — وتُصدّر إلى أكثر من 60 دولة.",
   },

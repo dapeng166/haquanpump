@@ -50,7 +50,7 @@ export default async function TechnicalSupportPage() {
       <FaqJsonLd items={faqItems} />
       <PageHero
         eyebrow="Technical Support"
-        title="Engineering Help When You Need It"
+        title="Sewage Pump Technical Support & Engineering Help"
         intro={
           page?.subtitle ||
           "Selection advice, technical documentation and after-sales support — so your Haquan pumps are specified, installed and maintained correctly."
