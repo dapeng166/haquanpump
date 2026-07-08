@@ -6,13 +6,32 @@ import { ArrowUpRight, Droplets, Gauge, Zap } from "lucide-react";
 import type { Product } from "@/lib/types";
 import { useTranslation } from "@/lib/i18n/I18nProvider";
 
-export function ProductCard({ product, priority = false }: { product: Product; priority?: boolean }) {
+export function ProductCard({
+  product,
+  priority = false,
+  hrefBase = "",
+  labels,
+}: {
+  product: Product;
+  priority?: boolean;
+  /** Locale URL prefix, e.g. "/es". Empty for the English (root) routes. */
+  hrefBase?: string;
+  /** Pre-translated card labels (localized routes). Falls back to t(). */
+  labels?: { flow: string; head: string; power: string; viewDetails: string };
+}) {
   const { t } = useTranslation();
+  const href = `${hrefBase}/products/${product.slug}`;
+  const L = labels ?? {
+    flow: t("specs.flow"),
+    head: t("specs.head"),
+    power: t("specs.power"),
+    viewDetails: t("cta.viewDetails"),
+  };
 
   return (
     <article className="group glass-card flex h-full flex-col overflow-hidden p-0">
       <Link
-        href={`/products/${product.slug}`}
+        href={href}
         className="relative block aspect-[4/3] overflow-hidden"
       >
         <Image
@@ -31,7 +50,7 @@ export function ProductCard({ product, priority = false }: { product: Product; p
 
       <div className="flex flex-1 flex-col p-5">
         <h3 className="line-clamp-2 min-h-[3.5rem] font-display text-lg font-semibold text-slate-900 transition-colors group-hover:text-accent-600">
-          <Link href={`/products/${product.slug}`}>{product.name}</Link>
+          <Link href={href}>{product.name}</Link>
         </h3>
         <p className="mt-2 line-clamp-2 min-h-[2.5rem] text-sm leading-relaxed text-slate-500">
           {product.excerpt}
@@ -39,17 +58,17 @@ export function ProductCard({ product, priority = false }: { product: Product; p
 
         {/* Key specs at a glance */}
         <dl className="mt-4 grid grid-cols-3 gap-2 border-y border-slate-200 py-3 text-center">
-          <SpecMini icon={<Droplets className="h-3.5 w-3.5" />} label={t("specs.flow")} value={`${product.specs.flowRate}`} unit="m³/h" />
-          <SpecMini icon={<Gauge className="h-3.5 w-3.5" />} label={t("specs.head")} value={`${product.specs.head}`} unit="m" />
-          <SpecMini icon={<Zap className="h-3.5 w-3.5" />} label={t("specs.power")} value={`${product.specs.power}`} unit="kW" />
+          <SpecMini icon={<Droplets className="h-3.5 w-3.5" />} label={L.flow} value={`${product.specs.flowRate}`} unit="m³/h" />
+          <SpecMini icon={<Gauge className="h-3.5 w-3.5" />} label={L.head} value={`${product.specs.head}`} unit="m" />
+          <SpecMini icon={<Zap className="h-3.5 w-3.5" />} label={L.power} value={`${product.specs.power}`} unit="kW" />
         </dl>
 
         <div className="mt-auto flex items-center justify-between gap-3 pt-5">
           <Link
-            href={`/products/${product.slug}`}
+            href={href}
             className="inline-flex items-center gap-1 text-sm font-semibold text-accent-600 transition-colors hover:text-accent"
           >
-            {t("cta.viewDetails")}
+            {L.viewDetails}
             <ArrowUpRight className="h-4 w-4 rtl-flip" aria-hidden />
           </Link>
         </div>

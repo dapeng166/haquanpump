@@ -7,6 +7,16 @@ export type Locale = (typeof locales)[number];
 
 export const defaultLocale: Locale = "en";
 
+// Locales that get their own server-rendered, indexable URLs (e.g. /es/…).
+// Starts as a pilot subset; add more here to roll out further languages.
+export const indexableLocales = ["es", "ar"] as const satisfies readonly Locale[];
+
+export type IndexableLocale = (typeof indexableLocales)[number];
+
+export function isIndexableLocale(value: string): value is IndexableLocale {
+  return (indexableLocales as readonly string[]).includes(value);
+}
+
 // Locale names are shown in English in the switcher (per layout brief),
 // with the native label as a secondary hint.
 export const localeMeta: Record<

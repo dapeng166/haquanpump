@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { Check, ChevronDown, Globe, Search } from "lucide-react";
+import { indexableLocales } from "@/lib/i18n/config";
 
 // Each entry: Google Translate language code, English + native name, flag, RTL.
 type Lang = { code: string; name: string; native: string; flag: string; rtl?: boolean };
@@ -53,6 +55,27 @@ const LANGUAGES: Lang[] = [
 const RTL = new Set(LANGUAGES.filter((l) => l.rtl).map((l) => l.code));
 const byCode = new Map(LANGUAGES.map((l) => [l.code, l] as const));
 
+// Locales that have their own server-rendered, indexable URLs (e.g. /es, /ar).
+// Switching to these navigates to the real URL rather than Google-translating.
+const INDEXABLE = new Set<string>(indexableLocales as readonly string[]);
+
+/** Strip a leading /es or /ar locale segment from a path. */
+function stripLocale(path: string): string {
+  const seg = path.split("/");
+  if (seg[1] && INDEXABLE.has(seg[1])) return "/" + seg.slice(2).join("/");
+  return path || "/";
+}
+
+/** Clear Google's googtrans cookie so a server-localized page isn't re-translated. */
+function clearGoogtrans() {
+  const past = "Thu, 01 Jan 1970 00:00:00 UTC";
+  const host = location.hostname;
+  const root = host.split(".").slice(-2).join(".");
+  for (const d of ["", `; domain=${host}`, `; domain=.${root}`]) {
+    document.cookie = `googtrans=; expires=${past}; path=/${d}`;
+  }
+}
+
 /** Drive the hidden Google combo to translate the whole page in real time. */
 function applyTranslation(code: string) {
   if (typeof document === "undefined") return;
@@ -74,13 +97,26 @@ function applyTranslation(code: string) {
 
 export function LanguageSwitcher({ compact = false }: { compact?: boolean }) {
   const [open, setOpen] = useState(false);
-  const [current, setCurrent] = useState<string>("en");
+  const pathname = usePathname();
+  // If the URL is a server-localized page (/es/…, /ar/…), that's the active
+  // language; otherwise fall back to whatever Google Translate is showing.
+  const urlLocale = useMemo(() => {
+    const seg = pathname?.split("/")[1];
+    return seg && INDEXABLE.has(seg) ? seg : null;
+  }, [pathname]);
+  const [current, setCurrent] = useState<string>(urlLocale ?? "en");
   const [query, setQuery] = useState("");
   const ref = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Restore the active language from the cookie Google sets ( /en/<code> ).
+  // On a server-localized URL the language is fixed by the path; otherwise
+  // restore the active language from the cookie Google sets ( /en/<code> ).
   useEffect(() => {
+    if (urlLocale) {
+      setCurrent(urlLocale);
+      document.documentElement.dir = RTL.has(urlLocale) ? "rtl" : "ltr";
+      return;
+    }
     const m = document.cookie.match(/googtrans=\/[^/]+\/([^;]+)/);
     if (m) {
       const code = decodeURIComponent(m[1]);
@@ -89,7 +125,7 @@ export function LanguageSwitcher({ compact = false }: { compact?: boolean }) {
         document.documentElement.dir = RTL.has(code) ? "rtl" : "ltr";
       }
     }
-  }, []);
+  }, [urlLocale]);
 
   useEffect(() => {
     function onClick(e: MouseEvent) {
@@ -112,8 +148,34 @@ export function LanguageSwitcher({ compact = false }: { compact?: boolean }) {
   }, [open]);
 
   function select(code: string) {
-    setCurrent(code);
     setOpen(false);
+    const base = stripLocale(pathname || "/");
+
+    // English → the root (un-prefixed) URL; es/ar → their prefixed URL. Both
+    // are real server-rendered pages, so clear googtrans to stop Google from
+    // re-translating on top of them.
+    if (code === "en") {
+      clearGoogtrans();
+      window.location.assign(base);
+      return;
+    }
+    if (INDEXABLE.has(code)) {
+      clearGoogtrans();
+      window.location.assign(`/${code}${base === "/" ? "" : base}`);
+      return;
+    }
+
+    // Any other language uses Google Translate. If we're currently on a
+    // server-localized page, load the English base first (with the target set)
+    // so Google translates a clean English page, not the Arabic/Spanish one.
+    if (urlLocale) {
+      const root = location.hostname.split(".").slice(-2).join(".");
+      document.cookie = `googtrans=/en/${code}; path=/`;
+      document.cookie = `googtrans=/en/${code}; path=/; domain=.${root}`;
+      window.location.assign(base);
+      return;
+    }
+    setCurrent(code);
     applyTranslation(code);
   }
 
