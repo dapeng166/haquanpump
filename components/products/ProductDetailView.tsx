@@ -61,11 +61,14 @@ export function ProductDetailView({
   related,
   labels,
   hrefBase = "",
+  cardLabels,
 }: {
   product: Product;
   related: Product[];
   labels: ProductDetailLabels;
   hrefBase?: string;
+  /** Pre-translated labels for the related-product cards (localized routes). */
+  cardLabels?: { flow: string; head: string; power: string; viewDetails: string };
 }) {
   const specRows = [
     { icon: Droplets, label: labels.flowRate, value: product.specs.flowRate, unit: "m³/h" },
@@ -185,7 +188,7 @@ export function ProductDetailView({
             </h2>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {related.map((p) => (
-                <ProductCard key={p.slug} product={p} hrefBase={hrefBase} />
+                <ProductCard key={p.slug} product={p} hrefBase={hrefBase} labels={cardLabels} />
               ))}
             </div>
           </Container>

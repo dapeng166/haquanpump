@@ -10,6 +10,7 @@ import {
   translateProductLabels,
 } from "@/lib/i18n/translateProduct";
 import { translateMany } from "@/lib/i18n/translate";
+import { cardLabels } from "@/lib/i18n/uiLabels";
 
 type Params = Promise<{ locale: string; slug: string }>;
 
@@ -95,6 +96,7 @@ export default async function LocalizedProductDetailPage({
         related={related}
         labels={labels}
         hrefBase={`/${locale}`}
+        cardLabels={cardLabels(locale)}
       />
     </div>
   );

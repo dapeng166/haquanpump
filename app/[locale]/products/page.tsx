@@ -7,6 +7,7 @@ import { isIndexableLocale, dirForLocale } from "@/lib/i18n/config";
 import { localeAlternates } from "@/lib/i18n/alternates";
 import { translateProductCard } from "@/lib/i18n/translateProduct";
 import { translate } from "@/lib/i18n/translate";
+import { cardLabels } from "@/lib/i18n/uiLabels";
 
 type Params = Promise<{ locale: string }>;
 
@@ -55,6 +56,7 @@ export default async function LocalizedProductsPage({
     translate(EN_HEADING, locale),
     Promise.all(products.map((p) => translateProductCard(p, locale))),
   ]);
+  const labels = cardLabels(locale);
 
   return (
     <div dir={dirForLocale(locale)} lang={locale}>
@@ -65,7 +67,7 @@ export default async function LocalizedProductsPage({
           </h1>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {translated.map((p) => (
-              <ProductCard key={p.slug} product={p} hrefBase={`/${locale}`} />
+              <ProductCard key={p.slug} product={p} hrefBase={`/${locale}`} labels={labels} />
             ))}
           </div>
         </Container>
