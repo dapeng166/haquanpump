@@ -35,6 +35,23 @@ export async function translateProduct(
   };
 }
 
+/**
+ * Lightweight translation for product cards / listings: only the fields a card
+ * shows (name, excerpt, series) — not the full HTML description. Much cheaper
+ * than translateProduct when rendering many products at once.
+ */
+export async function translateProductCard(
+  product: Product,
+  locale: Locale,
+): Promise<Product> {
+  if (locale === "en") return product;
+  const [name, excerpt, seriesName] = await translateMany(
+    [product.name, product.excerpt, product.seriesName],
+    locale,
+  );
+  return { ...product, name, excerpt, seriesName };
+}
+
 /** Translate the product-page UI labels into `locale`. */
 export async function translateProductLabels(
   locale: Locale,
