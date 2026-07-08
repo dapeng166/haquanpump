@@ -188,7 +188,9 @@ function mapPump(raw: WPPump, index: number): Product {
   return {
     slug: raw.slug,
     name: stripHtml(raw.title.rendered),
-    model: acf(fields, "model", "model_no") || stripHtml(raw.title.rendered),
+    // Real model code from ACF; left empty (not the title) when unset so the
+    // product page can hide the "Model:" line instead of repeating the name.
+    model: acf(fields, "model", "model_no"),
     seriesSlug: term?.slug ?? "sewage-pumps",
     seriesName: term?.name ?? "Sewage Pumps",
     excerpt,

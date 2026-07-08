@@ -111,7 +111,9 @@ export function ProductDetailView({
               <h1 className="mt-4 font-display text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
                 {product.name}
               </h1>
-              <p className="mt-2 text-sm font-medium text-accent-600">{labels.model} {product.model}</p>
+              {product.model ? (
+                <p className="mt-2 text-sm font-medium text-accent-600">{labels.model} {product.model}</p>
+              ) : null}
               <p className="mt-5 line-clamp-4 text-base leading-relaxed text-slate-600">{product.excerpt}</p>
 
               {/* Specification table */}
