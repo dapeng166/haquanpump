@@ -161,7 +161,7 @@ export function ProductDetailView({
               {/* Capped height + Read more so long CMS descriptions don't stretch the page. */}
               <ExpandableHtml
                 html={product.description}
-                className="prose-invert mt-4 space-y-4 text-base leading-relaxed text-slate-600 [&_p]:mb-4"
+                className="cms-content prose-invert mt-4 space-y-4 text-base leading-relaxed text-slate-600 [&_p]:mb-4"
               />
             </Reveal>
             <Reveal index={1}>

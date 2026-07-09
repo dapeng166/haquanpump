@@ -102,7 +102,7 @@ export default async function NewsArticlePage({
             </div>
 
             <div
-              className="mt-10 space-y-5 text-lg leading-relaxed text-slate-600 [&_a]:text-accent-600 [&_h2]:mt-8 [&_h2]:font-display [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-slate-900 [&_p]:mb-5"
+              className="cms-content mt-10 space-y-5 text-lg leading-relaxed text-slate-600 [&_a]:text-accent-600 [&_h2]:mt-8 [&_h2]:font-display [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-slate-900 [&_p]:mb-5"
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
 
