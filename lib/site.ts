@@ -28,6 +28,7 @@ export const company = {
     "https://www.google.com/maps?q=Fengxian+District,+Shanghai,+China&output=embed",
   social: {
     linkedin: "https://www.linkedin.com/in/fumin-tong-65714141a",
+    facebook: "https://www.facebook.com/HaquanPump",
     x: "https://x.com/HaquanPump",
     whatsapp: "https://wa.me/8615000577161",
   },
