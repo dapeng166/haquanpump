@@ -3,57 +3,79 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Calendar, Clock, User } from "lucide-react";
-import { getNews, getNewsBySlug } from "@/lib/wordpress";
+import { getNewsBySlug } from "@/lib/wordpress";
 import { company } from "@/lib/site";
 import { Container, Section } from "@/components/ui/Primitives";
+import { isIndexableLocale, dirForLocale, type Locale } from "@/lib/i18n/config";
 import { localeAlternates } from "@/lib/i18n/alternates";
+import { translateNewsPost } from "@/lib/i18n/translateNews";
+import { translateMany } from "@/lib/i18n/translate";
 
+type Params = Promise<{ locale: string; slug: string }>;
+
+export const dynamicParams = true;
 export async function generateStaticParams() {
-  const posts = await getNews();
-  return posts.map((p) => ({ slug: p.slug }));
+  return [];
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Params;
 }): Promise<Metadata> {
-  const { slug } = await params;
+  const { locale, slug } = await params;
+  if (!isIndexableLocale(locale)) return {};
   const post = await getNewsBySlug(slug);
   if (!post) return { title: "Article Not Found" };
+  const [title, excerpt] = await translateMany([post.title, post.excerpt], locale);
+  const path = `/news/${post.slug}`;
   return {
-    title: post.title,
-    description: post.excerpt,
+    title,
+    description: excerpt,
     alternates: {
-      canonical: `/news/${post.slug}`,
-      languages: localeAlternates(`/news/${post.slug}`),
+      canonical: `/${locale}${path}`,
+      languages: localeAlternates(path),
     },
     openGraph: {
       type: "article",
-      title: post.title,
-      description: post.excerpt,
-      images: [{ url: post.image, alt: post.title }],
+      title,
+      description: excerpt,
+      images: [{ url: post.image, alt: title }],
       publishedTime: post.date,
     },
   };
 }
 
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString("en-US", {
+function formatDate(iso: string, locale: Locale) {
+  return new Date(iso).toLocaleDateString(locale, {
     year: "numeric",
     month: "long",
     day: "numeric",
   });
 }
 
-export default async function NewsArticlePage({
+export default async function LocalizedNewsArticlePage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Params;
 }) {
-  const { slug } = await params;
-  const post = await getNewsBySlug(slug);
-  if (!post) notFound();
+  const { locale, slug } = await params;
+  if (!isIndexableLocale(locale)) notFound();
+
+  const source = await getNewsBySlug(slug);
+  if (!source) notFound();
+
+  const post = await translateNewsPost(source, locale);
+  const [backToNews, minRead, ctaTitle, ctaText, getQuote] = await translateMany(
+    [
+      "Back to News",
+      "min read",
+      "Need a pump for your application?",
+      "Our engineers respond to technical inquiries within 24 hours.",
+      "Get a Quote",
+    ],
+    locale,
+  );
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -64,10 +86,11 @@ export default async function NewsArticlePage({
     author: { "@type": "Organization", name: company.name },
     publisher: { "@type": "Organization", name: company.name },
     description: post.excerpt,
+    inLanguage: locale,
   };
 
   return (
-    <>
+    <div dir={dirForLocale(locale)} lang={locale}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -76,10 +99,10 @@ export default async function NewsArticlePage({
         <Container>
           <article className="mx-auto max-w-3xl">
             <Link
-              href="/news"
+              href={`/${locale}/news`}
               className="inline-flex items-center gap-1.5 text-sm font-medium text-accent-600 hover:text-accent"
             >
-              <ArrowLeft className="h-4 w-4 rtl-flip" aria-hidden /> Back to News
+              <ArrowLeft className="h-4 w-4 rtl-flip" aria-hidden /> {backToNews}
             </Link>
 
             <span className="mt-6 inline-block rounded-full border border-accent/30 bg-accent/10 px-3 py-1 text-xs font-medium text-accent-600">
@@ -91,10 +114,10 @@ export default async function NewsArticlePage({
 
             <div className="mt-5 flex flex-wrap items-center gap-5 text-sm text-slate-500">
               <span className="inline-flex items-center gap-1.5">
-                <Calendar className="h-4 w-4" aria-hidden /> {formatDate(post.date)}
+                <Calendar className="h-4 w-4" aria-hidden /> {formatDate(post.date, locale)}
               </span>
               <span className="inline-flex items-center gap-1.5">
-                <Clock className="h-4 w-4" aria-hidden /> {post.readingTime} min read
+                <Clock className="h-4 w-4" aria-hidden /> {post.readingTime} {minRead}
               </span>
               <span className="inline-flex items-center gap-1.5">
                 <User className="h-4 w-4" aria-hidden /> {post.author}
@@ -111,19 +134,15 @@ export default async function NewsArticlePage({
             />
 
             <div className="mt-12 rounded-2xl border border-slate-200 bg-slate-50 p-8 text-center">
-              <h2 className="font-display text-xl font-bold text-slate-900">
-                Need a pump for your application?
-              </h2>
-              <p className="mt-2 text-slate-600">
-                Our engineers respond to technical inquiries within 24 hours.
-              </p>
-              <Link href="/contact" className="btn-primary mt-5">
-                Get a Quote
+              <h2 className="font-display text-xl font-bold text-slate-900">{ctaTitle}</h2>
+              <p className="mt-2 text-slate-600">{ctaText}</p>
+              <Link href={`/${locale}/products`} className="btn-primary mt-5">
+                {getQuote}
               </Link>
             </div>
           </article>
         </Container>
       </Section>
-    </>
+    </div>
   );
 }

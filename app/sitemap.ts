@@ -39,7 +39,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9,
       alternates: { languages: altLanguages("/products") },
     },
-    { url: `${base}/news`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
+    {
+      url: `${base}/news`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.7,
+      alternates: { languages: altLanguages("/news") },
+    },
     { url: `${base}/support`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
     { url: `${base}/contact`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: `${base}/privacy-policy`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
@@ -50,12 +56,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const [products, news] = await Promise.all([getProducts(), getNews()]);
     dynamic = [
-      // Localized product listings.
+      // Localized product & news listings.
       ...indexableLocales.map((locale) => ({
         url: `${base}/${locale}/products`,
         lastModified: now,
         changeFrequency: "weekly" as const,
         priority: 0.6,
+      })),
+      ...indexableLocales.map((locale) => ({
+        url: `${base}/${locale}/news`,
+        lastModified: now,
+        changeFrequency: "weekly" as const,
+        priority: 0.5,
       })),
       // Each product: English URL carrying hreflang alternates to every locale.
       ...products.map((p) => ({
@@ -70,6 +82,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: n.date ? new Date(n.date) : now,
         changeFrequency: "monthly" as const,
         priority: 0.6,
+        alternates: { languages: altLanguages(`/news/${n.slug}`) },
       })),
     ];
   } catch {

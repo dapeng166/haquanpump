@@ -18,8 +18,23 @@ function formatDate(iso: string) {
   });
 }
 
-export function NewsGrid({ posts }: { posts: NewsPost[] }) {
+export function NewsGrid({
+  posts,
+  hrefBase = "",
+  labels,
+}: {
+  posts: NewsPost[];
+  /** Locale URL prefix, e.g. "/es". Empty for the English (root) routes. */
+  hrefBase?: string;
+  /** Pre-translated labels for localized routes. Falls back to t(). */
+  labels?: { readMore: string; previous: string; next: string };
+}) {
   const { t } = useTranslation();
+  const L = labels ?? {
+    readMore: t("cta.readMore"),
+    previous: t("common.previous"),
+    next: t("common.next"),
+  };
   const [page, setPage] = useState(1);
   const totalPages = Math.max(1, Math.ceil(posts.length / PER_PAGE));
   const start = (page - 1) * PER_PAGE;
@@ -36,7 +51,7 @@ export function NewsGrid({ posts }: { posts: NewsPost[] }) {
         {visible.map((post, i) => (
           <Reveal as="div" key={post.slug} index={i % 3} className="h-full">
             <article className="group glass-card flex h-full flex-col overflow-hidden p-0">
-              <Link href={`/news/${post.slug}`} className="relative block aspect-[16/10] overflow-hidden">
+              <Link href={`${hrefBase}/news/${post.slug}`} className="relative block aspect-[16/10] overflow-hidden">
                 <Image
                   src={post.image}
                   alt={post.title}
@@ -59,16 +74,16 @@ export function NewsGrid({ posts }: { posts: NewsPost[] }) {
                   </span>
                 </div>
                 <h2 className="mt-3 line-clamp-2 min-h-[3.5rem] font-display text-lg font-semibold leading-snug text-slate-900 transition-colors group-hover:text-accent-600">
-                  <Link href={`/news/${post.slug}`}>{post.title}</Link>
+                  <Link href={`${hrefBase}/news/${post.slug}`}>{post.title}</Link>
                 </h2>
                 <p className="mt-2 line-clamp-3 min-h-[3.75rem] text-sm leading-relaxed text-slate-500">
                   {post.excerpt}
                 </p>
                 <Link
-                  href={`/news/${post.slug}`}
+                  href={`${hrefBase}/news/${post.slug}`}
                   className="mt-auto inline-flex items-center gap-1 pt-5 text-sm font-semibold text-accent-600 hover:text-accent"
                 >
-                  {t("cta.readMore")}
+                  {L.readMore}
                   <ArrowUpRight className="h-4 w-4 rtl-flip" aria-hidden />
                 </Link>
               </div>
@@ -84,7 +99,7 @@ export function NewsGrid({ posts }: { posts: NewsPost[] }) {
             onClick={() => go(Math.max(1, page - 1))}
             disabled={page === 1}
             className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 text-slate-600 transition-colors hover:border-accent/50 hover:text-slate-900 disabled:opacity-40"
-            aria-label={t("common.previous")}
+            aria-label={L.previous}
           >
             <ChevronLeft className="h-4 w-4 rtl-flip" aria-hidden />
           </button>
@@ -108,7 +123,7 @@ export function NewsGrid({ posts }: { posts: NewsPost[] }) {
             onClick={() => go(Math.min(totalPages, page + 1))}
             disabled={page === totalPages}
             className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 text-slate-600 transition-colors hover:border-accent/50 hover:text-slate-900 disabled:opacity-40"
-            aria-label={t("common.next")}
+            aria-label={L.next}
           >
             <ChevronRight className="h-4 w-4 rtl-flip" aria-hidden />
           </button>

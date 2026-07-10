@@ -23,3 +23,17 @@ export function cardLabels(locale: Locale): CardLabels {
     viewDetails: cta.viewDetails ?? enDictionary.cta.viewDetails,
   };
 }
+
+/** News-grid UI labels for a locale, from the built-in dictionaries. */
+export function newsLabels(locale: Locale): {
+  readMore: string;
+  previous: string;
+  next: string;
+} {
+  const d = dictionaries[locale];
+  return {
+    readMore: d?.cta?.readMore ?? enDictionary.cta.readMore,
+    previous: d?.common?.previous ?? enDictionary.common.previous,
+    next: d?.common?.next ?? enDictionary.common.next,
+  };
+}
