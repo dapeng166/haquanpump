@@ -333,6 +333,22 @@ const ar: DeepPartial<Dictionary> = {
   },
 };
 
+// --- French ---------------------------------------------------------------
+const fr: DeepPartial<Dictionary> = {
+  nav: { home: "Accueil", about: "À propos", products: "Produits", news: "Actualités", support: "Support", contact: "Contact" },
+  cta: { viewDetails: "Voir les détails", getQuote: "Demander un devis", exploreProducts: "Voir les produits", contactUs: "Nous contacter", readMore: "Lire la suite" },
+  specs: { flow: "Débit", head: "Hauteur", power: "Puissance", diameter: "Entrée / Sortie", material: "Matériau", specifications: "Spécifications" },
+  common: { allSeries: "Toutes les séries", relatedProducts: "Produits associés", backToProducts: "Retour aux produits", industries: "Applications et secteurs", previous: "Précédent", next: "Suivant" },
+};
+
+// --- Portuguese -----------------------------------------------------------
+const pt: DeepPartial<Dictionary> = {
+  nav: { home: "Início", about: "Sobre", products: "Produtos", news: "Notícias", support: "Suporte", contact: "Contato" },
+  cta: { viewDetails: "Ver detalhes", getQuote: "Solicitar orçamento", exploreProducts: "Ver produtos", contactUs: "Fale conosco", readMore: "Leia mais" },
+  specs: { flow: "Vazão", head: "Altura", power: "Potência", diameter: "Entrada / Saída", material: "Material", specifications: "Especificações" },
+  common: { allSeries: "Todas as séries", relatedProducts: "Produtos relacionados", backToProducts: "Voltar aos produtos", industries: "Aplicações e setores", previous: "Anterior", next: "Próximo" },
+};
+
 export const dictionaries: Record<Locale, DeepPartial<Dictionary>> = {
   en,
   zh,
@@ -340,6 +356,8 @@ export const dictionaries: Record<Locale, DeepPartial<Dictionary>> = {
   de,
   ru,
   ar,
+  fr,
+  pt,
 };
 
 export { en as enDictionary };
