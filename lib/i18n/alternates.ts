@@ -8,12 +8,14 @@ import { indexableLocales } from "./config";
  * @param path root-relative English path, e.g. "/products/wqk-…" or "/products"
  */
 export function localeAlternates(path: string): Record<string, string> {
+  // Root ("/") must map to "/es" not "/es/" — keep locale URLs prefix-clean.
+  const suffix = path === "/" ? "" : path;
   const languages: Record<string, string> = {
     "x-default": path,
     en: path,
   };
   for (const locale of indexableLocales) {
-    languages[locale] = `/${locale}${path}`;
+    languages[locale] = `/${locale}${suffix}`;
   }
   return languages;
 }

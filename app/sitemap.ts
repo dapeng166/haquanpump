@@ -23,14 +23,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       en: `${base}${path}`,
       "x-default": `${base}${path}`,
     };
+    const suffix = path === "/" ? "" : path; // root → /es not /es/
     for (const locale of indexableLocales) {
-      languages[locale] = `${base}/${locale}${path}`;
+      languages[locale] = `${base}/${locale}${suffix}`;
     }
     return languages;
   };
 
   const staticUrls: MetadataRoute.Sitemap = [
-    { url: `${base}/`, lastModified: now, changeFrequency: "weekly", priority: 1.0 },
+    {
+      url: `${base}/`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 1.0,
+      alternates: { languages: altLanguages("/") },
+    },
     {
       url: `${base}/about`,
       lastModified: now,
@@ -68,6 +75,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     { url: `${base}/privacy-policy`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
     { url: `${base}/terms-of-use`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
+    // Localized home (static, CMS-independent).
+    ...indexableLocales.map((locale) => ({
+      url: `${base}/${locale}`,
+      lastModified: now,
+      changeFrequency: "weekly" as const,
+      priority: 0.9,
+    })),
     // Localized about / support / contact (static, CMS-independent).
     ...indexableLocales.flatMap((locale) =>
       ["/about", "/support", "/contact"].map((path) => ({

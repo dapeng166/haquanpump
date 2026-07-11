@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getProducts, getSitePage, acfStr } from "@/lib/wordpress";
 import { company, siteConfig } from "@/lib/site";
+import { localeAlternates } from "@/lib/i18n/alternates";
 import { Hero } from "@/components/home/Hero";
 import { TrustBar } from "@/components/home/TrustBar";
 import { Advantages } from "@/components/home/Advantages";
@@ -11,7 +12,7 @@ import { FinalCTA } from "@/components/home/FinalCTA";
 export const metadata: Metadata = {
   title: siteConfig.defaultTitle,
   description: siteConfig.defaultDescription,
-  alternates: { canonical: "/" },
+  alternates: { canonical: "/", languages: localeAlternates("/") },
 };
 
 // Structured data helps Google understand the manufacturer entity.
