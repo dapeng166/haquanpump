@@ -1,0 +1,236 @@
+import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { ArrowRight, Target, Eye, ShieldCheck, Wrench, Globe2, BadgeCheck } from "lucide-react";
+import { company } from "@/lib/site";
+import { milestones } from "@/lib/data/content";
+import { img } from "@/lib/images";
+import { getSitePage, acfStr } from "@/lib/wordpress";
+import { PageHero } from "@/components/ui/PageHero";
+import { Container, Section, SectionHeading } from "@/components/ui/Primitives";
+import { Reveal } from "@/components/ui/Reveal";
+import { isIndexableLocale, dirForLocale } from "@/lib/i18n/config";
+import { localeAlternates } from "@/lib/i18n/alternates";
+import { translate, translateMany } from "@/lib/i18n/translate";
+
+type Params = Promise<{ locale: string }>;
+
+export const dynamicParams = true;
+export async function generateStaticParams() {
+  return [];
+}
+
+const EN = {
+  title: "A Decade of Engineering Reliable Sewage Pumps",
+  desc:
+    "Founded in 2014, Shanghai Haquan Pump Valve Manufacturing Co., Ltd. is a professional sewage pump manufacturer supplying WILDEN AODD, QBY diaphragm, submersible, self-priming, grinder and pipeline pumps across wastewater, food & beverage, irrigation, biopharmaceutical and petrochemical industries.",
+  eyebrow: "About Haquan",
+  intro:
+    "Since 2014, Shanghai Haquan has grown from a specialist pump workshop into a global industrial manufacturer trusted across the world's most demanding industries.",
+  storyEyebrow: "Our Story",
+  storyTitle: "Built on Hydraulics, Driven by Reliability",
+  story1:
+    "Shanghai Haquan Pump Valve Manufacturing Co., Ltd. was founded in 2014 in Fengxian District, Shanghai, as a professional sewage pump manufacturer — built on the conviction that buyers deserve pumps engineered for their exact application, not generic units that fail early in the field.",
+  story2:
+    "Today we design, manufacture and export a full sewage-focused range: WILDEN AODD diaphragm pumps, stainless-steel sewage pumps, ZW self-priming pumps, YW submersible sewage pumps, the QBY diaphragm series, irrigation and drainage mobile pump trucks, GNWQ cutter sewage pumps, IHG/IHW/IRG/IRW pipeline pumps, metering pumps, high-head sewage pumps, and QDX and QD submersible pumps — shipped to customers in over 60 countries.",
+  story3:
+    "From municipal septic-tank treatment and food & beverage plants to farmland irrigation, biopharmaceutical and petrochemical sites, Haquan pumps keep critical processes flowing. Our growth has been earned one duty point at a time: precise hydraulic selection, robust materials, rigorous testing and after-sales support international buyers can rely on.",
+  explore: "Explore Our Pumps",
+  since: "Since",
+  location: "Shanghai, China · Exporting worldwide",
+  missionH: "Our Mission",
+  missionText:
+    "To engineer dependable, energy-efficient pumping solutions that keep the world's water, wastewater and process industries running — backed by honest engineering advice and responsive global support.",
+  visionH: "Our Vision",
+  visionText:
+    "To be the partner of choice for industrial buyers worldwide who value technical precision over the lowest price — recognised for hydraulics that last and service that earns repeat orders.",
+  apartEyebrow: "What Sets Us Apart",
+  apartTitle: "Why Buyers Standardise on Haquan",
+  journeyEyebrow: "Our Journey",
+  journeyTitle: "Milestones",
+  ctaTitle: "Let's engineer the right pump for your process.",
+  ctaText: "Share your duty point — we'll respond with a recommendation within 24 hours.",
+  getQuote: "Get a Quote",
+};
+
+const DIFFERENTIATORS = [
+  { icon: Wrench, title: "Vertically Integrated", text: "Casting, machining, motor winding and assembly in-house — quality controlled end to end." },
+  { icon: ShieldCheck, title: "Tested Before Shipment", text: "Every pump is hydrostatically and performance tested before it leaves our factory." },
+  { icon: Globe2, title: "Export Expertise", text: "Complete export documentation, seaworthy packing and multilingual support for 60+ countries." },
+  { icon: BadgeCheck, title: "Application-First", text: "We size to your duty point and medium rather than pushing a catalogue compromise." },
+];
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Params;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  if (!isIndexableLocale(locale)) return {};
+  const [title, description] = await translateMany([EN.title, EN.desc], locale);
+  return {
+    title: { absolute: `${title} | Haquan Pump` },
+    description,
+    alternates: { canonical: `/${locale}/about`, languages: localeAlternates("/about") },
+  };
+}
+
+export default async function LocalizedAboutPage({
+  params,
+}: {
+  params: Params;
+}) {
+  const { locale } = await params;
+  if (!isIndexableLocale(locale)) notFound();
+
+  const page = await getSitePage("about");
+  const wpStory = acfStr(page, "story_text")
+    .split(/\n+/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const storySource = wpStory.length > 0 ? wpStory : [EN.story1, EN.story2, EN.story3];
+  const missionSource = acfStr(page, "mission_text", EN.missionText);
+
+  const keys = Object.keys(EN) as (keyof typeof EN)[];
+  const [
+    labelValues,
+    storyParas,
+    diffValues,
+    milestoneText,
+    mission,
+    intro,
+  ] = await Promise.all([
+    translateMany(keys.map((k) => EN[k]), locale),
+    translateMany(storySource, locale),
+    translateMany(DIFFERENTIATORS.flatMap((d) => [d.title, d.text]), locale),
+    translateMany(milestones.map((m) => m.text), locale),
+    translate(missionSource, locale),
+    translate(page?.subtitle || EN.intro, locale),
+  ]);
+  const T = Object.fromEntries(keys.map((k, i) => [k, labelValues[i]])) as typeof EN;
+  const diffs = DIFFERENTIATORS.map((d, i) => ({
+    icon: d.icon,
+    title: diffValues[i * 2],
+    text: diffValues[i * 2 + 1],
+  }));
+
+  return (
+    <div dir={dirForLocale(locale)} lang={locale}>
+      <PageHero
+        eyebrow={T.eyebrow}
+        title={T.title}
+        intro={intro}
+        image={page?.heroImage || img.aboutFactory}
+        breadcrumbs={[{ label: T.eyebrow }]}
+      />
+
+      <Section>
+        <Container>
+          <div className="grid items-center gap-12 lg:grid-cols-2">
+            <Reveal>
+              <span className="eyebrow">{T.storyEyebrow}</span>
+              <h2 className="mt-4 font-display text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+                {T.storyTitle}
+              </h2>
+              <div className="mt-6 space-y-4 text-base leading-relaxed text-slate-600">
+                {storyParas.map((para, i) => (
+                  <p key={i}>{para}</p>
+                ))}
+              </div>
+              <Link href={`/${locale}/products`} className="btn-primary mt-8">
+                {T.explore}
+                <ArrowRight className="h-4 w-4 rtl-flip" aria-hidden />
+              </Link>
+            </Reveal>
+
+            <Reveal index={1}>
+              <div className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-slate-200">
+                <Image src={img.aboutTeam} alt={T.title} fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-white/60 to-transparent" />
+                <div className="glass-strong absolute bottom-5 left-5 right-5 rounded-2xl p-5">
+                  <div className="font-display text-2xl font-bold text-slate-900">{T.since} {company.founded}</div>
+                  <div className="text-sm text-slate-500">{T.location}</div>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </Container>
+      </Section>
+
+      <Section className="bg-slate-50">
+        <Container>
+          <div className="grid gap-6 md:grid-cols-2">
+            <Reveal>
+              <div className="glass-card h-full p-8">
+                <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent-600 ring-1 ring-accent/20">
+                  <Target className="h-6 w-6" aria-hidden />
+                </div>
+                <h3 className="mt-5 font-display text-2xl font-semibold text-slate-900">{T.missionH}</h3>
+                <p className="mt-3 leading-relaxed text-slate-600">{mission}</p>
+              </div>
+            </Reveal>
+            <Reveal index={1}>
+              <div className="glass-card h-full p-8">
+                <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent-600 ring-1 ring-accent/20">
+                  <Eye className="h-6 w-6" aria-hidden />
+                </div>
+                <h3 className="mt-5 font-display text-2xl font-semibold text-slate-900">{T.visionH}</h3>
+                <p className="mt-3 leading-relaxed text-slate-600">{T.visionText}</p>
+              </div>
+            </Reveal>
+          </div>
+        </Container>
+      </Section>
+
+      <Section>
+        <Container>
+          <SectionHeading eyebrow={T.apartEyebrow} title={T.apartTitle} />
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {diffs.map((d, i) => (
+              <Reveal key={i} index={i} className="h-full">
+                <div className="glass-card h-full p-6">
+                  <d.icon className="h-8 w-8 text-accent-600" aria-hidden />
+                  <h3 className="mt-4 font-display text-lg font-semibold text-slate-900">{d.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-500">{d.text}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </Container>
+      </Section>
+
+      <Section className="bg-slate-50">
+        <Container>
+          <SectionHeading eyebrow={T.journeyEyebrow} title={T.journeyTitle} />
+          <ol className="relative mx-auto max-w-3xl border-l border-slate-200 pl-8">
+            {milestones.map((m, i) => (
+              <Reveal as="li" key={m.year} index={i} className="mb-10 last:mb-0">
+                <span className="absolute -left-[9px] mt-1.5 h-4 w-4 rounded-full border-2 border-accent bg-white" />
+                <div className="font-display text-xl font-bold text-accent-600">{m.year}</div>
+                <p className="mt-1 leading-relaxed text-slate-600">{milestoneText[i]}</p>
+              </Reveal>
+            ))}
+          </ol>
+        </Container>
+      </Section>
+
+      <Section>
+        <Container>
+          <Reveal>
+            <div className="glass-strong flex flex-col items-center justify-between gap-6 rounded-3xl p-10 text-center sm:flex-row sm:text-left">
+              <div>
+                <h2 className="font-display text-2xl font-bold text-slate-900 sm:text-3xl">{T.ctaTitle}</h2>
+                <p className="mt-2 text-slate-600">{T.ctaText}</p>
+              </div>
+              <Link href={`/${locale}/products`} className="btn-primary shrink-0">
+                {T.getQuote}
+                <ArrowRight className="h-4 w-4 rtl-flip" aria-hidden />
+              </Link>
+            </div>
+          </Reveal>
+        </Container>
+      </Section>
+    </div>
+  );
+}

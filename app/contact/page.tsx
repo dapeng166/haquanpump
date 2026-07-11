@@ -9,12 +9,13 @@ import { Reveal } from "@/components/ui/Reveal";
 import { WhatsappIcon } from "@/components/ui/WhatsappIcon";
 import { XIcon } from "@/components/ui/XIcon";
 import { InquiryForm } from "@/components/contact/InquiryForm";
+import { localeAlternates } from "@/lib/i18n/alternates";
 
 export const metadata: Metadata = {
   title: "Contact Us — Request a Quote",
   description:
     "Contact Shanghai Haquan Pump Valve Manufacturing Co., Ltd. Request a quotation, ask our engineers, or visit us in Fengxian District, Shanghai. We respond within 24 hours.",
-  alternates: { canonical: "/contact" },
+  alternates: { canonical: "/contact", languages: localeAlternates("/contact") },
 };
 
 const socials = [

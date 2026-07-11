@@ -8,12 +8,13 @@ import { PageHero } from "@/components/ui/PageHero";
 import { Container, Section, SectionHeading } from "@/components/ui/Primitives";
 import { Reveal } from "@/components/ui/Reveal";
 import { FaqAccordion } from "@/components/support/FaqAccordion";
+import { localeAlternates } from "@/lib/i18n/alternates";
 
 export const metadata: Metadata = {
   title: "Technical Support — FAQs, Datasheets & Manuals",
   description:
     "Haquan technical support: pump-selection FAQs, downloadable catalogues, performance curves, installation manuals and datasheets. Get engineering help within 24 hours.",
-  alternates: { canonical: "/support" },
+  alternates: { canonical: "/support", languages: localeAlternates("/support") },
 };
 
 // FAQ structured data for SEO rich results — generated from the FAQs shown.

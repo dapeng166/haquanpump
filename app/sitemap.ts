@@ -31,7 +31,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const staticUrls: MetadataRoute.Sitemap = [
     { url: `${base}/`, lastModified: now, changeFrequency: "weekly", priority: 1.0 },
-    { url: `${base}/about`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    {
+      url: `${base}/about`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+      alternates: { languages: altLanguages("/about") },
+    },
     {
       url: `${base}/products`,
       lastModified: now,
@@ -46,10 +52,31 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
       alternates: { languages: altLanguages("/news") },
     },
-    { url: `${base}/support`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
-    { url: `${base}/contact`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    {
+      url: `${base}/support`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.6,
+      alternates: { languages: altLanguages("/support") },
+    },
+    {
+      url: `${base}/contact`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+      alternates: { languages: altLanguages("/contact") },
+    },
     { url: `${base}/privacy-policy`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
     { url: `${base}/terms-of-use`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
+    // Localized about / support / contact (static, CMS-independent).
+    ...indexableLocales.flatMap((locale) =>
+      ["/about", "/support", "/contact"].map((path) => ({
+        url: `${base}/${locale}${path}`,
+        lastModified: now,
+        changeFrequency: "monthly" as const,
+        priority: 0.5,
+      })),
+    ),
   ];
 
   let dynamic: MetadataRoute.Sitemap = [];

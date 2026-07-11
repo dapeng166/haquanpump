@@ -9,6 +9,7 @@ import { getSitePage, acfStr } from "@/lib/wordpress";
 import { PageHero } from "@/components/ui/PageHero";
 import { Container, Section, SectionHeading } from "@/components/ui/Primitives";
 import { Reveal } from "@/components/ui/Reveal";
+import { localeAlternates } from "@/lib/i18n/alternates";
 
 export const metadata: Metadata = {
   // Distinct About-page title (absolute = no "| Haquan Pump" suffix).
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
   },
   description:
     "Founded in 2014, Shanghai Haquan Pump Valve Manufacturing Co., Ltd. is a professional sewage pump manufacturer supplying WILDEN AODD, QBY diaphragm, submersible, self-priming, grinder and pipeline pumps to B2B clients across wastewater, food & beverage, irrigation, biopharmaceutical and petrochemical industries.",
-  alternates: { canonical: "/about" },
+  alternates: { canonical: "/about", languages: localeAlternates("/about") },
 };
 
 const differentiators = [
