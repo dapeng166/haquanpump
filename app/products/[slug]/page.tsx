@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getProductBySlug, getProducts, getRelatedProducts } from "@/lib/wordpress";
+import { getProductBySlug, getRelatedProducts } from "@/lib/wordpress";
 import { company } from "@/lib/site";
 import {
   ProductDetailView,
@@ -9,10 +9,15 @@ import {
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { localeAlternates } from "@/lib/i18n/alternates";
 
-// Pre-render known products; new WordPress products render on-demand (ISR).
+// Render product pages on-demand (ISR) rather than at build time. This keeps a
+// deploy from depending on the CMS being reachable during the build (a
+// transient CMS failure would otherwise fail the build or bake a 404), and each
+// page is cached after its first hit. Google still discovers them via the
+// sitemap. `getProductBySlug` throws on a CMS hiccup so a real product is never
+// cached as a 404.
+export const dynamicParams = true;
 export async function generateStaticParams() {
-  const products = await getProducts();
-  return products.map((p) => ({ slug: p.slug }));
+  return [];
 }
 
 export async function generateMetadata({

@@ -3,15 +3,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Calendar, Clock, User } from "lucide-react";
-import { getNews, getNewsBySlug } from "@/lib/wordpress";
+import { getNewsBySlug } from "@/lib/wordpress";
 import { company } from "@/lib/site";
 import { Container, Section } from "@/components/ui/Primitives";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { localeAlternates } from "@/lib/i18n/alternates";
 
+// Render on-demand (ISR) so a deploy never depends on the CMS being reachable
+// at build time; cached after first hit. `getNewsBySlug` throws on a CMS hiccup
+// so a real article is never cached as a 404.
+export const dynamicParams = true;
 export async function generateStaticParams() {
-  const posts = await getNews();
-  return posts.map((p) => ({ slug: p.slug }));
+  return [];
 }
 
 export async function generateMetadata({

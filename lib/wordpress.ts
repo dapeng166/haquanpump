@@ -87,6 +87,35 @@ async function wpFetch<T>(path: string): Promise<T | null> {
 }
 
 /**
+ * Like {@link wpFetch}, but THROWS on a transient failure (network error,
+ * timeout, or non-2xx such as Hostinger's intermittent 403) instead of
+ * returning null. A genuine "nothing matched" still resolves to a valid empty
+ * array (HTTP 200 []).
+ *
+ * This distinction matters for single-item lookups (product/news by slug): if a
+ * transient CMS hiccup were swallowed as null, the page would call notFound()
+ * and Next.js would **cache that 404**, taking a real product offline until the
+ * next successful revalidation. By throwing instead, Next keeps serving the
+ * last-good page (or 500s on a never-generated path) and never caches a 404 for
+ * a product that actually exists.
+ */
+async function wpFetchStrict<T>(path: string): Promise<T> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 15000);
+  try {
+    const res = await fetch(`${WP_API_URL}${path}`, {
+      next: { revalidate: REVALIDATE_SECONDS },
+      headers: { Accept: "application/json" },
+      signal: controller.signal,
+    });
+    if (!res.ok) throw new Error(`CMS responded ${res.status} for ${path}`);
+    return (await res.json()) as T;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+/**
  * Fetch one page of a WordPress collection, returning both the body and the
  * `X-WP-TotalPages` header so callers can page through the whole collection.
  */
@@ -245,8 +274,21 @@ export async function getProducts(): Promise<Product[]> {
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
-  const raw = await wpFetch<WPPump[]>(`/wp/v2/pump?slug=${encodeURIComponent(slug)}&_embed`);
-  if (raw && raw.length > 0) return mapPump(raw[0], 0);
+  let raw: WPPump[];
+  try {
+    raw = await wpFetchStrict<WPPump[]>(
+      `/wp/v2/pump?slug=${encodeURIComponent(slug)}&_embed`,
+    );
+  } catch {
+    // CMS unreachable — do NOT treat this as "product doesn't exist" (which
+    // would let the page cache a 404). Serve seed data if we have it; otherwise
+    // rethrow so Next.js keeps the last-good page instead of caching notFound().
+    const seed = seedProducts.find((p) => p.slug === slug);
+    if (seed) return seed;
+    throw new Error(`CMS unavailable while resolving product "${slug}"`);
+  }
+  if (raw.length > 0) return mapPump(raw[0], 0);
+  // Genuine 200-empty: the product really doesn't exist → allow notFound().
   return seedProducts.find((p) => p.slug === slug) ?? null;
 }
 
@@ -305,8 +347,19 @@ export async function getNews(): Promise<NewsPost[]> {
 }
 
 export async function getNewsBySlug(slug: string): Promise<NewsPost | null> {
-  const raw = await wpFetch<WPPost[]>(`/wp/v2/posts?slug=${encodeURIComponent(slug)}&_embed`);
-  if (raw && raw.length > 0) {
+  let raw: WPPost[];
+  try {
+    raw = await wpFetchStrict<WPPost[]>(
+      `/wp/v2/posts?slug=${encodeURIComponent(slug)}&_embed`,
+    );
+  } catch {
+    // CMS unreachable — serve seed if present, else rethrow so a real article
+    // is never taken offline by a cached 404 (see getProductBySlug).
+    const seed = seedNews.find((n) => n.slug === slug);
+    if (seed) return seed;
+    throw new Error(`CMS unavailable while resolving article "${slug}"`);
+  }
+  if (raw.length > 0) {
     const post = raw[0];
     return {
       slug: post.slug,
