@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getProductBySlug, getRelatedProducts } from "@/lib/wordpress";
 import { company } from "@/lib/site";
 import { ProductDetailView } from "@/components/products/ProductDetailView";
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { isIndexableLocale, dirForLocale } from "@/lib/i18n/config";
 import { localeAlternates } from "@/lib/i18n/alternates";
 import {
@@ -64,13 +65,15 @@ export default async function LocalizedProductDetailPage({
   const source = await getProductBySlug(slug);
   if (!source) notFound();
 
-  const [product, related, labels] = await Promise.all([
+  const [product, related, labels, crumbLabels] = await Promise.all([
     translateProduct(source, locale),
     getRelatedProducts(source).then((list) =>
       Promise.all(list.map((p) => translateProduct(p, locale))),
     ),
     translateProductLabels(locale),
+    translateMany(["Home", "Products"], locale),
   ]);
+  const [homeLabel, productsLabel] = crumbLabels;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -90,6 +93,13 @@ export default async function LocalizedProductDetailPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <BreadcrumbJsonLd
+        items={[
+          { name: homeLabel, path: `/${locale}` },
+          { name: productsLabel, path: `/${locale}/products` },
+          { name: product.name, path: `/${locale}/products/${source.slug}` },
+        ]}
       />
       <ProductDetailView
         product={product}

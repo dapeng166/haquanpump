@@ -9,7 +9,7 @@ import { Container, Section } from "@/components/ui/Primitives";
 import { Reveal } from "@/components/ui/Reveal";
 import { WhatsappIcon } from "@/components/ui/WhatsappIcon";
 import { XIcon } from "@/components/ui/XIcon";
-import { InquiryForm } from "@/components/contact/InquiryForm";
+import { InquiryForm, type InquiryFormLabels } from "@/components/contact/InquiryForm";
 import { isIndexableLocale, dirForLocale } from "@/lib/i18n/config";
 import { localeAlternates } from "@/lib/i18n/alternates";
 import { translateMany } from "@/lib/i18n/translate";
@@ -44,6 +44,25 @@ const EN = {
   waChat: "Chat on WhatsApp",
   sendInquiry: "Send an Inquiry",
   required: "Fields marked * are required.",
+  // Inquiry-form strings (passed to the client InquiryForm as translated labels).
+  fName: "Full Name",
+  fEmail: "Email Address",
+  fPhone: "Phone Number",
+  fCompany: "Company",
+  fMessage: "Your Message / Requirements",
+  fPlaceholder: "Flow rate (m³/h), head (m), medium, power supply…",
+  fSend: "Send Inquiry",
+  fSending: "Sending…",
+  fSuccessTitle: "Inquiry Sent",
+  fSuccess: "Thank you — your inquiry has been sent. Our team will reply within 24 hours.",
+  fSendAnother: "Send another inquiry",
+  fError: "Something went wrong. Please try again or email us directly at",
+  fAgree: "By submitting you agree to our",
+  fPrivacy: "Privacy Policy",
+  // Prefill fragments — kept separate so machine translation never touches the
+  // {product} token (composed below).
+  fQuoteFor: "I would like a quotation for:",
+  fDutyPoint: "My application / duty point:",
 };
 
 export async function generateMetadata({
@@ -99,6 +118,24 @@ export default async function LocalizedContactPage({
   const labelValues = await translateMany(keys.map((k) => EN[k]), locale);
   const T = Object.fromEntries(keys.map((k, i) => [k, labelValues[i]])) as typeof EN;
 
+  const formLabels: InquiryFormLabels = {
+    name: T.fName,
+    email: T.fEmail,
+    phone: T.fPhone,
+    company: T.fCompany,
+    message: T.fMessage,
+    messagePlaceholder: T.fPlaceholder,
+    send: T.fSend,
+    sending: T.fSending,
+    successTitle: T.fSuccessTitle,
+    success: T.fSuccess,
+    sendAnother: T.fSendAnother,
+    error: T.fError,
+    agree: T.fAgree,
+    privacyPolicy: T.fPrivacy,
+    prefill: `${T.fQuoteFor} {product}.\n\n${T.fDutyPoint} `,
+  };
+
   return (
     <div dir={dirForLocale(locale)} lang={locale}>
       <Section className="pt-28 sm:pt-32">
@@ -149,7 +186,7 @@ export default async function LocalizedContactPage({
               <p className="mt-3 text-slate-600">{T.required}</p>
               <div className="glass-card mt-8 p-7 sm:p-9">
                 <Suspense fallback={<div className="h-80 animate-pulse rounded-xl bg-slate-50" />}>
-                  <InquiryForm />
+                  <InquiryForm labels={formLabels} />
                 </Suspense>
               </div>
             </Reveal>

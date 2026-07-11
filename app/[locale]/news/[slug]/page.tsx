@@ -6,6 +6,7 @@ import { ArrowLeft, Calendar, Clock, User } from "lucide-react";
 import { getNewsBySlug } from "@/lib/wordpress";
 import { company } from "@/lib/site";
 import { Container, Section } from "@/components/ui/Primitives";
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { isIndexableLocale, dirForLocale, type Locale } from "@/lib/i18n/config";
 import { localeAlternates } from "@/lib/i18n/alternates";
 import { translateNewsPost } from "@/lib/i18n/translateNews";
@@ -66,16 +67,19 @@ export default async function LocalizedNewsArticlePage({
   if (!source) notFound();
 
   const post = await translateNewsPost(source, locale);
-  const [backToNews, minRead, ctaTitle, ctaText, getQuote] = await translateMany(
-    [
-      "Back to News",
-      "min read",
-      "Need a pump for your application?",
-      "Our engineers respond to technical inquiries within 24 hours.",
-      "Get a Quote",
-    ],
-    locale,
-  );
+  const [backToNews, minRead, ctaTitle, ctaText, getQuote, homeLabel, newsLabel] =
+    await translateMany(
+      [
+        "Back to News",
+        "min read",
+        "Need a pump for your application?",
+        "Our engineers respond to technical inquiries within 24 hours.",
+        "Get a Quote",
+        "Home",
+        "News",
+      ],
+      locale,
+    );
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -94,6 +98,13 @@ export default async function LocalizedNewsArticlePage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <BreadcrumbJsonLd
+        items={[
+          { name: homeLabel, path: `/${locale}` },
+          { name: newsLabel, path: `/${locale}/news` },
+          { name: post.title, path: `/${locale}/news/${source.slug}` },
+        ]}
       />
       <Section className="pt-28">
         <Container>

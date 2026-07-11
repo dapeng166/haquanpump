@@ -6,6 +6,7 @@ import {
   ProductDetailView,
   EN_PRODUCT_LABELS,
 } from "@/components/products/ProductDetailView";
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { localeAlternates } from "@/lib/i18n/alternates";
 
 // Pre-render known products; new WordPress products render on-demand (ISR).
@@ -73,6 +74,13 @@ export default async function ProductDetailPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", path: "/" },
+          { name: "Products", path: "/products" },
+          { name: product.name, path: `/products/${product.slug}` },
+        ]}
       />
 
       <ProductDetailView product={product} related={related} labels={EN_PRODUCT_LABELS} />

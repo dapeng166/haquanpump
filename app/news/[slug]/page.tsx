@@ -6,6 +6,7 @@ import { ArrowLeft, Calendar, Clock, User } from "lucide-react";
 import { getNews, getNewsBySlug } from "@/lib/wordpress";
 import { company } from "@/lib/site";
 import { Container, Section } from "@/components/ui/Primitives";
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { localeAlternates } from "@/lib/i18n/alternates";
 
 export async function generateStaticParams() {
@@ -71,6 +72,13 @@ export default async function NewsArticlePage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", path: "/" },
+          { name: "News", path: "/news" },
+          { name: post.title, path: `/news/${post.slug}` },
+        ]}
       />
       <Section className="pt-28">
         <Container>
