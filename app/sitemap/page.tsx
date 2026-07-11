@@ -88,9 +88,10 @@ export default async function SitemapPage() {
       href: `/products?series=${s.slug}`,
     }));
 
-  // Cap the human-readable product list so this page stays browsable even with
-  // a large catalogue; the full list lives in /sitemap.xml for search engines.
-  const PRODUCT_CAP = 24;
+  // Cap the human-readable product/news lists so this page stays browsable even
+  // with a large catalogue; the full list lives in /sitemap.xml for search
+  // engines and on the /products & /news listing pages for people.
+  const PRODUCT_CAP = 16;
   const productLinks: LinkItem[] = products.slice(0, PRODUCT_CAP).map((p) => ({
     label: p.name,
     href: `/products/${p.slug}`,
@@ -102,10 +103,17 @@ export default async function SitemapPage() {
     });
   }
 
-  const newsLinks: LinkItem[] = news.slice(0, 8).map((n) => ({
+  const NEWS_CAP = 8;
+  const newsLinks: LinkItem[] = news.slice(0, NEWS_CAP).map((n) => ({
     label: n.title,
     href: `/news/${n.slug}`,
   }));
+  if (news.length > NEWS_CAP) {
+    newsLinks.push({
+      label: `+ ${news.length - NEWS_CAP} more — browse all news`,
+      href: "/news",
+    });
+  }
 
   const legalLinks: LinkItem[] = [
     { label: "Privacy Policy", href: "/privacy-policy" },
