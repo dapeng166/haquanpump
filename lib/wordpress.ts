@@ -414,6 +414,23 @@ export async function getNewsBySlug(slug: string): Promise<NewsPost | null> {
 }
 
 /**
+ * The chronological neighbours of a news post, for Previous/Next navigation —
+ * two keyword-anchored internal links per article. Wraps around so every
+ * article always links out both ways.
+ */
+export async function getAdjacentNews(
+  post: NewsPost,
+): Promise<{ prev: NewsPost | null; next: NewsPost | null }> {
+  const all = await getNews();
+  const i = all.findIndex((n) => n.slug === post.slug);
+  if (i === -1 || all.length < 2) return { prev: null, next: null };
+  return {
+    prev: all[(i - 1 + all.length) % all.length],
+    next: all[(i + 1) % all.length],
+  };
+}
+
+/**
  * Fetch the single `site_page` record for a given category (home | about |
  * support | contact). Returns null when the CPT is absent or empty, so each
  * page can fall back to its built-in default content.

@@ -3,14 +3,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Calendar, Clock, User } from "lucide-react";
-import { getNewsBySlug } from "@/lib/wordpress";
+import { getNewsBySlug, getAdjacentNews } from "@/lib/wordpress";
 import { company } from "@/lib/site";
 import { Container, Section } from "@/components/ui/Primitives";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
+import { ArticleNav } from "@/components/news/ArticleNav";
 import { isIndexableLocale, dirForLocale, type Locale } from "@/lib/i18n/config";
 import { localeAlternates } from "@/lib/i18n/alternates";
 import { translateNewsPost } from "@/lib/i18n/translateNews";
-import { translateMany } from "@/lib/i18n/translate";
+import { translate, translateMany } from "@/lib/i18n/translate";
 
 type Params = Promise<{ locale: string; slug: string }>;
 
@@ -67,19 +68,36 @@ export default async function LocalizedNewsArticlePage({
   if (!source) notFound();
 
   const post = await translateNewsPost(source, locale);
-  const [backToNews, minRead, ctaTitle, ctaText, getQuote, homeLabel, newsLabel] =
-    await translateMany(
-      [
-        "Back to News",
-        "min read",
-        "Need a pump for your application?",
-        "Our engineers respond to technical inquiries within 24 hours.",
-        "Get a Quote",
-        "Home",
-        "News",
-      ],
-      locale,
-    );
+  const [
+    backToNews,
+    minRead,
+    ctaTitle,
+    ctaText,
+    getQuote,
+    homeLabel,
+    newsLabel,
+    prevLabel,
+    nextLabel,
+  ] = await translateMany(
+    [
+      "Back to News",
+      "min read",
+      "Need a pump for your application?",
+      "Our engineers respond to technical inquiries within 24 hours.",
+      "Get a Quote",
+      "Home",
+      "News",
+      "Previous",
+      "Next",
+    ],
+    locale,
+  );
+
+  // Only the neighbour's title is shown, so translate just that.
+  const adjacent = await getAdjacentNews(source).then(async ({ prev, next }) => ({
+    prev: prev ? { ...prev, title: await translate(prev.title, locale) } : null,
+    next: next ? { ...next, title: await translate(next.title, locale) } : null,
+  }));
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -142,6 +160,13 @@ export default async function LocalizedNewsArticlePage({
             <div
               className="cms-content mt-10 space-y-5 text-lg leading-relaxed text-slate-600 [&_a]:text-accent-600 [&_h2]:mt-8 [&_h2]:font-display [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-slate-900 [&_p]:mb-5"
               dangerouslySetInnerHTML={{ __html: post.content }}
+            />
+
+            <ArticleNav
+              prev={adjacent.prev}
+              next={adjacent.next}
+              hrefBase={`/${locale}`}
+              labels={{ previous: prevLabel, next: nextLabel }}
             />
 
             <div className="mt-12 rounded-2xl border border-slate-200 bg-slate-50 p-8 text-center">

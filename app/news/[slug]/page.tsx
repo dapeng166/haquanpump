@@ -3,10 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Calendar, Clock, User } from "lucide-react";
-import { getNewsBySlug } from "@/lib/wordpress";
+import { getNewsBySlug, getAdjacentNews } from "@/lib/wordpress";
 import { company } from "@/lib/site";
 import { Container, Section } from "@/components/ui/Primitives";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
+import { ArticleNav } from "@/components/news/ArticleNav";
 import { localeAlternates } from "@/lib/i18n/alternates";
 
 // Render on-demand (ISR) so a deploy never depends on the CMS being reachable
@@ -58,6 +59,8 @@ export default async function NewsArticlePage({
   const { slug } = await params;
   const post = await getNewsBySlug(slug);
   if (!post) notFound();
+
+  const { prev, next } = await getAdjacentNews(post);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -120,6 +123,8 @@ export default async function NewsArticlePage({
               className="cms-content mt-10 space-y-5 text-lg leading-relaxed text-slate-600 [&_a]:text-accent-600 [&_h2]:mt-8 [&_h2]:font-display [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-slate-900 [&_p]:mb-5"
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
+
+            <ArticleNav prev={prev} next={next} labels={{ previous: "Previous", next: "Next" }} />
 
             <div className="mt-12 rounded-2xl border border-slate-200 bg-slate-50 p-8 text-center">
               <h2 className="font-display text-xl font-bold text-slate-900">
