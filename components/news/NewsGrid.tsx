@@ -7,6 +7,7 @@ import { ArrowUpRight, Calendar, ChevronLeft, ChevronRight, Clock } from "lucide
 import type { NewsPost } from "@/lib/types";
 import { Reveal } from "@/components/ui/Reveal";
 import { useTranslation } from "@/lib/i18n/I18nProvider";
+import { paginationRange } from "@/lib/pagination";
 
 const PER_PAGE = 6;
 
@@ -103,21 +104,31 @@ export function NewsGrid({
           >
             <ChevronLeft className="h-4 w-4 rtl-flip" aria-hidden />
           </button>
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
-            <button
-              key={n}
-              type="button"
-              onClick={() => go(n)}
-              aria-current={n === page}
-              className={`inline-flex h-10 min-w-10 items-center justify-center rounded-lg border px-3 text-sm font-medium transition-colors ${
-                n === page
-                  ? "border-accent bg-accent/10 text-accent-600"
-                  : "border-slate-200 text-slate-600 hover:border-slate-300 hover:text-slate-900"
-              }`}
-            >
-              {n}
-            </button>
-          ))}
+          {paginationRange(page, totalPages).map((token, i) =>
+            token === "ellipsis" ? (
+              <span
+                key={`e${i}`}
+                className="inline-flex h-10 min-w-10 items-center justify-center px-1 text-sm text-slate-400"
+                aria-hidden
+              >
+                …
+              </span>
+            ) : (
+              <button
+                key={token}
+                type="button"
+                onClick={() => go(token)}
+                aria-current={token === page}
+                className={`inline-flex h-10 min-w-10 items-center justify-center rounded-lg border px-3 text-sm font-medium transition-colors ${
+                  token === page
+                    ? "border-accent bg-accent/10 text-accent-600"
+                    : "border-slate-200 text-slate-600 hover:border-slate-300 hover:text-slate-900"
+                }`}
+              >
+                {token}
+              </button>
+            ),
+          )}
           <button
             type="button"
             onClick={() => go(Math.min(totalPages, page + 1))}

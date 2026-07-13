@@ -7,6 +7,7 @@ import { ChevronLeft, ChevronRight, SlidersHorizontal } from "lucide-react";
 import type { Product, PumpSeries } from "@/lib/types";
 import { ProductCard } from "./ProductCard";
 import { useTranslation } from "@/lib/i18n/I18nProvider";
+import { paginationRange } from "@/lib/pagination";
 
 const PAGE_SIZE = 8; // products per page
 
@@ -158,21 +159,31 @@ export function ProductsExplorer({
             >
               <ChevronLeft className="h-4 w-4 rtl-flip" aria-hidden />
             </button>
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
-              <button
-                key={n}
-                type="button"
-                onClick={() => goToPage(n)}
-                aria-current={n === currentPage ? "page" : undefined}
-                className={`inline-flex h-10 min-w-[2.5rem] items-center justify-center rounded-lg border px-3 text-sm font-medium transition-colors ${
-                  n === currentPage
-                    ? "border-accent/60 bg-accent/10 text-accent-600"
-                    : "border-slate-200 bg-white text-slate-600 hover:border-accent/50 hover:text-accent-600"
-                }`}
-              >
-                {n}
-              </button>
-            ))}
+            {paginationRange(currentPage, totalPages).map((token, i) =>
+              token === "ellipsis" ? (
+                <span
+                  key={`e${i}`}
+                  className="inline-flex h-10 min-w-[2.5rem] items-center justify-center px-1 text-sm text-slate-400"
+                  aria-hidden
+                >
+                  …
+                </span>
+              ) : (
+                <button
+                  key={token}
+                  type="button"
+                  onClick={() => goToPage(token)}
+                  aria-current={token === currentPage ? "page" : undefined}
+                  className={`inline-flex h-10 min-w-[2.5rem] items-center justify-center rounded-lg border px-3 text-sm font-medium transition-colors ${
+                    token === currentPage
+                      ? "border-accent/60 bg-accent/10 text-accent-600"
+                      : "border-slate-200 bg-white text-slate-600 hover:border-accent/50 hover:text-accent-600"
+                  }`}
+                >
+                  {token}
+                </button>
+              ),
+            )}
             <button
               type="button"
               onClick={() => goToPage(currentPage + 1)}
