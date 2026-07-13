@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getProductBySlug, getRelatedProducts } from "@/lib/wordpress";
+import { getProductBySlug, getRelatedProducts, getAdjacentProducts } from "@/lib/wordpress";
 import { company } from "@/lib/site";
 import {
   ProductDetailView,
@@ -59,7 +59,10 @@ export default async function ProductDetailPage({
   const product = await getProductBySlug(slug);
   if (!product) notFound();
 
-  const related = await getRelatedProducts(product);
+  const [related, { prev, next }] = await Promise.all([
+    getRelatedProducts(product),
+    getAdjacentProducts(product),
+  ]);
 
   // Product structured data for rich results.
   const jsonLd = {
@@ -88,7 +91,13 @@ export default async function ProductDetailPage({
         ]}
       />
 
-      <ProductDetailView product={product} related={related} labels={EN_PRODUCT_LABELS} />
+      <ProductDetailView
+        product={product}
+        related={related}
+        labels={EN_PRODUCT_LABELS}
+        prev={prev}
+        next={next}
+      />
     </>
   );
 }

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getProductBySlug, getRelatedProducts } from "@/lib/wordpress";
+import { getProductBySlug, getRelatedProducts, getAdjacentProducts } from "@/lib/wordpress";
 import { company } from "@/lib/site";
 import { ProductDetailView } from "@/components/products/ProductDetailView";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
@@ -10,7 +10,7 @@ import {
   translateProduct,
   translateProductLabels,
 } from "@/lib/i18n/translateProduct";
-import { translateMany } from "@/lib/i18n/translate";
+import { translate, translateMany } from "@/lib/i18n/translate";
 import { cardLabels } from "@/lib/i18n/uiLabels";
 
 type Params = Promise<{ locale: string; slug: string }>;
@@ -65,13 +65,18 @@ export default async function LocalizedProductDetailPage({
   const source = await getProductBySlug(slug);
   if (!source) notFound();
 
-  const [product, related, labels, crumbLabels] = await Promise.all([
+  const [product, related, labels, crumbLabels, adjacent] = await Promise.all([
     translateProduct(source, locale),
     getRelatedProducts(source).then((list) =>
       Promise.all(list.map((p) => translateProduct(p, locale))),
     ),
     translateProductLabels(locale),
     translateMany(["Home", "Products"], locale),
+    // Only the neighbour's name is shown, so translate just that (not the whole product).
+    getAdjacentProducts(source).then(async ({ prev, next }) => ({
+      prev: prev ? { ...prev, name: await translate(prev.name, locale) } : null,
+      next: next ? { ...next, name: await translate(next.name, locale) } : null,
+    })),
   ]);
   const [homeLabel, productsLabel] = crumbLabels;
 
@@ -107,6 +112,8 @@ export default async function LocalizedProductDetailPage({
         labels={labels}
         hrefBase={`/${locale}`}
         cardLabels={cardLabels(locale)}
+        prev={adjacent.prev}
+        next={adjacent.next}
       />
     </div>
   );

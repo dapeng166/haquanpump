@@ -341,6 +341,24 @@ export async function getRelatedProducts(
     .slice(0, limit);
 }
 
+/**
+ * The catalogue neighbours of a product, for Previous/Next navigation. Adds two
+ * keyword-anchored internal links per product page (helps crawl depth and lets
+ * visitors browse adjacent items). Wraps around so the first product's
+ * "previous" is the last product and vice-versa — every page always links out.
+ */
+export async function getAdjacentProducts(
+  product: Product,
+): Promise<{ prev: Product | null; next: Product | null }> {
+  const all = await getProducts();
+  const i = all.findIndex((p) => p.slug === product.slug);
+  if (i === -1 || all.length < 2) return { prev: null, next: null };
+  return {
+    prev: all[(i - 1 + all.length) % all.length],
+    next: all[(i + 1) % all.length],
+  };
+}
+
 export async function getNews(): Promise<NewsPost[]> {
   if (CONTENT_MODE === "seed") return seedNews;
   const raw = await wpFetch<WPPost[]>("/wp/v2/posts?_embed&per_page=24");

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import {
   ArrowRight,
+  ArrowLeft,
   Droplets,
   Gauge,
   Zap,
@@ -31,6 +32,8 @@ export type ProductDetailLabels = {
   applications: string;
   related: string;
   inquire: string;
+  previous: string;
+  next: string;
 };
 
 /** English source strings; localized routes translate these before rendering. */
@@ -48,6 +51,8 @@ export const EN_PRODUCT_LABELS: ProductDetailLabels = {
   applications: "Typical Applications",
   related: "Related Products",
   inquire: "Inquire About This Product",
+  previous: "Previous",
+  next: "Next",
 };
 
 /**
@@ -62,6 +67,8 @@ export function ProductDetailView({
   labels,
   hrefBase = "",
   cardLabels,
+  prev = null,
+  next = null,
 }: {
   product: Product;
   related: Product[];
@@ -69,6 +76,9 @@ export function ProductDetailView({
   hrefBase?: string;
   /** Pre-translated labels for the related-product cards (localized routes). */
   cardLabels?: { flow: string; head: string; power: string; viewDetails: string };
+  /** Catalogue neighbours for Previous/Next navigation. */
+  prev?: Product | null;
+  next?: Product | null;
 }) {
   const specRows = [
     { icon: Droplets, label: labels.flowRate, value: product.specs.flowRate, unit: "m³/h" },
@@ -180,6 +190,56 @@ export function ProductDetailView({
           </div>
         </Container>
       </Section>
+
+      {/* Previous / Next catalogue navigation — two keyword-anchored internal
+          links per page, and an easy way to browse adjacent products. */}
+      {(prev || next) && (
+        <Section className="py-8">
+          <Container>
+            <nav
+              aria-label="Product navigation"
+              className="grid gap-4 border-t border-slate-200 pt-8 sm:grid-cols-2"
+            >
+              {prev ? (
+                <Link
+                  href={`${hrefBase}/products/${prev.slug}`}
+                  className="group flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 transition-colors hover:border-accent/50 hover:bg-slate-50"
+                >
+                  <ArrowLeft className="h-5 w-5 shrink-0 text-slate-400 rtl-flip transition-colors group-hover:text-accent-600" aria-hidden />
+                  <span className="min-w-0">
+                    <span className="block text-xs font-semibold uppercase tracking-wide text-slate-400">
+                      {labels.previous}
+                    </span>
+                    <span className="block truncate font-medium text-slate-900 group-hover:text-accent-600">
+                      {prev.name}
+                    </span>
+                  </span>
+                </Link>
+              ) : (
+                <span className="hidden sm:block" />
+              )}
+              {next ? (
+                <Link
+                  href={`${hrefBase}/products/${next.slug}`}
+                  className="group flex items-center justify-end gap-3 rounded-xl border border-slate-200 bg-white p-4 text-right transition-colors hover:border-accent/50 hover:bg-slate-50"
+                >
+                  <span className="min-w-0">
+                    <span className="block text-xs font-semibold uppercase tracking-wide text-slate-400">
+                      {labels.next}
+                    </span>
+                    <span className="block truncate font-medium text-slate-900 group-hover:text-accent-600">
+                      {next.name}
+                    </span>
+                  </span>
+                  <ArrowRight className="h-5 w-5 shrink-0 text-slate-400 rtl-flip transition-colors group-hover:text-accent-600" aria-hidden />
+                </Link>
+              ) : (
+                <span className="hidden sm:block" />
+              )}
+            </nav>
+          </Container>
+        </Section>
+      )}
 
       {/* Related */}
       {related.length > 0 && (
