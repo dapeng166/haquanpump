@@ -163,13 +163,32 @@ async function wpFetchAll<T>(path: string, maxPages = 30): Promise<T[] | null> {
   return rest.reduce<T[]>((all, r) => (r ? all.concat(r.data) : all), first.data);
 }
 
-function stripHtml(html = ""): string {
-  return html
-    .replace(/<[^>]*>/g, "")
+/**
+ * Decode the HTML entities WordPress emits in `*.rendered` fields. wptexturize
+ * turns straight quotes/dashes into numeric entities (e.g. 1" -> 1&#8243;,
+ * -- -> &#8211;), which show up literally when the value is rendered as plain
+ * text. Decode numeric (decimal + hex) and the common named entities. `&amp;`
+ * is decoded last so an encoded ampersand doesn't revive other entities.
+ */
+function decodeEntities(text: string): string {
+  const codePoint = (raw: string, radix: number): string => {
+    const cp = parseInt(raw, radix);
+    return Number.isFinite(cp) && cp >= 0 && cp <= 0x10ffff ? String.fromCodePoint(cp) : "";
+  };
+  return text
+    .replace(/&#x([0-9a-fA-F]+);/g, (_, hex) => codePoint(hex, 16))
+    .replace(/&#(\d+);/g, (_, dec) => codePoint(dec, 10))
     .replace(/&hellip;/g, "…")
     .replace(/&nbsp;/g, " ")
-    .replace(/&amp;/g, "&")
-    .trim();
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&amp;/g, "&");
+}
+
+function stripHtml(html = ""): string {
+  return decodeEntities(html.replace(/<[^>]*>/g, "")).trim();
 }
 
 /** Read an ACF value tolerant of several likely field-name spellings. */
