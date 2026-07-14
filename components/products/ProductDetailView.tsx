@@ -198,7 +198,7 @@ export function ProductDetailView({
           <Container>
             <nav
               aria-label="Product navigation"
-              className="grid gap-4 border-t border-slate-200 pt-8 sm:grid-cols-2"
+              className="flex flex-col gap-4 border-t border-slate-200 pt-8"
             >
               {prev ? (
                 <Link
@@ -215,9 +215,7 @@ export function ProductDetailView({
                     </span>
                   </span>
                 </Link>
-              ) : (
-                <span className="hidden sm:block" />
-              )}
+              ) : null}
               {next ? (
                 <Link
                   href={`${hrefBase}/products/${next.slug}`}
@@ -233,9 +231,7 @@ export function ProductDetailView({
                   </span>
                   <ArrowRight className="h-5 w-5 shrink-0 text-slate-400 rtl-flip transition-colors group-hover:text-accent-600" aria-hidden />
                 </Link>
-              ) : (
-                <span className="hidden sm:block" />
-              )}
+              ) : null}
             </nav>
           </Container>
         </Section>
