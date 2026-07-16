@@ -15,7 +15,7 @@ export function Testimonials({ items }: { items?: Testimonial[] }) {
   const list = items && items.length > 0 ? items : seedTestimonials;
 
   return (
-    <Section>
+    <Section className="!py-12 sm:!py-16">
       <Container>
         <SectionHeading
           eyebrow="Testimonials"

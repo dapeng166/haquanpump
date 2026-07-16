@@ -12,7 +12,7 @@ export function ProductPreview({ products }: { products: Product[] }) {
   const { t } = useTranslation();
 
   return (
-    <Section className="bg-slate-50">
+    <Section className="bg-slate-50 !py-14 sm:!py-20">
       <Container>
         <SectionHeading
           eyebrow="Product Range"

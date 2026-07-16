@@ -45,7 +45,7 @@ function OrganizationJsonLd() {
 export default async function HomePage() {
   const [products, page] = await Promise.all([getProducts(), getSitePage("home")]);
   const featured = products.filter((p) => p.featured);
-  const preview = (featured.length >= 3 ? featured : products).slice(0, 6);
+  const preview = (featured.length >= 3 ? featured : products).slice(0, 9);
 
   // Editable-in-WordPress advantages (only used when all three are filled in).
   const cmsAdvantages = [1, 2, 3]

@@ -13,7 +13,7 @@ export function FinalCTA() {
   const { t } = useTranslation();
 
   return (
-    <section className="py-20 sm:py-28">
+    <section className="py-12 sm:py-16">
       <Container>
         <Reveal>
           <div className="relative isolate overflow-hidden rounded-3xl border border-slate-200 px-6 py-16 text-center sm:px-12 sm:py-20">
