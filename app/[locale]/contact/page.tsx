@@ -22,10 +22,10 @@ export async function generateStaticParams() {
 }
 
 const socials = [
-  { href: company.social.linkedin, icon: Linkedin, label: "LinkedIn" },
-  { href: company.social.facebook, icon: Facebook, label: "Facebook" },
-  { href: company.social.x, icon: XIcon, label: "X" },
-  { href: company.social.whatsapp, icon: WhatsappIcon, label: "WhatsApp" },
+  { href: company.social.linkedin, icon: Linkedin, label: "LinkedIn", brand: "#0A66C2" },
+  { href: company.social.facebook, icon: Facebook, label: "Facebook", brand: "#1877F2" },
+  { href: company.social.x, icon: XIcon, label: "X", brand: "#000000" },
+  { href: company.social.whatsapp, icon: WhatsappIcon, label: "WhatsApp", brand: "#25D366" },
 ];
 
 const EN = {
@@ -160,7 +160,7 @@ export default async function LocalizedContactPage({
                 <div className="mb-3 text-sm font-semibold uppercase tracking-wider text-slate-900">{T.followUs}</div>
                 <div className="flex gap-3">
                   {socials.map((s) => (
-                    <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label} className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 text-slate-600 transition-all hover:border-accent/50 hover:text-accent-600">
+                    <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label} style={{ backgroundColor: s.brand }} className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-white shadow-sm transition-all hover:-translate-y-0.5 hover:opacity-90">
                       <s.icon className="h-5 w-5" />
                     </a>
                   ))}
