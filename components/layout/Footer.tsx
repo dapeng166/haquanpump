@@ -30,13 +30,13 @@ export function Footer({ series }: { series?: PumpSeries[] }) {
   ];
 
   return (
-    <footer className="relative mt-12 border-t border-slate-200 bg-white">
+    <footer className="relative mt-12 bg-[#16305a] text-slate-300">
       <div className="container-px py-16">
         <div className="grid grid-cols-2 gap-10 md:grid-cols-4 lg:grid-cols-12">
           {/* Brand */}
           <div className="col-span-2 lg:col-span-4">
-            <Logo />
-            <p className="mt-5 max-w-xs text-sm leading-relaxed text-slate-500">
+            <Logo onDark />
+            <p className="mt-5 max-w-xs text-sm leading-relaxed text-slate-300">
               {t("footer.tagline")}
             </p>
             <div className="mt-6 flex gap-3">
@@ -58,7 +58,7 @@ export function Footer({ series }: { series?: PumpSeries[] }) {
 
           {/* Quick links */}
           <div className="lg:col-span-2">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-900">
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-amber-400">
               {t("footer.quickLinks")}
             </h3>
             <ul className="mt-5 space-y-3 text-sm">
@@ -66,7 +66,7 @@ export function Footer({ series }: { series?: PumpSeries[] }) {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="text-slate-500 transition-colors hover:text-accent-600"
+                    className="text-slate-300 transition-colors hover:text-amber-400"
                   >
                     {t(item.key)}
                   </Link>
@@ -77,7 +77,7 @@ export function Footer({ series }: { series?: PumpSeries[] }) {
 
           {/* Products */}
           <div className="lg:col-span-3">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-900">
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-amber-400">
               {t("footer.ourProducts")}
             </h3>
             <ul className="mt-5 space-y-3 text-sm">
@@ -85,7 +85,7 @@ export function Footer({ series }: { series?: PumpSeries[] }) {
                 <li key={s.slug}>
                   <Link
                     href={`/products?series=${s.slug}`}
-                    className="text-slate-500 transition-colors hover:text-accent-600"
+                    className="text-slate-300 transition-colors hover:text-amber-400"
                   >
                     {s.name}
                   </Link>
@@ -96,29 +96,29 @@ export function Footer({ series }: { series?: PumpSeries[] }) {
 
           {/* Contact */}
           <div className="col-span-2 lg:col-span-3">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-900">
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-amber-400">
               {t("footer.contactUs")}
             </h3>
-            <ul className="mt-5 space-y-4 text-sm text-slate-500">
+            <ul className="mt-5 space-y-4 text-sm text-slate-300">
               <li className="flex gap-3">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-accent-600" />
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-amber-400" />
                 <span>{company.address.full}</span>
               </li>
               <li>
                 <a
                   href={`tel:${company.phoneHref}`}
-                  className="flex gap-3 transition-colors hover:text-accent-600"
+                  className="flex gap-3 transition-colors hover:text-amber-400"
                 >
-                  <Phone className="mt-0.5 h-4 w-4 shrink-0 text-accent-600" />
+                  <Phone className="mt-0.5 h-4 w-4 shrink-0 text-amber-400" />
                   {company.phone}
                 </a>
               </li>
               <li>
                 <a
                   href={`mailto:${company.email}`}
-                  className="flex gap-3 transition-colors hover:text-accent-600"
+                  className="flex gap-3 transition-colors hover:text-amber-400"
                 >
-                  <Mail className="mt-0.5 h-4 w-4 shrink-0 text-accent-600" />
+                  <Mail className="mt-0.5 h-4 w-4 shrink-0 text-amber-400" />
                   {company.email}
                 </a>
               </li>
@@ -127,18 +127,18 @@ export function Footer({ series }: { series?: PumpSeries[] }) {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-slate-200 pt-7 text-sm text-slate-500 sm:flex-row">
+        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-7 text-sm text-slate-400 sm:flex-row">
           <p>
             © {year} {company.name} {t("footer.rights")}
           </p>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
-            <Link href="/privacy-policy" className="transition-colors hover:text-accent-600">
+            <Link href="/privacy-policy" className="transition-colors hover:text-amber-400">
               {t("footer.privacy")}
             </Link>
-            <Link href="/terms-of-use" className="transition-colors hover:text-accent-600">
+            <Link href="/terms-of-use" className="transition-colors hover:text-amber-400">
               {t("footer.terms")}
             </Link>
-            <Link href="/sitemap" className="transition-colors hover:text-accent-600">
+            <Link href="/sitemap" className="transition-colors hover:text-amber-400">
               {t("footer.sitemap")}
             </Link>
           </div>

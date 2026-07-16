@@ -5,7 +5,13 @@ import { company } from "@/lib/site";
  * Flowing "HQ" monogram — a blue H of ribbon-like strokes beside a red→amber Q
  * whose tail sweeps off like moving water. Inline SVG, crisp at any size.
  */
-export function Logo({ className = "" }: { className?: string }) {
+export function Logo({
+  className = "",
+  onDark = false,
+}: {
+  className?: string;
+  onDark?: boolean;
+}) {
   return (
     <Link
       href="/"
@@ -45,7 +51,9 @@ export function Logo({ className = "" }: { className?: string }) {
       <span className="flex flex-col leading-none">
         <span
           translate="no"
-          className="font-display text-lg font-bold uppercase tracking-tight text-slate-900"
+          className={`font-display text-lg font-bold uppercase tracking-tight ${
+            onDark ? "text-white" : "text-slate-900"
+          }`}
         >
           Haquan
         </span>
