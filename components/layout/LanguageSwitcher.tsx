@@ -200,9 +200,9 @@ export function LanguageSwitcher({ compact = false }: { compact?: boolean }) {
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-label="Select language"
-        className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-medium text-slate-600 transition-colors hover:border-accent/50 hover:text-slate-900"
+        className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-2 text-sm font-medium text-slate-200 transition-colors hover:border-amber-300/50 hover:text-white"
       >
-        <Globe className="h-4 w-4 text-accent-600" aria-hidden />
+        <Globe className="h-4 w-4 text-amber-400" aria-hidden />
         {!compact && <span className="hidden sm:inline">{active.name}</span>}
         <ChevronDown
           className={`h-3.5 w-3.5 transition-transform ${open ? "rotate-180" : ""}`}

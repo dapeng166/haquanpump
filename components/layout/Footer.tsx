@@ -31,7 +31,7 @@ export function Footer({ series }: { series?: PumpSeries[] }) {
 
   return (
     <footer className="relative mt-12 bg-[#16305a] text-slate-300">
-      <div className="container-px py-16">
+      <div className="container-px pt-16 pb-10">
         <div className="grid grid-cols-2 gap-10 md:grid-cols-4 lg:grid-cols-12">
           {/* Brand */}
           <div className="col-span-2 lg:col-span-4">
@@ -125,20 +125,22 @@ export function Footer({ series }: { series?: PumpSeries[] }) {
             </ul>
           </div>
         </div>
+      </div>
 
-        {/* Bottom bar */}
-        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-7 text-sm text-slate-400 sm:flex-row">
+      {/* Bottom bar — white base, echoing the light page content */}
+      <div className="bg-white">
+        <div className="container-px flex flex-col items-center justify-between gap-4 py-5 text-sm text-slate-500 sm:flex-row">
           <p>
             © {year} {company.name} {t("footer.rights")}
           </p>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
-            <Link href="/privacy-policy" className="transition-colors hover:text-amber-400">
+            <Link href="/privacy-policy" className="transition-colors hover:text-accent-600">
               {t("footer.privacy")}
             </Link>
-            <Link href="/terms-of-use" className="transition-colors hover:text-amber-400">
+            <Link href="/terms-of-use" className="transition-colors hover:text-accent-600">
               {t("footer.terms")}
             </Link>
-            <Link href="/sitemap" className="transition-colors hover:text-amber-400">
+            <Link href="/sitemap" className="transition-colors hover:text-accent-600">
               {t("footer.sitemap")}
             </Link>
           </div>
