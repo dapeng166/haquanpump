@@ -1,6 +1,6 @@
 import type { Product } from "@/lib/types";
 import type { Locale } from "./config";
-import { translate, translateMany } from "./translate";
+import { translateHtml, translateMany } from "./translate";
 import {
   EN_PRODUCT_LABELS,
   type ProductDetailLabels,
@@ -21,7 +21,7 @@ export async function translateProduct(
     [product.name, product.excerpt, product.seriesName, product.specs.material],
     locale,
   );
-  const description = await translate(product.description, locale, "html");
+  const description = await translateHtml(product.description, locale);
   const applications = await translateMany(product.applications, locale);
 
   return {

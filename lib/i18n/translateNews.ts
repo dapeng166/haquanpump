@@ -1,6 +1,6 @@
 import type { NewsPost } from "@/lib/types";
 import type { Locale } from "./config";
-import { translate, translateMany } from "./translate";
+import { translateHtml, translateMany } from "./translate";
 
 /** Translate the fields a news card shows (title, excerpt, category). */
 export async function translateNewsCard(
@@ -25,6 +25,6 @@ export async function translateNewsPost(
     [post.title, post.excerpt, post.category, post.author],
     locale,
   );
-  const content = await translate(post.content, locale, "html");
+  const content = await translateHtml(post.content, locale);
   return { ...post, title, excerpt, category, author, content };
 }

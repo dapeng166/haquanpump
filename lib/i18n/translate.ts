@@ -139,3 +139,72 @@ export async function translateMany(
 
   return results.map((r, i) => r ?? texts[i]);
 }
+
+// The free endpoint truncates very long input, so a whole article body (with an
+// embedded SVG diagram) sent as one string comes back cut off. Keep each piece
+// well under that limit.
+const MAX_HTML_CHUNK = 3500;
+
+/** Split HTML into chunks under `max`, only ever cutting after a block-closing tag. */
+function chunkHtml(html: string, max: number): string[] {
+  if (html.length <= max) return [html];
+  const pieces = html.split(
+    /(?<=<\/(?:p|h[1-6]|ul|ol|li|table|blockquote|div|pre|section)>)/gi,
+  );
+  const chunks: string[] = [];
+  let cur = "";
+  for (const piece of pieces) {
+    if (cur && cur.length + piece.length > max) {
+      chunks.push(cur);
+      cur = "";
+    }
+    cur += piece;
+  }
+  if (cur) chunks.push(cur);
+  return chunks;
+}
+
+/**
+ * Translate an HTML body safely. Embedded `<figure>`/`<svg>` blocks (e.g. inline
+ * diagrams) are passed through untouched — never translated or split — so they
+ * render intact, and the remaining text is translated in chunks small enough
+ * that the free endpoint doesn't truncate long articles. Order is preserved.
+ */
+export async function translateHtml(
+  html: string,
+  target: Locale,
+): Promise<string> {
+  if (target === "en" || !html?.trim()) return html;
+
+  // Carve the body into segments, marking whole <figure>/<svg> blocks to keep.
+  const segments: { keep: boolean; html: string }[] = [];
+  const re = /<figure[\s\S]*?<\/figure>|<svg[\s\S]*?<\/svg>/gi;
+  let last = 0;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(html)) !== null) {
+    if (m.index > last) segments.push({ keep: false, html: html.slice(last, m.index) });
+    segments.push({ keep: true, html: m[0] });
+    last = m.index + m[0].length;
+  }
+  if (last < html.length) segments.push({ keep: false, html: html.slice(last) });
+
+  // Gather the translatable chunks, translate in one batched pass, reassemble.
+  const toTranslate: string[] = [];
+  const plan: (number | string)[] = [];
+  for (const seg of segments) {
+    if (seg.keep) {
+      plan.push(seg.html);
+      continue;
+    }
+    for (const chunk of chunkHtml(seg.html, MAX_HTML_CHUNK)) {
+      plan.push(toTranslate.length);
+      toTranslate.push(chunk);
+    }
+  }
+  if (toTranslate.length === 0) return html;
+
+  const translated = await translateMany(toTranslate, target, "html");
+  return plan
+    .map((p) => (typeof p === "number" ? translated[p] : p))
+    .join("");
+}
