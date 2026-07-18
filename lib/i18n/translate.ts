@@ -176,9 +176,11 @@ export async function translateHtml(
 ): Promise<string> {
   if (target === "en" || !html?.trim()) return html;
 
-  // Carve the body into segments, marking whole <figure>/<svg> blocks to keep.
+  // Carve the body into segments, marking blocks to keep verbatim: HTML comments
+  // (translating one can break its `-->` and swallow the rest of the article) and
+  // whole <figure>/<svg> blocks (inline diagrams).
   const segments: { keep: boolean; html: string }[] = [];
-  const re = /<figure[\s\S]*?<\/figure>|<svg[\s\S]*?<\/svg>/gi;
+  const re = /<!--[\s\S]*?-->|<figure[\s\S]*?<\/figure>|<svg[\s\S]*?<\/svg>/gi;
   let last = 0;
   let m: RegExpExecArray | null;
   while ((m = re.exec(html)) !== null) {
