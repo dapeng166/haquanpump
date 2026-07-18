@@ -8,6 +8,7 @@ import {
 } from "@/components/products/ProductDetailView";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { localeAlternates } from "@/lib/i18n/alternates";
+import { metaTitle, metaDescription } from "@/lib/seo";
 
 // Render product pages on-demand (ISR) rather than at build time. This keeps a
 // deploy from depending on the CMS being reachable during the build (a
@@ -33,8 +34,8 @@ export async function generateMetadata({
     // Use the product name alone; the site template appends " | Haquan Pump".
     // Appending the series name here duplicated keywords (e.g. "WQK … Sewage
     // Pump — WQK … Sewage Pump") and pushed the title past Google's ~60-char cut.
-    title: product.name,
-    description: product.excerpt,
+    title: metaTitle(product.name),
+    description: metaDescription(product.excerpt),
     keywords: product.seoKeywords
       ? product.seoKeywords.split(",").map((k) => k.trim()).filter(Boolean)
       : undefined,

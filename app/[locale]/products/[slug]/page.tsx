@@ -6,6 +6,7 @@ import { ProductDetailView } from "@/components/products/ProductDetailView";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { isIndexableLocale, dirForLocale } from "@/lib/i18n/config";
 import { localeAlternates } from "@/lib/i18n/alternates";
+import { metaTitle, metaDescription } from "@/lib/seo";
 import {
   translateProduct,
   translateProductLabels,
@@ -40,8 +41,8 @@ export async function generateMetadata({
   const path = `/products/${product.slug}`;
 
   return {
-    title: name,
-    description: excerpt,
+    title: metaTitle(name),
+    description: metaDescription(excerpt),
     alternates: {
       canonical: `/${locale}${path}`,
       languages: localeAlternates(path),
