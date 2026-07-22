@@ -16,7 +16,11 @@ import { productImages, newsImages, pickImage } from "@/lib/images";
  * the site always renders real content.
  */
 
-const REVALIDATE_SECONDS = 60; // 1 minute ISR — CMS edits appear quickly
+// 1 hour ISR. A pump catalogue doesn't change by the minute, and a short
+// window (was 60s) regenerated every page on almost every crawl — which burned
+// through Vercel's ISR-write allowance. Newly published products/news still
+// appear within the hour. Bump higher (e.g. 21600 = 6h) to save even more.
+const REVALIDATE_SECONDS = 3600;
 
 type WPMedia = { source_url?: string; alt_text?: string };
 type WPEmbedded = {

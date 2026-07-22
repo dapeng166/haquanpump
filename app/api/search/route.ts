@@ -6,7 +6,7 @@ import { getProducts, getNews } from "@/lib/wordpress";
 // each time it opens and filters locally, so there is no per-keystroke server
 // round-trip and no third-party search service. Refreshed every minute (ISR) so
 // newly published products/news become searchable quickly.
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export type SearchDoc = {
   type: "Product" | "News" | "Page";
