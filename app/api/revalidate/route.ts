@@ -29,15 +29,20 @@ async function handle(req: NextRequest) {
   // Safe diagnostic (?debug=1): reveals only whether the env var is set and the
   // lengths — never the values — so a mismatch can be pinpointed.
   if (req.nextUrl.searchParams.get("debug") === "1") {
+    const allKeys = Object.keys(process.env);
     return NextResponse.json({
-      deployMarker: "v3-envkeys",
+      deployMarker: "v4-envprobe",
       envConfigured: Boolean(SECRET),
       envLength: SECRET?.length ?? 0,
       providedLength: provided?.length ?? 0,
-      // key NAMES only (never values) that the runtime can actually see
-      seenKeys: Object.keys(process.env).filter((k) =>
-        /REVAL|WP_API|SITE_URL/i.test(k),
-      ),
+      // Runtime environment probe (NAMES only, never values):
+      totalEnvKeys: allKeys.length,
+      vercelEnv: process.env.VERCEL_ENV ?? null,
+      hasRevalidate: Boolean(process.env.REVALIDATE_SECRET),
+      // NEXT_PUBLIC_ / project key NAMES the runtime can actually see
+      projectKeys: allKeys
+        .filter((k) => /REVAL|WP_API|SITE_URL|CONTENT_MODE|NEXT_PUBLIC/i.test(k))
+        .sort(),
     });
   }
 
