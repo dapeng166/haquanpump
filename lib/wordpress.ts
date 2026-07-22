@@ -287,9 +287,14 @@ export async function getProducts(): Promise<Product[]> {
   // Page through the whole `pump` collection — WP caps per_page at 100, so a
   // catalogue larger than 100 needs pagination or products silently disappear.
   const raw = await wpFetchAll<WPPump>("/wp/v2/pump?_embed");
-  const live = raw ? raw.map(mapPump) : [];
+  // A null result means the CMS was unreachable. Do NOT silently show the seed
+  // demo catalogue (and let ISR cache it) — that's what made the homepage flip
+  // to placeholder products during a Hostinger hiccup. Throw instead, so Next
+  // keeps serving the last-good page with the real products.
+  if (raw === null) throw new Error("CMS unavailable while listing products");
+  const live = raw.map(mapPump);
   if (CONTENT_MODE === "merge") return mergeBySlug(seedProducts, live);
-  return live.length ? live : seedProducts; // "live"
+  return live.length ? live : seedProducts; // genuine 200-empty → seed is fine
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {

@@ -9,6 +9,11 @@ import { ProductPreview } from "@/components/home/ProductPreview";
 import { Testimonials } from "@/components/home/Testimonials";
 import { FinalCTA } from "@/components/home/FinalCTA";
 
+// Statically cache the homepage and revalidate hourly. If a background
+// revalidation fails (e.g. the CMS is briefly unreachable) Next keeps serving
+// the last successful render, so the page never flips to the seed demo catalogue.
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
   title: siteConfig.defaultTitle,
   description: siteConfig.defaultDescription,
