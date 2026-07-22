@@ -30,10 +30,14 @@ async function handle(req: NextRequest) {
   // lengths — never the values — so a mismatch can be pinpointed.
   if (req.nextUrl.searchParams.get("debug") === "1") {
     return NextResponse.json({
+      deployMarker: "v3-envkeys",
       envConfigured: Boolean(SECRET),
       envLength: SECRET?.length ?? 0,
       providedLength: provided?.length ?? 0,
-      matches: Boolean(SECRET) && provided === SECRET,
+      // key NAMES only (never values) that the runtime can actually see
+      seenKeys: Object.keys(process.env).filter((k) =>
+        /REVAL|WP_API|SITE_URL/i.test(k),
+      ),
     });
   }
 
