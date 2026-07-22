@@ -22,6 +22,12 @@ import { productImages, newsImages, pickImage } from "@/lib/images";
 // appear within the hour. Bump higher (e.g. 21600 = 6h) to save even more.
 const REVALIDATE_SECONDS = 3600;
 
+// True only while `next build` is prerendering pages. During the build the CMS
+// may be briefly unreachable from Vercel; the list helpers fall back to seed
+// then (so the deploy never fails) but still throw at RUNTIME (so a live page
+// serves the last-good content via ISR instead of the seed demo catalogue).
+const isBuildPhase = () => process.env.NEXT_PHASE === "phase-production-build";
+
 type WPMedia = { source_url?: string; alt_text?: string };
 type WPEmbedded = {
   "wp:featuredmedia"?: WPMedia[];
@@ -295,7 +301,10 @@ export async function getProducts(): Promise<Product[]> {
   // demo catalogue (and let ISR cache it) — that's what made the homepage flip
   // to placeholder products during a Hostinger hiccup. Throw instead, so Next
   // keeps serving the last-good page with the real products.
-  if (raw === null) throw new Error("CMS unavailable while listing products");
+  if (raw === null) {
+    if (isBuildPhase()) return seedProducts; // never fail the deploy
+    throw new Error("CMS unavailable while listing products");
+  }
   const live = raw.map(mapPump);
   if (CONTENT_MODE === "merge") return mergeBySlug(seedProducts, live);
   return live.length ? live : seedProducts; // genuine 200-empty → seed is fine
@@ -326,7 +335,10 @@ export async function getProductSeries(): Promise<PumpSeries[]> {
   const raw = await wpFetch<WPTerm[]>("/wp/v2/pump_series?per_page=100&hide_empty=false");
   // Null = CMS unreachable. Throw so pages serve the last-good series (the
   // layout catches this for the footer, so the site never hard-fails).
-  if (raw === null) throw new Error("CMS unavailable while listing product series");
+  if (raw === null) {
+    if (isBuildPhase()) return seedSeries; // never fail the deploy
+    throw new Error("CMS unavailable while listing product series");
+  }
   const live: PumpSeries[] = raw
     ? raw.map((t) => ({
         slug: t.slug,
@@ -376,7 +388,10 @@ export async function getNews(): Promise<NewsPost[]> {
   const raw = await wpFetch<WPPost[]>("/wp/v2/posts?_embed&per_page=24");
   // Null = CMS unreachable. Throw rather than show the seed demo articles (and
   // let ISR cache them); Next keeps serving the last-good news list instead.
-  if (raw === null) throw new Error("CMS unavailable while listing news");
+  if (raw === null) {
+    if (isBuildPhase()) return seedNews; // never fail the deploy
+    throw new Error("CMS unavailable while listing news");
+  }
   const live: NewsPost[] = raw
     ? raw.map((post, i) => ({
         slug: post.slug,
