@@ -26,6 +26,17 @@ async function handle(req: NextRequest) {
     req.nextUrl.searchParams.get("secret") ??
     req.headers.get("x-revalidate-secret");
 
+  // Safe diagnostic (?debug=1): reveals only whether the env var is set and the
+  // lengths — never the values — so a mismatch can be pinpointed.
+  if (req.nextUrl.searchParams.get("debug") === "1") {
+    return NextResponse.json({
+      envConfigured: Boolean(SECRET),
+      envLength: SECRET?.length ?? 0,
+      providedLength: provided?.length ?? 0,
+      matches: Boolean(SECRET) && provided === SECRET,
+    });
+  }
+
   if (!SECRET || provided !== SECRET) {
     return NextResponse.json(
       { revalidated: false, error: "Invalid or missing secret" },
