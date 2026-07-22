@@ -324,6 +324,9 @@ export async function getProductSeries(): Promise<PumpSeries[]> {
   const seedSeries = seriesWithCounts();
   if (CONTENT_MODE === "seed") return seedSeries;
   const raw = await wpFetch<WPTerm[]>("/wp/v2/pump_series?per_page=100&hide_empty=false");
+  // Null = CMS unreachable. Throw so pages serve the last-good series (the
+  // layout catches this for the footer, so the site never hard-fails).
+  if (raw === null) throw new Error("CMS unavailable while listing product series");
   const live: PumpSeries[] = raw
     ? raw.map((t) => ({
         slug: t.slug,
@@ -371,6 +374,9 @@ export async function getAdjacentProducts(
 export async function getNews(): Promise<NewsPost[]> {
   if (CONTENT_MODE === "seed") return seedNews;
   const raw = await wpFetch<WPPost[]>("/wp/v2/posts?_embed&per_page=24");
+  // Null = CMS unreachable. Throw rather than show the seed demo articles (and
+  // let ISR cache them); Next keeps serving the last-good news list instead.
+  if (raw === null) throw new Error("CMS unavailable while listing news");
   const live: NewsPost[] = raw
     ? raw.map((post, i) => ({
         slug: post.slug,
