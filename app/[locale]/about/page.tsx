@@ -27,7 +27,7 @@ const EN = {
     "Founded in 2014, Shanghai Haquan Pump Valve Manufacturing Co., Ltd. is a professional sewage pump manufacturer supplying WILDEN AODD, QBY diaphragm, submersible, self-priming, grinder and pipeline pumps across wastewater, food & beverage, irrigation, biopharmaceutical and petrochemical industries.",
   eyebrow: "About Haquan",
   intro:
-    "Since 2014, Shanghai Haquan has grown from a specialist pump workshop into a global industrial manufacturer trusted across the world's most demanding industries.",
+    "Since 2014, Shanghai Haquan Pump Valve Manufacturing Co., Ltd. has grown from a specialist pump workshop into a global industrial manufacturer trusted across demanding industries worldwide.",
   storyEyebrow: "Our Story",
   storyTitle: "Built on Hydraulics, Driven by Reliability",
   story1:

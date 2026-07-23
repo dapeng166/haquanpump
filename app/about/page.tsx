@@ -44,7 +44,7 @@ export default async function AboutPage() {
         title="A Decade of Engineering Reliable Sewage Pumps"
         intro={
           page?.subtitle ||
-          "Since 2014, Shanghai Haquan has grown from a specialist pump workshop into a global industrial manufacturer trusted across the world's most demanding industries."
+          "Since 2014, Shanghai Haquan Pump Valve Manufacturing Co., Ltd. has grown from a specialist pump workshop into a global industrial manufacturer trusted across demanding industries worldwide."
         }
         image={page?.heroImage || img.aboutFactory}
         breadcrumbs={[{ label: "About" }]}

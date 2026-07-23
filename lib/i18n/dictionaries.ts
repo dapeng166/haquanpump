@@ -27,9 +27,12 @@ const en = {
   },
   hero: {
     badge: "Trusted Pump Manufacturer Since 2014",
-    title: "Sewage Pumps Engineered for the World's Toughest Industries",
+    // Superlatives ("toughest", "most demanding") come back as 最… once the page
+    // is machine-translated into Chinese, which China's Advertising Law bans, so
+    // the headline stays comparative-free in every language.
+    title: "Sewage Pumps Engineered for Demanding Industries",
     subtitle:
-      "Shanghai Haquan is a professional sewage pump manufacturer, engineering high-performance pumps for wastewater discharge, food & beverage, farmland irrigation, biopharmaceutical, municipal septic-tank treatment and petrochemical industries — delivered to 60+ countries.",
+      "Shanghai Haquan Pump Valve Manufacturing Co., Ltd. is a professional sewage pump manufacturer, engineering high-performance pumps for wastewater discharge, food & beverage, farmland irrigation, biopharmaceutical, municipal septic-tank treatment and petrochemical industries — delivered to 60+ countries.",
   },
   stats: {
     experience: "Years of Expertise",
@@ -110,7 +113,7 @@ const zh: DeepPartial<Dictionary> = {
     badge: "自 2014 年起值得信赖的水泵制造商",
     title: "为全球严苛工况打造专业排污泵",
     subtitle:
-      "上海哈泉是专业的排污泵生产制造厂家，为排污水、食品饮料、农田灌溉、生物制药、市政化粪池处理及石油化工等基础行业提供高性能水泵，产品远销 60 多个国家和地区。",
+      "上海哈泉泵阀制造有限公司是专业的排污泵生产制造厂家，为排污水、食品饮料、农田灌溉、生物制药、市政化粪池处理及石油化工等基础行业提供高性能水泵，产品远销 60 多个国家和地区。",
   },
   stats: { experience: "年专业经验", countries: "服务国家", models: "泵型号", delivered: "交付台数" },
   sections: {
@@ -155,9 +158,9 @@ const es: DeepPartial<Dictionary> = {
   },
   hero: {
     badge: "Fabricante de Bombas de Confianza Desde 2014",
-    title: "Bombas de Aguas Residuales para las Industrias Más Exigentes del Mundo",
+    title: "Bombas de Aguas Residuales para Industrias Exigentes",
     subtitle:
-      "Shanghai Haquan es un fabricante profesional de bombas de aguas residuales, con bombas de alto rendimiento para el tratamiento de aguas residuales, alimentación y bebidas, riego agrícola, biofarmacia, tratamiento de fosas sépticas municipales y petroquímica — entregadas en más de 60 países.",
+      "Shanghai Haquan Pump Valve Manufacturing Co., Ltd. es un fabricante profesional de bombas de aguas residuales, con bombas de alto rendimiento para el tratamiento de aguas residuales, alimentación y bebidas, riego agrícola, biofarmacia, tratamiento de fosas sépticas municipales y petroquímica — entregadas en más de 60 países.",
   },
   stats: { experience: "Años de Experiencia", countries: "Países Atendidos", models: "Modelos de Bombas", delivered: "Unidades Entregadas" },
   sections: {
@@ -202,9 +205,9 @@ const de: DeepPartial<Dictionary> = {
   },
   hero: {
     badge: "Zuverlässiger Pumpenhersteller Seit 2014",
-    title: "Abwasserpumpen für die anspruchsvollsten Industrien der Welt",
+    title: "Abwasserpumpen für anspruchsvolle Industrien",
     subtitle:
-      "Shanghai Haquan ist ein professioneller Hersteller von Abwasserpumpen und fertigt Hochleistungspumpen für Abwasserförderung, Lebensmittel- und Getränkeindustrie, Feldbewässerung, Biopharmazie, kommunale Klärgrubenbehandlung und Petrochemie — geliefert in über 60 Länder.",
+      "Shanghai Haquan Pump Valve Manufacturing Co., Ltd. ist ein professioneller Hersteller von Abwasserpumpen und fertigt Hochleistungspumpen für Abwasserförderung, Lebensmittel- und Getränkeindustrie, Feldbewässerung, Biopharmazie, kommunale Klärgrubenbehandlung und Petrochemie — geliefert in über 60 Länder.",
   },
   stats: { experience: "Jahre Erfahrung", countries: "Belieferte Länder", models: "Pumpenmodelle", delivered: "Gelieferte Einheiten" },
   sections: {
@@ -249,9 +252,9 @@ const ru: DeepPartial<Dictionary> = {
   },
   hero: {
     badge: "Надёжный Производитель Насосов с 2014 Года",
-    title: "Канализационные насосы для самых сложных отраслей мира",
+    title: "Канализационные насосы для сложных отраслей",
     subtitle:
-      "Shanghai Haquan — профессиональный производитель канализационных насосов, выпускающий высокопроизводительные насосы для отвода сточных вод, пищевой промышленности, орошения полей, биофармацевтики, обработки муниципальных септиков и нефтехимии — с поставками более чем в 60 стран.",
+      "Shanghai Haquan Pump Valve Manufacturing Co., Ltd. — профессиональный производитель канализационных насосов, выпускающий высокопроизводительные насосы для отвода сточных вод, пищевой промышленности, орошения полей, биофармацевтики, обработки муниципальных септиков и нефтехимии — с поставками более чем в 60 стран.",
   },
   stats: { experience: "Лет Опыта", countries: "Стран Поставок", models: "Моделей Насосов", delivered: "Поставлено Единиц" },
   sections: {
@@ -296,9 +299,9 @@ const ar: DeepPartial<Dictionary> = {
   },
   hero: {
     badge: "مُصنّع مضخات موثوق منذ عام 2014",
-    title: "مضخات الصرف الصحي لأصعب الصناعات في العالم",
+    title: "مضخات الصرف الصحي للصناعات الشاقة",
     subtitle:
-      "شنغهاي هاكوان مُصنّع محترف لمضخات الصرف الصحي، تصمم مضخات عالية الأداء لتصريف مياه الصرف والأغذية والمشروبات والري الزراعي والصناعات الحيوية الدوائية ومعالجة خزانات الصرف البلدية والبتروكيماويات — وتُصدّر إلى أكثر من 60 دولة.",
+      "شركة شنغهاي هاكوان لتصنيع المضخات والصمامات المحدودة مُصنّع محترف لمضخات الصرف الصحي، تصمم مضخات عالية الأداء لتصريف مياه الصرف والأغذية والمشروبات والري الزراعي والصناعات الحيوية الدوائية ومعالجة خزانات الصرف البلدية والبتروكيماويات — وتُصدّر إلى أكثر من 60 دولة.",
   },
   stats: { experience: "سنوات الخبرة", countries: "الدول المخدومة", models: "موديلات المضخات", delivered: "وحدة تم تسليمها" },
   sections: {
