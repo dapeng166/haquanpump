@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getProductBySlug, getRelatedProducts, getAdjacentProducts } from "@/lib/wordpress";
-import { company } from "@/lib/site";
 import { ProductDetailView } from "@/components/products/ProductDetailView";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
+import { ProductJsonLd } from "@/components/seo/ProductJsonLd";
 import { isIndexableLocale, dirForLocale } from "@/lib/i18n/config";
 import { localeAlternates } from "@/lib/i18n/alternates";
 import { metaTitle, metaDescription } from "@/lib/seo";
@@ -81,24 +81,12 @@ export default async function LocalizedProductDetailPage({
   ]);
   const [homeLabel, productsLabel] = crumbLabels;
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: product.name,
-    image: product.image,
-    description: product.excerpt,
-    sku: product.model,
-    category: product.seriesName,
-    brand: { "@type": "Brand", name: "Haquan" },
-    manufacturer: { "@type": "Organization", name: company.name },
-    inLanguage: locale,
-  };
-
   return (
     <div dir={dirForLocale(locale)} lang={locale}>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      <ProductJsonLd
+        product={product}
+        path={`/${locale}/products/${product.slug}`}
+        locale={locale}
       />
       <BreadcrumbJsonLd
         items={[

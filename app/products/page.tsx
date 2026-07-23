@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getProducts, getProductSeries } from "@/lib/wordpress";
 import { Container, Section } from "@/components/ui/Primitives";
 import { ProductsExplorer } from "@/components/products/ProductsExplorer";
+import { ProductIndex } from "@/components/products/ProductIndex";
 
 export const metadata: Metadata = {
   title: "Sewage Pumps — Submersible, Grinder, WILDEN AODD & Centrifugal",
@@ -34,6 +35,14 @@ export default async function ProductsPage({
           products={products}
           series={series}
           initialSeries={initialSeries}
+        />
+        <ProductIndex
+          products={products}
+          series={series}
+          labels={{
+            heading: "Full product index",
+            hint: "Every pump in the catalogue, grouped by series.",
+          }}
         />
       </Container>
     </Section>
