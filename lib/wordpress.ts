@@ -325,8 +325,11 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
     throw new Error(`CMS unavailable while resolving product "${slug}"`);
   }
   if (raw.length > 0) return mapPump(raw[0], 0);
-  // Genuine 200-empty: the product really doesn't exist → allow notFound().
-  return seedProducts.find((p) => p.slug === slug) ?? null;
+  // Genuine 200-empty: the CMS is reachable and has no such product, so it truly
+  // doesn't exist → 404. (Do NOT fall back to seedProducts here: that resurrects
+  // demo products on their own URLs and keeps them indexed by Google. Seed is
+  // only a fallback when the CMS is unreachable — handled in the catch above.)
+  return null;
 }
 
 export async function getProductSeries(): Promise<PumpSeries[]> {
@@ -440,7 +443,10 @@ export async function getNewsBySlug(slug: string): Promise<NewsPost | null> {
       readingTime: Math.max(2, Math.round(stripHtml(post.content?.rendered).split(/\s+/).length / 200)),
     };
   }
-  return seedNews.find((n) => n.slug === slug) ?? null;
+  // CMS reachable but no such article → 404. (Do NOT serve seedNews here: that
+  // keeps the demo articles alive on their URLs and indexed by Google. Seed is
+  // only for when the CMS is unreachable — handled in the catch above.)
+  return null;
 }
 
 /**
