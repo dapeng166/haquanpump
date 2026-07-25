@@ -85,7 +85,7 @@ export function ProductsExplorer({
           <SlidersHorizontal className="h-4 w-4 text-accent-600" aria-hidden />
           Pump Series
         </div>
-        <ul className="flex flex-wrap gap-2 lg:flex-col lg:max-h-[calc(100vh-11rem)] lg:overflow-y-auto lg:pr-1 lg:[scrollbar-width:thin]">
+        <ul className="flex flex-wrap gap-2 lg:flex-col lg:flex-nowrap lg:max-h-[calc(100vh-11rem)] lg:overflow-y-auto lg:overflow-x-hidden lg:pr-1 lg:[scrollbar-width:thin]">
           {chips.map((c) => {
             const isActive = active === c.slug;
             return (
