@@ -307,7 +307,11 @@ export async function getProducts(): Promise<Product[]> {
   }
   const live = raw.map(mapPump);
   if (CONTENT_MODE === "merge") return mergeBySlug(seedProducts, live);
-  return live.length ? live : seedProducts; // genuine 200-empty → seed is fine
+  // Genuine 200-empty from a reachable CMS: return the (empty) live list, never
+  // the seed demos. Repopulating with seed here is exactly what made the whole
+  // catalogue flip back to placeholder products after a transient empty
+  // response. ISR keeps serving the last-good page until real data returns.
+  return live;
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
@@ -354,7 +358,8 @@ export async function getProductSeries(): Promise<PumpSeries[]> {
       }))
     : [];
   if (CONTENT_MODE === "merge") return mergeBySlug(seedSeries, live);
-  return live.length ? live : seedSeries; // "live"
+  // Genuine 200-empty → return the live (empty) list, never seed demos.
+  return live;
 }
 
 export async function getRelatedProducts(
@@ -413,7 +418,8 @@ export async function getNews(): Promise<NewsPost[]> {
       }))
     : [];
   if (CONTENT_MODE === "merge") return mergeBySlug(seedNews, live);
-  return live.length ? live : seedNews; // "live"
+  // Genuine 200-empty → return the live (empty) list, never seed demos.
+  return live;
 }
 
 export async function getNewsBySlug(slug: string): Promise<NewsPost | null> {
