@@ -17,10 +17,13 @@ import { productImages, newsImages, pickImage } from "@/lib/images";
  */
 
 // 1 hour ISR. A pump catalogue doesn't change by the minute, and a short
-// window (was 60s) regenerated every page on almost every crawl — which burned
-// through Vercel's ISR-write allowance. Newly published products/news still
-// appear within the hour. Bump higher (e.g. 21600 = 6h) to save even more.
-const REVALIDATE_SECONDS = 3600;
+// window (was 60s, then 1h) regenerated every one of the ~1,800 localized pages
+// on almost every crawl — which burned through Vercel's ISR-write allowance as
+// Googlebot worked through the sitemap. Publishing already triggers a targeted
+// on-demand refresh (WordPress → /api/revalidate), so the timed window only
+// needs to be a safety net: 7 days. This cuts crawl-driven ISR writes ~168x
+// while edits still appear within seconds of publishing.
+const REVALIDATE_SECONDS = 604800; // 7 days
 
 // True only while `next build` is prerendering pages. During the build the CMS
 // may be briefly unreachable from Vercel; the list helpers fall back to seed

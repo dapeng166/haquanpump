@@ -9,10 +9,9 @@ import { ProductPreview } from "@/components/home/ProductPreview";
 import { Testimonials } from "@/components/home/Testimonials";
 import { FinalCTA } from "@/components/home/FinalCTA";
 
-// Statically cache the homepage and revalidate hourly. If a background
-// revalidation fails (e.g. the CMS is briefly unreachable) Next keeps serving
-// the last successful render, so the page never flips to the seed demo catalogue.
-export const revalidate = 3600;
+// Statically cache the homepage. Publishing revalidates "/" on demand
+// (WordPress → /api/revalidate), so the timed window is just a daily safety net.
+export const revalidate = 86400;
 
 export const metadata: Metadata = {
   title: siteConfig.defaultTitle,

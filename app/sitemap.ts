@@ -5,7 +5,7 @@ import { indexableLocales } from "@/lib/i18n/config";
 
 // Refresh the sitemap hourly so newly published news/products are submitted to
 // search engines automatically.
-export const revalidate = 3600;
+export const revalidate = 86400;
 
 /**
  * Generates /sitemap.xml — the six core pages plus every product detail and
