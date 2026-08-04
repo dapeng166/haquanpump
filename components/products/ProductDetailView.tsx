@@ -86,7 +86,7 @@ export function ProductDetailView({
     { icon: Zap, label: labels.power, value: product.specs.power, unit: "kW" },
     { icon: Ruler, label: labels.diameter, value: product.specs.diameter, unit: "mm" },
     { icon: Layers, label: labels.material, value: product.specs.material, unit: "" },
-  ];
+  ].filter((row) => row.value && /[a-z0-9]/i.test(String(row.value)));
 
   return (
     <>
@@ -143,7 +143,13 @@ export function ProductDetailView({
                         </th>
                         <td className="px-5 py-3.5 font-semibold text-slate-900">
                           {row.value}
-                          {row.unit ? <span className="ml-1 text-slate-500">{row.unit}</span> : null}
+                          {/* Only append the default unit for a bare numeric value
+                              (e.g. sewage-pump "35" → "35 m³/h"). Skip it when the
+                              value already carries its own unit (e.g. Wilden air-pump
+                              "14 L/min (3.7 gpm)"), which would otherwise double up. */}
+                          {row.unit && /\d/.test(String(row.value)) && !/[a-zA-Z]/.test(String(row.value)) ? (
+                            <span className="ml-1 text-slate-500">{row.unit}</span>
+                          ) : null}
                         </td>
                       </tr>
                     ))}
