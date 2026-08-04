@@ -79,6 +79,7 @@ function clearGoogtrans() {
 /** Drive the hidden Google combo to translate the whole page in real time. */
 function applyTranslation(code: string) {
   if (typeof document === "undefined") return;
+  document.documentElement.lang = code;
   document.documentElement.dir = RTL.has(code) ? "rtl" : "ltr";
 
   let attempts = 0;
@@ -114,6 +115,10 @@ export function LanguageSwitcher({ compact = false }: { compact?: boolean }) {
   useEffect(() => {
     if (urlLocale) {
       setCurrent(urlLocale);
+      // Correct <html lang>/<dir> to the server-localized page's language.
+      // The static shell ships lang="en"; this aligns it for screen readers
+      // and JS-rendering crawlers (mirrors how dir is already handled).
+      document.documentElement.lang = urlLocale;
       document.documentElement.dir = RTL.has(urlLocale) ? "rtl" : "ltr";
       return;
     }
@@ -122,9 +127,14 @@ export function LanguageSwitcher({ compact = false }: { compact?: boolean }) {
       const code = decodeURIComponent(m[1]);
       if (byCode.has(code)) {
         setCurrent(code);
+        document.documentElement.lang = code;
         document.documentElement.dir = RTL.has(code) ? "rtl" : "ltr";
+        return;
       }
     }
+    // Plain English root page (no locale path, no translate cookie): defaults.
+    document.documentElement.lang = "en";
+    document.documentElement.dir = "ltr";
   }, [urlLocale]);
 
   useEffect(() => {
