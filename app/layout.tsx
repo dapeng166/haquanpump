@@ -62,8 +62,11 @@ export const metadata: Metadata = {
     images: [siteConfig.ogImage],
   },
   robots: { index: true, follow: true },
-  // Google Search Console ownership verification.
-  verification: { google: "8tRFB2QF-m6vSDXQUkxA4seKvaRQAq8ZW7MkyMKTFFk" },
+  // Search Console ownership verification (Google + Yandex).
+  verification: {
+    google: "8tRFB2QF-m6vSDXQUkxA4seKvaRQAq8ZW7MkyMKTFFk",
+    yandex: "d1c9fc88e915ea7b",
+  },
 };
 
 export const viewport: Viewport = {
