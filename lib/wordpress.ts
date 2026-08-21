@@ -532,7 +532,14 @@ export async function getDocuments(): Promise<TechDocument[]> {
   // Documents are "unlimited" too — page past the 100 cap so a long list is
   // never truncated on the Support page.
   const raw = await wpFetchAll<WPDocument>("/wp/v2/document?orderby=menu_order&order=asc");
-  if (!raw) return [];
+  // wpFetchAll returns null on a transient CMS failure (network/timeout/403) but
+  // [] for a genuinely empty list. Throw on the failure so Next keeps serving the
+  // last-good Support page — otherwise a single CMS hiccup during revalidation
+  // would cache an empty document list (and hide every datasheet) for the whole
+  // 7-day window. A real empty list still passes through as [].
+  if (raw === null) {
+    throw new Error("CMS unreachable while loading technical documents");
+  }
   return raw
     .map((d) => ({
       title: stripHtml(d.title?.rendered),
