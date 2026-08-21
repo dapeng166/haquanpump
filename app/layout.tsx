@@ -10,6 +10,7 @@ import { Footer } from "@/components/layout/Footer";
 import { GoogleTranslateLoader } from "@/components/layout/GoogleTranslate";
 import { BrandTranslationFix } from "@/components/layout/BrandTranslationFix";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
+import { OrganizationJsonLd } from "@/components/seo/OrganizationJsonLd";
 
 const inter = Inter({
   subsets: ["latin", "cyrillic"],
@@ -124,6 +125,8 @@ export default async function RootLayout({
       <body className="min-h-screen bg-white font-sans text-slate-900 antialiased">
         {/* Runs before hydration — guards React against Google Translate's DOM edits. */}
         <script dangerouslySetInnerHTML={{ __html: REACT_TRANSLATE_FIX }} />
+        {/* Site-wide Organization structured data (helps search + AI identify Haquan). */}
+        <OrganizationJsonLd />
         <I18nProvider initialLocale={defaultLocale}>
           <Header />
           <main>{children}</main>
