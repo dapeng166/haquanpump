@@ -46,7 +46,7 @@ const en = {
       "A decade of engineering discipline, in-house manufacturing and export experience behind every pump we ship.",
     productsTitle: "Our Pump Series",
     productsSubtitle:
-      "We manufacture and supply WILDEN AODD diaphragm pumps, stainless-steel sewage pumps, ZW self-priming pumps, YW submersible sewage pumps, the QBY diaphragm series, irrigation & drainage mobile pump trucks, GNWQ cutter sewage pumps, IHG/IHW/IRG/IRW pipeline pumps, metering pumps, high-head sewage pumps, QDX submersible pumps and QD oil-filled submersible pumps.",
+      "We manufacture and supply a full sewage-focused pump range — stainless-steel sewage pumps, ZW and ZWL self-priming pumps, YW submersible sewage pumps, the QBY air-operated diaphragm series, irrigation & drainage mobile pump trucks, GNWQ and WQK cutter submersible pumps, IHG/IHW/IRG/IRW pipeline pumps, metering pumps, high-head sewage pumps, QDX submersible pumps and QD oil-filled submersible pumps. As an authorized dealer, we also supply genuine Wilden AODD diaphragm pumps and spare parts.",
     testimonialsTitle: "Trusted by Industry Leaders",
     newsTitle: "News & Engineering Insights",
     ctaTitle: "Ready to Solve Your Fluid Challenge?",
