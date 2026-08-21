@@ -32,7 +32,7 @@ const en = {
     // the headline stays comparative-free in every language.
     title: "Sewage Pumps Engineered for Demanding Industries",
     subtitle:
-      "Shanghai Haquan Pump Valve Manufacturing Co., Ltd. is a professional sewage pump manufacturer, engineering high-performance pumps for wastewater discharge, food & beverage, farmland irrigation, biopharmaceutical, municipal septic-tank treatment and petrochemical industries — delivered worldwide.",
+      "Shanghai Haquan Pump Valve Manufacturing Co., Ltd. is a professional sewage pump manufacturer and an authorized dealer of genuine Wilden AODD diaphragm pumps and spare parts — supplying submersible, cutter and self-priming sewage pumps, and genuine Wilden pumps for chemical, food & beverage, pharmaceutical, mining and industrial fluid transfer worldwide.",
   },
   stats: {
     experience: "Years of Expertise",
