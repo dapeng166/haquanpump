@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Download, FileText } from "lucide-react";
+import { ArrowRight, FileText } from "lucide-react";
 import { faqs } from "@/lib/data/content";
 import { img } from "@/lib/images";
 import { getSitePage, acfStr, getDocuments } from "@/lib/wordpress";
@@ -8,6 +8,7 @@ import { PageHero } from "@/components/ui/PageHero";
 import { Container, Section, SectionHeading } from "@/components/ui/Primitives";
 import { Reveal } from "@/components/ui/Reveal";
 import { FaqAccordion } from "@/components/support/FaqAccordion";
+import { DocumentGrid } from "@/components/support/DocumentGrid";
 import { localeAlternates } from "@/lib/i18n/alternates";
 
 export const metadata: Metadata = {
@@ -69,27 +70,7 @@ export default async function TechnicalSupportPage() {
             subtitle="Catalogues, performance curves, selection guides and datasheets for your records."
           />
           {documents.length > 0 ? (
-            <div className="mx-auto grid max-w-4xl gap-4 sm:grid-cols-2">
-              {documents.map((d, i) => (
-                <Reveal key={d.url} index={i % 2} className="h-full">
-                  <a
-                    href={d.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group flex h-full items-center gap-4 rounded-xl border border-slate-200 bg-slate-50 p-4 transition-all hover:border-accent/40 hover:bg-slate-100"
-                  >
-                    <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-accent-600 ring-1 ring-accent/20">
-                      <FileText className="h-6 w-6" aria-hidden />
-                    </span>
-                    <span className="flex-1">
-                      <span className="block font-medium text-slate-900">{d.title}</span>
-                      <span className="text-xs text-slate-400">{d.type} · PDF</span>
-                    </span>
-                    <Download className="h-5 w-5 text-slate-400 transition-colors group-hover:text-accent-600" aria-hidden />
-                  </a>
-                </Reveal>
-              ))}
-            </div>
+            <DocumentGrid documents={documents} />
           ) : (
             <Reveal className="mx-auto max-w-2xl">
               <div className="glass-card flex flex-col items-center gap-5 p-8 text-center sm:flex-row sm:text-left">
