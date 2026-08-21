@@ -33,7 +33,7 @@ const EN = {
   story1:
     "Shanghai Haquan Pump Valve Manufacturing Co., Ltd. was founded in 2014 in Fengxian District, Shanghai, as a professional sewage pump manufacturer — built on the conviction that buyers deserve pumps engineered for their exact application, not generic units that fail early in the field.",
   story2:
-    "Today we design, manufacture and export a full sewage-focused range: WILDEN AODD diaphragm pumps, stainless-steel sewage pumps, ZW self-priming pumps, YW submersible sewage pumps, the QBY diaphragm series, irrigation and drainage mobile pump trucks, GNWQ cutter sewage pumps, IHG/IHW/IRG/IRW pipeline pumps, metering pumps, high-head sewage pumps, and QDX and QD submersible pumps — shipped to customers in over 60 countries.",
+    "Today we design, manufacture and export a full sewage-focused range: WILDEN AODD diaphragm pumps, stainless-steel sewage pumps, ZW self-priming pumps, YW submersible sewage pumps, the QBY diaphragm series, irrigation and drainage mobile pump trucks, GNWQ cutter sewage pumps, IHG/IHW/IRG/IRW pipeline pumps, metering pumps, high-head sewage pumps, and QDX and QD submersible pumps — shipped to customers worldwide.",
   story3:
     "From municipal septic-tank treatment and food & beverage plants to farmland irrigation, biopharmaceutical and petrochemical sites, Haquan pumps keep critical processes flowing. Our growth has been earned one duty point at a time: precise hydraulic selection, robust materials, rigorous testing and after-sales support international buyers can rely on.",
   explore: "Explore Our Pumps",
@@ -57,7 +57,7 @@ const EN = {
 const DIFFERENTIATORS = [
   { icon: Wrench, title: "Vertically Integrated", text: "Casting, machining, motor winding and assembly in-house — quality controlled end to end." },
   { icon: ShieldCheck, title: "Tested Before Shipment", text: "Every pump is hydrostatically and performance tested before it leaves our factory." },
-  { icon: Globe2, title: "Export Expertise", text: "Complete export documentation, seaworthy packing and multilingual support for 60+ countries." },
+  { icon: Globe2, title: "Export Expertise", text: "Complete export documentation, seaworthy packing and multilingual support for buyers worldwide." },
   { icon: BadgeCheck, title: "Application-First", text: "We size to your duty point and medium rather than pushing a catalogue compromise." },
 ];
 

@@ -29,13 +29,13 @@ export async function generateStaticParams() {
 const EN = {
   metaTitle: "Sewage Pumps, WILDEN AODD, Submersible, Self-Priming & Centrifugal Pumps | Haquan",
   metaDesc:
-    "Shanghai Haquan Pump Valve Manufacturing Co., Ltd. is a professional sewage pump manufacturer, engineering high-performance pumps for wastewater, food & beverage, irrigation, biopharmaceutical, municipal septic-tank and petrochemical industries — delivered to 60+ countries.",
+    "Shanghai Haquan Pump Valve Manufacturing Co., Ltd. is a professional sewage pump manufacturer, engineering high-performance pumps for wastewater, food & beverage, irrigation, biopharmaceutical, municipal septic-tank and petrochemical industries — delivered worldwide.",
   heroBadge: "Trusted Pump Manufacturer Since 2014",
   // Superlatives ("toughest", "most demanding") translate into 最… in Chinese,
   // which China's Advertising Law prohibits — keep the copy comparative-free.
   heroTitle: "Sewage Pumps Engineered for Demanding Industries",
   heroSubtitle:
-    "Shanghai Haquan Pump Valve Manufacturing Co., Ltd. is a professional sewage pump manufacturer, engineering high-performance pumps for wastewater discharge, food & beverage, farmland irrigation, biopharmaceutical, municipal septic-tank treatment and petrochemical industries — delivered to 60+ countries.",
+    "Shanghai Haquan Pump Valve Manufacturing Co., Ltd. is a professional sewage pump manufacturer, engineering high-performance pumps for wastewater discharge, food & beverage, farmland irrigation, biopharmaceutical, municipal septic-tank treatment and petrochemical industries — delivered worldwide.",
   getQuote: "Get a Quote",
   exploreProducts: "Explore Products",
   viewProducts: "View All Products",

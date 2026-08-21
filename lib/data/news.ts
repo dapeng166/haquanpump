@@ -47,11 +47,11 @@ export const seedNews: NewsPost[] = [
   },
   {
     slug: "haquan-pumps-shipped-to-60-countries",
-    title: "Milestone: Haquan Pumps Now Shipped to Over 60 Countries",
+    title: "Milestone: Haquan Pumps Now Exported Across Six Continents",
     excerpt:
       "A decade after our 2014 founding, Haquan equipment is operating on six continents across municipal, wastewater and process industries.",
     content:
-      "<p>Founded in 2014, Shanghai Haquan has reached a milestone: our pumps now operate in more than 60 countries across six continents. Recent project shipments include sewage and drainage pumps for South America, municipal lifting stations across Southeast Asia, and stainless diaphragm pumps for food and pharmaceutical plants in the Middle East.</p><p>The growth reflects sustained investment in export documentation, multilingual support and a global spares network that keeps customer downtime to a minimum.</p>",
+      "<p>Founded in 2014, Shanghai Haquan has reached a milestone: our pumps now operate across six continents. Recent project shipments include sewage and drainage pumps for South America, municipal lifting stations across Southeast Asia, and stainless diaphragm pumps for food and pharmaceutical plants in the Middle East.</p><p>The growth reflects sustained investment in export documentation, multilingual support and a global spares network that keeps customer downtime to a minimum.</p>",
     image: newsImages[3],
     date: "2026-02-20",
     author: "Haquan",
@@ -77,7 +77,7 @@ export const seedNews: NewsPost[] = [
     excerpt:
       "A look at the hydrostatic and performance testing each pump passes on our factory test bench before it is packed for export.",
     content:
-      "<p>Before any Haquan pump leaves the factory, it runs through a structured verification process on our in-house test bench. This article takes you behind the scenes of how we confirm hydraulic performance, seal integrity and motor protection on every unit.</p><p>Each pump is hydrostatically pressure-tested for leak tightness, then run against its duty curve to confirm flow and head fall within tolerance. Insulation resistance and no-load current are checked on the motor, and serial numbers are logged for full traceability.</p><p>This shipment-by-shipment discipline is why buyers across 60+ countries standardise on Haquan for critical fluid-handling duty.</p>",
+      "<p>Before any Haquan pump leaves the factory, it runs through a structured verification process on our in-house test bench. This article takes you behind the scenes of how we confirm hydraulic performance, seal integrity and motor protection on every unit.</p><p>Each pump is hydrostatically pressure-tested for leak tightness, then run against its duty curve to confirm flow and head fall within tolerance. Insulation resistance and no-load current are checked on the motor, and serial numbers are logged for full traceability.</p><p>This shipment-by-shipment discipline is why buyers worldwide standardise on Haquan for critical fluid-handling duty.</p>",
     image: newsImages[5],
     date: "2026-01-08",
     author: "Haquan Quality Team",

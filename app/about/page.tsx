@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 const differentiators = [
   { icon: Wrench, title: "Vertically Integrated", text: "Casting, machining, motor winding and assembly in-house — quality controlled end to end." },
   { icon: ShieldCheck, title: "Tested Before Shipment", text: "Every pump is hydrostatically and performance tested before it leaves our factory." },
-  { icon: Globe2, title: "Export Expertise", text: "Complete export documentation, seaworthy packing and multilingual support for 60+ countries." },
+  { icon: Globe2, title: "Export Expertise", text: "Complete export documentation, seaworthy packing and multilingual support for buyers worldwide." },
   { icon: BadgeCheck, title: "Application-First", text: "We size to your duty point and medium rather than pushing a catalogue compromise." },
 ];
 
@@ -76,7 +76,7 @@ export default async function AboutPage() {
                       pumps, YW submersible sewage pumps, the QBY diaphragm series, irrigation
                       and drainage mobile pump trucks, GNWQ cutter sewage pumps, IHG/IHW/IRG/IRW
                       pipeline pumps, metering pumps, high-head sewage pumps, and QDX and QD
-                      submersible pumps — shipped to customers in over 60 countries.
+                      submersible pumps — shipped to customers worldwide.
                     </p>
                     <p>
                       From municipal septic-tank treatment and food &amp; beverage plants to
