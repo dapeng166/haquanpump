@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, SlidersHorizontal } from "lucide-react";
 import type { Product, PumpSeries } from "@/lib/types";
@@ -21,7 +21,6 @@ export function ProductsExplorer({
   initialSeries?: string;
 }) {
   const { t } = useTranslation();
-  const router = useRouter();
   const searchParams = useSearchParams();
   const [active, setActive] = useState<string>(initialSeries);
   const [page, setPage] = useState(1);
@@ -71,10 +70,14 @@ export function ProductsExplorer({
 
   function select(slug: string) {
     setActive(slug); // instant client-side filter
-    // Reflect the filter in the URL via the Next router (not raw history) so the
-    // entry is tracked — otherwise "back" from a product loses the series.
+    // Reflect the filter in the URL IMMEDIATELY via the native History API.
+    // router.replace() here triggered an RSC refetch that took ~2-3s on
+    // production, during which the address bar still read /products — so a quick
+    // product click was recorded from the unfiltered URL and "back" lost the
+    // series. pushState updates the URL synchronously (no server round-trip) and
+    // still syncs with useSearchParams, so back/forward restores the series.
     const url = slug === "all" ? "/products" : `/products?series=${slug}`;
-    router.replace(url, { scroll: false });
+    window.history.pushState(null, "", url);
   }
 
   const chips = [
