@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, SlidersHorizontal } from "lucide-react";
 import type { Product, PumpSeries } from "@/lib/types";
@@ -22,15 +22,20 @@ export function ProductsExplorer({
 }) {
   const { t } = useTranslation();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [active, setActive] = useState<string>(initialSeries);
   const [page, setPage] = useState(1);
   const topRef = useRef<HTMLDivElement>(null);
 
-  // Keep the active filter in sync with the URL so browser back/forward (e.g.
-  // returning from a product detail page) restores the series you were viewing.
+  // Keep the active filter in sync with the REAL address bar (useSearchParams),
+  // not the server-passed initialSeries. On browser back/forward — e.g. returning
+  // from a product detail page — Next may restore /products from its client cache
+  // with a stale initialSeries; reading the live URL instead guarantees the
+  // filter always matches the series you were actually viewing.
   useEffect(() => {
-    setActive(initialSeries);
-  }, [initialSeries]);
+    const urlSeries = searchParams.get("series");
+    setActive(urlSeries && series.some((s) => s.slug === urlSeries) ? urlSeries : "all");
+  }, [searchParams, series]);
 
   // Reset to the first page whenever the filter changes.
   useEffect(() => {
