@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getProducts, getSitePage, acfStr } from "@/lib/wordpress";
-import { company, siteConfig } from "@/lib/site";
+import { siteConfig } from "@/lib/site";
 import { localeAlternates } from "@/lib/i18n/alternates";
 import { Hero } from "@/components/home/Hero";
 import { TrustBar } from "@/components/home/TrustBar";
@@ -18,33 +18,6 @@ export const metadata: Metadata = {
   description: siteConfig.defaultDescription,
   alternates: { canonical: "/", languages: localeAlternates("/") },
 };
-
-// Structured data helps Google understand the manufacturer entity.
-function OrganizationJsonLd() {
-  const data = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: company.name,
-    url: company.url,
-    foundingDate: String(company.founded),
-    email: company.email,
-    telephone: company.phone,
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: `${company.address.line1}, ${company.address.line2}`,
-      addressLocality: company.address.city,
-      postalCode: company.address.postcode,
-      addressCountry: "CN",
-    },
-    sameAs: Object.values(company.social),
-  };
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    />
-  );
-}
 
 export default async function HomePage() {
   const [products, page] = await Promise.all([getProducts(), getSitePage("home")]);
@@ -71,7 +44,6 @@ export default async function HomePage() {
 
   return (
     <>
-      <OrganizationJsonLd />
       <Hero subtitle={page?.subtitle} heroImage={page?.heroImage} />
       <TrustBar text={acfStr(page, "trust_bar_text") || undefined} />
       <Advantages items={cmsAdvantages.length === 3 ? cmsAdvantages : undefined} />
