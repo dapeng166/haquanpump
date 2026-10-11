@@ -7,24 +7,40 @@ import {
   Search,
   X,
   FileText,
+  FileDown,
+  HelpCircle,
   Package,
   Newspaper,
   CornerDownLeft,
 } from "lucide-react";
 import type { SearchDoc } from "@/app/api/search/route";
+import { compact, seriesCode } from "@/lib/searchCodes";
 
 const TYPE_META: Record<
   SearchDoc["type"],
   { icon: typeof Package; label: string }
 > = {
   Product: { icon: Package, label: "Product" },
+  Document: { icon: FileDown, label: "Document" },
+  FAQ: { icon: HelpCircle, label: "FAQ" },
   News: { icon: Newspaper, label: "News" },
   Page: { icon: FileText, label: "Page" },
 };
 
+// Most results each type may take, so 500+ products can never crowd out the
+// documents, FAQs and news that also match.
+const TYPE_CAP: Record<SearchDoc["type"], number> = {
+  Product: 6,
+  Document: 5,
+  FAQ: 3,
+  News: 5,
+  Page: 3,
+};
+
 /**
  * Site-wide search palette. A header icon opens a command-palette modal that
- * searches an index of every page, product and news article (loaded once from
+ * searches an index of every page, product, technical document, FAQ and news
+ * article (loaded once from
  * /api/search and filtered locally). Cmd/Ctrl+K toggles it; arrow keys + Enter
  * navigate; Esc closes.
  */
@@ -84,20 +100,40 @@ export function SiteSearch() {
     // Empty query → surface the main pages as quick links.
     if (!q) return docs.filter((d) => d.type === "Page");
     const tokens = q.split(/\s+/).filter(Boolean);
-    return docs
+    const scored = docs
       .map((d) => {
         const title = d.title.toLowerCase();
         const hay = `${title} ${d.excerpt} ${d.meta ?? ""} ${d.keywords ?? ""}`.toLowerCase();
+        const hayCompact = compact(hay);
         let score = 0;
         for (const tk of tokens) {
-          if (!hay.includes(tk)) return null;
-          score += title.includes(tk) ? 3 : 1;
+          // Dashes/spaces ignored, so "200QW-300-15" matches "200QW300-15-22".
+          const tkCompact = compact(tk);
+          if (hay.includes(tk) || (tkCompact.length > 2 && hayCompact.includes(tkCompact))) {
+            score += title.includes(tk) || compact(title).includes(tkCompact) ? 3 : 1;
+            continue;
+          }
+          // A full model number ("50YW25-32-5.5") rarely appears verbatim, but
+          // its series datasheet, manual and products should still come up.
+          const code = /\d/.test(tk) ? seriesCode(tk) : null;
+          if (code && d.codes?.includes(code)) {
+            score += d.type === "Document" ? 2 : 0.5;
+            continue;
+          }
+          return null;
         }
         return { d, score };
       })
       .filter((x): x is { d: SearchDoc; score: number } => x !== null)
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 12)
+      .sort((a, b) => b.score - a.score);
+    const taken: Partial<Record<SearchDoc["type"], number>> = {};
+    return scored
+      .filter(({ d }) => {
+        const n = taken[d.type] ?? 0;
+        if (n >= TYPE_CAP[d.type]) return false;
+        taken[d.type] = n + 1;
+        return true;
+      })
       .map((x) => x.d);
   }, [docs, query]);
 
@@ -106,7 +142,9 @@ export function SiteSearch() {
   const go = useCallback(
     (href: string) => {
       setOpen(false);
-      router.push(href);
+      // Documents are PDFs on the CMS: open them in a new tab.
+      if (/^https?:\/\//.test(href)) window.open(href, "_blank", "noopener");
+      else router.push(href);
     },
     [router],
   );

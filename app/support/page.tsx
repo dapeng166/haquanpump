@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, FileText } from "lucide-react";
-import { faqs } from "@/lib/data/content";
+import { supportFaqs } from "@/lib/supportFaqs";
 import { img } from "@/lib/images";
-import { getSitePage, acfStr, getDocuments } from "@/lib/wordpress";
+import { getSitePage, getDocuments } from "@/lib/wordpress";
 import { PageHero } from "@/components/ui/PageHero";
 import { Container, Section, SectionHeading } from "@/components/ui/Primitives";
 import { Reveal } from "@/components/ui/Reveal";
@@ -37,15 +37,7 @@ function FaqJsonLd({ items }: { items: { q: string; a: string }[] }) {
 export default async function TechnicalSupportPage() {
   const [page, documents] = await Promise.all([getSitePage("support"), getDocuments()]);
 
-  // FAQs are editable via the `support` site_page (FAQ 1–8). When any are filled
-  // in we show only those; otherwise the curated defaults.
-  const cmsFaqs = [1, 2, 3, 4, 5, 6, 7, 8]
-    .map((n) => ({
-      q: acfStr(page, `faq_${n}_question`),
-      a: acfStr(page, `faq_${n}_answer`),
-    }))
-    .filter((f) => f.q && f.a);
-  const faqItems = cmsFaqs.length > 0 ? cmsFaqs : faqs;
+  const faqItems = supportFaqs(page);
 
   return (
     <>
@@ -62,7 +54,7 @@ export default async function TechnicalSupportPage() {
       />
 
       {/* Downloads — from the WordPress "Documents" section (unlimited) */}
-      <Section className="bg-slate-50">
+      <Section id="documents" className="scroll-mt-24 bg-slate-50">
         <Container>
           <SectionHeading
             eyebrow="Resources"
@@ -97,7 +89,7 @@ export default async function TechnicalSupportPage() {
       </Section>
 
       {/* FAQs */}
-      <Section>
+      <Section id="faq" className="scroll-mt-24">
         <Container>
           <SectionHeading eyebrow="FAQ" title="Frequently Asked Questions" />
           <FaqAccordion items={faqItems} />

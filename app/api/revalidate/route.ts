@@ -50,6 +50,9 @@ async function handle(req: NextRequest) {
   // Sitemaps have no locale prefix.
   revalidatePath("/sitemap.xml");
   revalidatePath("/sitemap");
+  // Site search index, so new products, documents and news are searchable now
+  // rather than after its daily refresh.
+  revalidatePath("/api/search");
 
   if (extra && extra.startsWith("/")) revalidateAllLocales(extra);
 
