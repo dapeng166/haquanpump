@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getProducts, getProductSeries } from "@/lib/wordpress";
 import { toCard } from "@/lib/cardProduct";
+import { WILDEN_HUB_PATH, WILDEN_SERIES } from "@/lib/wilden";
 import { Container, Section } from "@/components/ui/Primitives";
 import { ProductsExplorer } from "@/components/products/ProductsExplorer";
 import { ExplorerFallback } from "@/components/products/ExplorerFallback";
@@ -68,13 +69,16 @@ export default async function LocalizedProductsPage({
   const { locale } = await params;
   if (!isIndexableLocale(locale)) notFound();
 
-  const [all, seriesEn] = await Promise.all([getProducts(), getProductSeries()]);
-  const cards = all.map(toCard);
+  const [all, allSeriesEn] = await Promise.all([getProducts(), getProductSeries()]);
+  // Wilden lives on its own hub; list Haquan's own pumps and link out to it.
+  const cards = all.filter((p) => p.seriesSlug !== WILDEN_SERIES).map(toCard);
+  const seriesEn = allSeriesEn.filter((s) => s.slug !== WILDEN_SERIES);
+  const wilden = allSeriesEn.find((s) => s.slug === WILDEN_SERIES);
   const uiKeys = Object.keys(EN_UI) as (keyof typeof EN_UI)[];
   // Everything in three batched calls (cached per string after the first run).
   const [uiValues, seriesNames, cardText] = await Promise.all([
     translateMany(uiKeys.map((k) => EN_UI[k]), locale),
-    translateMany(seriesEn.map((s) => s.name), locale),
+    translateMany([...seriesEn.map((s) => s.name), wilden?.name ?? ""], locale),
     translateMany(cards.flatMap((p) => [p.name, p.excerpt]), locale),
   ]);
   const T = Object.fromEntries(uiKeys.map((k, i) => [k, uiValues[i]])) as typeof EN_UI;
@@ -88,6 +92,14 @@ export default async function LocalizedProductsPage({
   }));
   const labels = cardLabels(locale);
   const hrefBase = `/${locale}`;
+  const linkChips = wilden
+    ? [{
+        slug: wilden.slug,
+        name: seriesNames[seriesEn.length],
+        count: all.length - cards.length,
+        href: `${hrefBase}${WILDEN_HUB_PATH}`,
+      }]
+    : [];
 
   return (
     <div dir={dirForLocale(locale)} lang={locale}>
@@ -104,6 +116,7 @@ export default async function LocalizedProductsPage({
               hrefBase={hrefBase}
               cardLabels={labels}
               text={T}
+              linkChips={linkChips}
             />
           </Suspense>
           <ProductIndex

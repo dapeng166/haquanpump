@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { getProducts, getProductSeries, getNews } from "@/lib/wordpress";
 import { company } from "@/lib/site";
+import { seriesHref } from "@/lib/wilden";
 import { img } from "@/lib/images";
 import { PageHero } from "@/components/ui/PageHero";
 import { Container, Section } from "@/components/ui/Primitives";
@@ -85,7 +86,7 @@ export default async function SitemapPage() {
     .filter((s) => (s.count ?? 0) > 0)
     .map((s) => ({
       label: s.name,
-      href: `/products?series=${s.slug}`,
+      href: seriesHref(s.slug),
     }));
 
   // Cap the human-readable product/news lists so this page stays browsable even

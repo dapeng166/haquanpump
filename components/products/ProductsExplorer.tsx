@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight, SlidersHorizontal } from "lucide-react";
+import { ArrowUpRight, ChevronLeft, ChevronRight, SlidersHorizontal } from "lucide-react";
 import type { Product, PumpSeries } from "@/lib/types";
 import { ProductCard } from "./ProductCard";
 import { useTranslation } from "@/lib/i18n/I18nProvider";
@@ -40,6 +41,7 @@ export function ProductsExplorer({
   cardLabels,
   hideSpecs = false,
   text = EN_TEXT,
+  linkChips = [],
 }: {
   products: Product[];
   series: PumpSeries[];
@@ -52,9 +54,22 @@ export function ProductsExplorer({
   /** Hide the flow/head/power row (meaningless for spare parts and articles). */
   hideSpecs?: boolean;
   text?: ExplorerText;
+  /**
+   * Series listed in the rail that live on their own page (e.g. Wilden) and are
+   * not in `products`. They render as links; an old ?series=<slug> URL for one
+   * of them is forwarded to its page.
+   */
+  linkChips?: { slug: string; name: string; count: number; href: string }[];
 }) {
   const { t } = useTranslation();
   const searchParams = useSearchParams();
+
+  // Old links such as /products?series=wilden-aodd-pump (bookmarks, chat
+  // messages, search results) now belong on that series' own page.
+  useEffect(() => {
+    const target = linkChips.find((c) => c.slug === searchParams.get("series"));
+    if (target) window.location.replace(target.href);
+  }, [searchParams, linkChips]);
   // Read the filter from the URL on first render too: the listing pages are
   // static (ISR) and render this client-side inside <Suspense>, so the server
   // never sees ?series= and initialSeries is just the fallback.
@@ -157,6 +172,20 @@ export function ProductsExplorer({
               </li>
             );
           })}
+          {linkChips.map((c) => (
+            <li key={c.slug}>
+              <Link
+                href={c.href}
+                className="flex w-full items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-left text-sm font-medium text-slate-600 transition-all hover:border-slate-300 hover:text-slate-900"
+              >
+                <span>{c.name}</span>
+                <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-xs">
+                  {c.count}
+                  <ArrowUpRight className="h-3 w-3 rtl-flip" aria-hidden />
+                </span>
+              </Link>
+            </li>
+          ))}
         </ul>
       </aside>
 

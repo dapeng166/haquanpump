@@ -7,6 +7,16 @@ export const WILDEN_SERIES = "wilden-aodd-pump";
 /** The standalone Wilden hub page (keeps product URLs at /products/<slug>). */
 export const WILDEN_HUB_PATH = "/wilden-aodd-pumps";
 
+/**
+ * Where a "browse this series" link should go. Wilden has its own hub and is
+ * left out of the /products catalogue, so its series links to the hub.
+ */
+export function seriesHref(slug: string, hrefBase = ""): string {
+  return slug === WILDEN_SERIES
+    ? `${hrefBase}${WILDEN_HUB_PATH}`
+    : `${hrefBase}/products?series=${slug}`;
+}
+
 export type WildenGroupKey = "pumps" | "parts" | "range" | "applications" | "guides";
 
 export type WildenGroup = { key: WildenGroupKey; items: Product[] };

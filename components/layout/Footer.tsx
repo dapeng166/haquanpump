@@ -5,6 +5,7 @@ import { Mail, Phone, MapPin, Linkedin, Facebook } from "lucide-react";
 import { company, mainNav } from "@/lib/site";
 import { pumpSeries } from "@/lib/data/products";
 import type { PumpSeries } from "@/lib/types";
+import { seriesHref } from "@/lib/wilden";
 import { useTranslation } from "@/lib/i18n/I18nProvider";
 import { Logo } from "./Logo";
 import { XIcon } from "@/components/ui/XIcon";
@@ -84,7 +85,7 @@ export function Footer({ series }: { series?: PumpSeries[] }) {
               {productSeries.map((s) => (
                 <li key={s.slug}>
                   <Link
-                    href={`/products?series=${s.slug}`}
+                    href={seriesHref(s.slug)}
                     className="text-slate-300 transition-colors hover:text-amber-400"
                   >
                     {s.name}
