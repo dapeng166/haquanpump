@@ -7,7 +7,7 @@ export const company = {
   founded: 2014,
   tagline: "Engineered Fluid Solutions for Global Industry",
   description:
-    "Shanghai Haquan Pump Valve Manufacturing Co., Ltd. is a professional sewage pump manufacturer founded in 2014 and an authorized dealer of genuine Wilden AODD diaphragm pumps and spare parts — supplying sewage, submersible, cutter, self-priming and pipeline pumps, plus Wilden pumps for chemical, food and industrial transfer worldwide.",
+    "Shanghai Haquan Pump Valve Manufacturing Co., Ltd. is a professional sewage pump manufacturer founded in 2014 and a supplier of genuine, original Wilden AODD diaphragm pumps and spare parts — supplying sewage, submersible, cutter, self-priming and pipeline pumps, plus Wilden pumps for chemical, food and industrial transfer worldwide.",
   email: "sales@haquanpump.com",
   salesEmail: "sales@haquanpump.com",
   phone: "+86 150 0057 7161",

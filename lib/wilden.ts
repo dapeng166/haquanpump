@@ -33,13 +33,39 @@ function classify(slug: string): WildenGroupKey {
   return "guides";
 }
 
+/**
+ * Drop "authorized dealer/distributor" claims from text shown on the hub. The
+ * owner doesn't want that claim; older WordPress excerpts still carry it but
+ * are already indexed, so they stay as-is and are only cleaned for display here.
+ */
+export function cleanDealerClaims(text: string): string {
+  const DEALER = String.raw`authori[sz]ed\s+(?:wilden\s+)?(?:dealer|distributor)`;
+  return text
+    .replace(new RegExp(String.raw`\bAs an\s+${DEALER},\s*`, "gi"), "")
+    .replace(
+      new RegExp(String.raw`\s*(?:[—,]\s*)?(?:(?:pump and spare parts\s+)?stocked\s+)?(?:from|by)\s+an?\s+${DEALER}`, "gi"),
+      "",
+    )
+    .replace(new RegExp(String.raw`\b${DEALER}\s*,?\s*`, "gi"), "")
+    .replace(/\s*—\s*Genuine Wilden Dealer\b/gi, " — Genuine Wilden")
+    .replace(/\s+,/g, ",")
+    .replace(/,\s*\./g, ".")
+    .replace(/\.\s*,\s*/g, ". ")
+    .replace(/(^|[.!?]\s*)\.+/g, "$1")
+    .replace(/\s{2,}/g, " ")
+    .trim()
+    .replace(/(^|[.!?]\s+)([a-z])/g, (_, p: string, c: string) => p + c.toUpperCase());
+}
+
 /** Split the Wilden series into hub sections, in display order. */
 export function groupWilden(products: Product[]): WildenGroup[] {
   const order: WildenGroupKey[] = ["pumps", "parts", "range", "applications", "guides"];
   const buckets = new Map<WildenGroupKey, Product[]>(order.map((k) => [k, []]));
   for (const p of products) {
     if (p.seriesSlug !== WILDEN_SERIES) continue;
-    buckets.get(classify(p.slug))!.push(p);
+    buckets
+      .get(classify(p.slug))!
+      .push({ ...p, name: cleanDealerClaims(p.name), excerpt: cleanDealerClaims(p.excerpt) });
   }
   // Items keep the CMS order (newest first), like the products page.
   return order

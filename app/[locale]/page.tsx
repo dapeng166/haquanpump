@@ -30,13 +30,13 @@ export async function generateStaticParams() {
 const EN = {
   metaTitle: "Sewage Pumps, WILDEN AODD, Submersible, Self-Priming & Centrifugal Pumps | Haquan",
   metaDesc:
-    "Sewage pump manufacturer and authorized dealer of genuine Wilden AODD diaphragm pumps and spare parts — submersible, cutter and self-priming sewage pumps for wastewater, chemical, food and industrial duty, delivered worldwide.",
+    "Sewage pump manufacturer and supplier of genuine, original Wilden AODD diaphragm pumps and spare parts — submersible, cutter and self-priming sewage pumps for wastewater, chemical, food and industrial duty, delivered worldwide.",
   heroBadge: "Trusted Pump Manufacturer Since 2014",
   // Superlatives ("toughest", "most demanding") translate into 最… in Chinese,
   // which China's Advertising Law prohibits — keep the copy comparative-free.
   heroTitle: "Sewage Pumps Engineered for Demanding Industries",
   heroSubtitle:
-    "Shanghai Haquan Pump Valve Manufacturing Co., Ltd. is a professional sewage pump manufacturer and an authorized dealer of genuine Wilden AODD diaphragm pumps and spare parts — supplying submersible, cutter and self-priming sewage pumps, and genuine Wilden pumps for chemical, food & beverage, pharmaceutical, mining and industrial fluid transfer worldwide.",
+    "Shanghai Haquan Pump Valve Manufacturing Co., Ltd. is a professional sewage pump manufacturer and a supplier of genuine, original Wilden AODD diaphragm pumps and spare parts — supplying submersible, cutter and self-priming sewage pumps, and genuine Wilden pumps for chemical, food & beverage, pharmaceutical, mining and industrial fluid transfer worldwide.",
   getQuote: "Get a Quote",
   exploreProducts: "Explore Products",
   viewProducts: "View All Products",
@@ -51,7 +51,7 @@ const EN = {
   rangeEyebrow: "Product Range",
   productsTitle: "Our Pump Series",
   productsSubtitle:
-    "We manufacture and supply a full sewage-focused pump range — stainless-steel sewage pumps, ZW and ZWL self-priming pumps, YW submersible sewage pumps, the QBY air-operated diaphragm series, irrigation & drainage mobile pump trucks, GNWQ and WQK cutter submersible pumps, IHG/IHW/IRG/IRW pipeline pumps, metering pumps, high-head sewage pumps, QDX submersible pumps and QD oil-filled submersible pumps. As an authorized dealer, we also supply genuine Wilden AODD diaphragm pumps and spare parts.",
+    "We manufacture and supply a full sewage-focused pump range — stainless-steel sewage pumps, ZW and ZWL self-priming pumps, YW submersible sewage pumps, the QBY air-operated diaphragm series, irrigation & drainage mobile pump trucks, GNWQ and WQK cutter submersible pumps, IHG/IHW/IRG/IRW pipeline pumps, metering pumps, high-head sewage pumps, QDX submersible pumps and QD oil-filled submersible pumps. We also supply genuine, original Wilden AODD diaphragm pumps and spare parts.",
   testimonialsEyebrow: "Testimonials",
   testimonialsTitle: "Trusted by Industry Leaders",
   ctaTitle: "Ready to Solve Your Fluid Challenge?",

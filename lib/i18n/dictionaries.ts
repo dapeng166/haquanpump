@@ -33,7 +33,7 @@ const en = {
     // the headline stays comparative-free in every language.
     title: "Sewage Pumps Engineered for Demanding Industries",
     subtitle:
-      "Shanghai Haquan Pump Valve Manufacturing Co., Ltd. is a professional sewage pump manufacturer and an authorized dealer of genuine Wilden AODD diaphragm pumps and spare parts — supplying submersible, cutter and self-priming sewage pumps, and genuine Wilden pumps for chemical, food & beverage, pharmaceutical, mining and industrial fluid transfer worldwide.",
+      "Shanghai Haquan Pump Valve Manufacturing Co., Ltd. is a professional sewage pump manufacturer and a supplier of genuine, original Wilden AODD diaphragm pumps and spare parts — supplying submersible, cutter and self-priming sewage pumps, and genuine Wilden pumps for chemical, food & beverage, pharmaceutical, mining and industrial fluid transfer worldwide.",
   },
   stats: {
     experience: "Years of Expertise",
@@ -47,7 +47,7 @@ const en = {
       "A decade of engineering discipline, in-house manufacturing and export experience behind every pump we ship.",
     productsTitle: "Our Pump Series",
     productsSubtitle:
-      "We manufacture and supply a full sewage-focused pump range — stainless-steel sewage pumps, ZW and ZWL self-priming pumps, YW submersible sewage pumps, the QBY air-operated diaphragm series, irrigation & drainage mobile pump trucks, GNWQ and WQK cutter submersible pumps, IHG/IHW/IRG/IRW pipeline pumps, metering pumps, high-head sewage pumps, QDX submersible pumps and QD oil-filled submersible pumps. As an authorized dealer, we also supply genuine Wilden AODD diaphragm pumps and spare parts.",
+      "We manufacture and supply a full sewage-focused pump range — stainless-steel sewage pumps, ZW and ZWL self-priming pumps, YW submersible sewage pumps, the QBY air-operated diaphragm series, irrigation & drainage mobile pump trucks, GNWQ and WQK cutter submersible pumps, IHG/IHW/IRG/IRW pipeline pumps, metering pumps, high-head sewage pumps, QDX submersible pumps and QD oil-filled submersible pumps. We also supply genuine, original Wilden AODD diaphragm pumps and spare parts.",
     testimonialsTitle: "Trusted by Industry Leaders",
     newsTitle: "News & Engineering Insights",
     ctaTitle: "Ready to Solve Your Fluid Challenge?",

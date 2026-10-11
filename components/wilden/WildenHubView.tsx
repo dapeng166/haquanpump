@@ -20,7 +20,7 @@ export const WILDEN_EN = {
   eyebrow: "Genuine WILDEN",
   title: "WILDEN AODD Pumps & Spare Parts",
   intro:
-    "Haquan is an authorized dealer of genuine WILDEN air-operated double-diaphragm pumps. Send us a part number or pump build code and we will confirm fitment, lead time and export shipping.",
+    "Haquan supplies genuine, original WILDEN air-operated double-diaphragm pumps and spare parts. Send us a part number or pump build code and we will confirm fitment, lead time and export shipping.",
   crumb: "WILDEN AODD Pumps",
   why1Title: "Genuine parts only",
   why1Text: "Every pump and spare part is original WILDEN, identified by its official part number — no copies, no look-alikes.",
