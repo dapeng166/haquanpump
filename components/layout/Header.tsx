@@ -48,12 +48,12 @@ export function Header() {
         <Logo onDark />
 
         {/* Desktop nav */}
-        <nav className="hidden items-center gap-1 lg:flex">
+        <nav className="hidden items-center gap-1 xl:flex">
           {mainNav.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className={`relative rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+              className={`relative rounded-full px-3 py-2 text-sm font-medium 2xl:px-4 transition-colors ${
                 isActive(item.href)
                   ? "text-[#16305a]"
                   : "text-slate-200 hover:text-amber-300"
@@ -90,7 +90,7 @@ export function Header() {
             onClick={() => setOpen((v) => !v)}
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-white/20 bg-white/10 text-white lg:hidden"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-white/20 bg-white/10 text-white xl:hidden"
           >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -105,7 +105,7 @@ export function Header() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.28, ease: "easeInOut" }}
-            className="overflow-hidden lg:hidden"
+            className="overflow-hidden xl:hidden"
           >
             <div className="container-px mt-3 flex flex-col gap-1 border-t border-white/10 bg-[#16305a] py-4">
               {mainNav.map((item) => (

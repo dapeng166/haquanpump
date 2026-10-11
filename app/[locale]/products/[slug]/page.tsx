@@ -9,10 +9,12 @@ import { localeAlternates } from "@/lib/i18n/alternates";
 import { metaTitle, metaDescription } from "@/lib/seo";
 import {
   translateProduct,
+  translateProductCard,
   translateProductLabels,
 } from "@/lib/i18n/translateProduct";
 import { translate, translateMany } from "@/lib/i18n/translate";
 import { cardLabels } from "@/lib/i18n/uiLabels";
+import { toCard } from "@/lib/cardProduct";
 
 type Params = Promise<{ locale: string; slug: string }>;
 
@@ -69,7 +71,7 @@ export default async function LocalizedProductDetailPage({
   const [product, related, labels, crumbLabels, adjacent] = await Promise.all([
     translateProduct(source, locale),
     getRelatedProducts(source).then((list) =>
-      Promise.all(list.map((p) => translateProduct(p, locale))),
+      Promise.all(list.map((p) => translateProductCard(toCard(p), locale))),
     ),
     translateProductLabels(locale),
     translateMany(["Home", "Products"], locale),

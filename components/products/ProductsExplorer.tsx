@@ -8,21 +8,60 @@ import type { Product, PumpSeries } from "@/lib/types";
 import { ProductCard } from "./ProductCard";
 import { useTranslation } from "@/lib/i18n/I18nProvider";
 import { paginationRange } from "@/lib/pagination";
+import type { CardLabels } from "@/lib/i18n/uiLabels";
 
 const PAGE_SIZE = 8; // products per page
+
+export type ExplorerText = {
+  filterHeading: string;
+  allLabel?: string;
+  showing: string;
+  of: string;
+  product: string;
+  products: string;
+  empty: string;
+};
+
+const EN_TEXT: ExplorerText = {
+  filterHeading: "Pump Series",
+  showing: "Showing",
+  of: "of",
+  product: "product",
+  products: "products",
+  empty: "No products to show yet.",
+};
 
 export function ProductsExplorer({
   products,
   series,
   initialSeries = "all",
+  basePath = "/products",
+  hrefBase = "",
+  cardLabels,
+  hideSpecs = false,
+  text = EN_TEXT,
 }: {
   products: Product[];
   series: PumpSeries[];
   initialSeries?: string;
+  /** Page the filter lives on; `?series=` is appended for the active filter. */
+  basePath?: string;
+  /** Locale prefix for card links, e.g. "/es". */
+  hrefBase?: string;
+  cardLabels?: CardLabels;
+  /** Hide the flow/head/power row (meaningless for spare parts and articles). */
+  hideSpecs?: boolean;
+  text?: ExplorerText;
 }) {
   const { t } = useTranslation();
   const searchParams = useSearchParams();
-  const [active, setActive] = useState<string>(initialSeries);
+  // Read the filter from the URL on first render too: the listing pages are
+  // static (ISR) and render this client-side inside <Suspense>, so the server
+  // never sees ?series= and initialSeries is just the fallback.
+  const [active, setActive] = useState<string>(() => {
+    const urlSeries = searchParams.get("series");
+    return urlSeries && series.some((s) => s.slug === urlSeries) ? urlSeries : initialSeries;
+  });
   const [page, setPage] = useState(1);
   const topRef = useRef<HTMLDivElement>(null);
 
@@ -76,12 +115,12 @@ export function ProductsExplorer({
     // product click was recorded from the unfiltered URL and "back" lost the
     // series. pushState updates the URL synchronously (no server round-trip) and
     // still syncs with useSearchParams, so back/forward restores the series.
-    const url = slug === "all" ? "/products" : `/products?series=${slug}`;
+    const url = slug === "all" ? basePath : `${basePath}?series=${slug}`;
     window.history.pushState(null, "", url);
   }
 
   const chips = [
-    { slug: "all", name: t("common.allSeries"), count: products.length },
+    { slug: "all", name: text.allLabel ?? t("common.allSeries"), count: products.length },
     ...visibleSeries.map((s) => ({ slug: s.slug, name: s.name, count: counts[s.slug] ?? 0 })),
   ];
 
@@ -91,7 +130,7 @@ export function ProductsExplorer({
       <aside className="lg:sticky lg:top-28 lg:self-start">
         <div className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-slate-900">
           <SlidersHorizontal className="h-4 w-4 text-accent-600" aria-hidden />
-          Pump Series
+          {text.filterHeading}
         </div>
         <ul className="flex flex-wrap gap-2 lg:flex-col lg:flex-nowrap lg:max-h-[calc(100vh-11rem)] lg:overflow-y-auto lg:overflow-x-hidden lg:pr-1 lg:[scrollbar-width:thin]">
           {chips.map((c) => {
@@ -125,15 +164,15 @@ export function ProductsExplorer({
       <div ref={topRef} className="scroll-mt-28">
         <p className="mb-6 text-sm text-slate-500">
           {filtered.length === 0 ? (
-            "No products to show yet."
+            text.empty
           ) : (
             <>
-              Showing{" "}
+              {text.showing}{" "}
               <span className="font-semibold text-slate-900">
                 {start}–{end}
               </span>{" "}
-              of <span className="font-semibold text-slate-900">{filtered.length}</span>{" "}
-              {filtered.length === 1 ? "product" : "products"}
+              {text.of} <span className="font-semibold text-slate-900">{filtered.length}</span>{" "}
+              {filtered.length === 1 ? text.product : text.products}
             </>
           )}
         </p>
@@ -147,7 +186,7 @@ export function ProductsExplorer({
               transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               className="h-full"
             >
-              <ProductCard product={product} />
+              <ProductCard product={product} hrefBase={hrefBase} labels={cardLabels} hideSpecs={hideSpecs} />
             </motion.div>
           ))}
         </motion.div>

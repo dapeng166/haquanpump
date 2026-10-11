@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { indexableLocales } from "@/lib/i18n/config";
+import { WILDEN_HUB_PATH } from "@/lib/wilden";
 
 // On-demand revalidation endpoint. WordPress pings this when a product, news
 // post or page is published/updated, so the change appears immediately instead
@@ -12,7 +13,9 @@ const SECRET = process.env.REVALIDATE_SECRET;
 
 // The listing/index routes that must refresh when content changes. A caller may
 // also pass ?path=/products/some-slug to refresh one specific page.
-const BASE_PATHS = ["/", "/products", "/news", "/support"];
+const BASE_PATHS = ["/", "/products", "/news", "/support", WILDEN_HUB_PATH];
+const PRODUCT_PATHS = ["/", "/products", WILDEN_HUB_PATH];
+const NEWS_PATHS = ["/", "/news"];
 
 function revalidateAllLocales(path: string) {
   revalidatePath(path);
@@ -33,18 +36,26 @@ async function handle(req: NextRequest) {
     );
   }
 
-  for (const path of BASE_PATHS) revalidateAllLocales(path);
+  // Optionally refresh one specific page (e.g. the exact product/news URL).
+  const extra = req.nextUrl.searchParams.get("path");
+
+  // Only refresh the listings the published item actually appears on — every
+  // refreshed page is rewritten in 7 languages and billed as ISR writes.
+  const listings = extra?.startsWith("/products/")
+    ? PRODUCT_PATHS
+    : extra?.startsWith("/news/")
+      ? NEWS_PATHS
+      : BASE_PATHS;
+  for (const path of listings) revalidateAllLocales(path);
   // Sitemaps have no locale prefix.
   revalidatePath("/sitemap.xml");
   revalidatePath("/sitemap");
 
-  // Optionally refresh one specific page (e.g. the exact product/news URL).
-  const extra = req.nextUrl.searchParams.get("path");
   if (extra && extra.startsWith("/")) revalidateAllLocales(extra);
 
   return NextResponse.json({
     revalidated: true,
-    paths: [...BASE_PATHS, "/sitemap.xml", ...(extra ? [extra] : [])],
+    paths: [...listings, "/sitemap.xml", ...(extra ? [extra] : [])],
     now: Date.now(),
   });
 }

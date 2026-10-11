@@ -1,12 +1,15 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getProducts } from "@/lib/wordpress";
+import { getProducts, getProductSeries } from "@/lib/wordpress";
+import { toCard } from "@/lib/cardProduct";
 import { Container, Section } from "@/components/ui/Primitives";
-import { ProductCard } from "@/components/products/ProductCard";
+import { ProductsExplorer } from "@/components/products/ProductsExplorer";
+import { ExplorerFallback } from "@/components/products/ExplorerFallback";
+import { ProductIndex } from "@/components/products/ProductIndex";
 import { isIndexableLocale, dirForLocale } from "@/lib/i18n/config";
 import { localeAlternates } from "@/lib/i18n/alternates";
-import { translateProductCard } from "@/lib/i18n/translateProduct";
-import { translate } from "@/lib/i18n/translate";
+import { translate, translateMany } from "@/lib/i18n/translate";
 import { cardLabels } from "@/lib/i18n/uiLabels";
 
 type Params = Promise<{ locale: string }>;
@@ -43,6 +46,20 @@ export async function generateMetadata({
   };
 }
 
+const EN_UI = {
+  heading: EN_HEADING,
+  filterHeading: "Pump Series",
+  allLabel: "All Series",
+  // A bare "Showing" machine-translates as a noun ("Demostración").
+  showing: "Results:",
+  of: "of",
+  product: "product",
+  products: "products",
+  empty: "No products to show yet.",
+  indexHeading: "Full product index",
+  indexHint: "Every pump in the catalogue, grouped by series.",
+};
+
 export default async function LocalizedProductsPage({
   params,
 }: {
@@ -51,25 +68,50 @@ export default async function LocalizedProductsPage({
   const { locale } = await params;
   if (!isIndexableLocale(locale)) notFound();
 
-  const products = await getProducts();
-  const [heading, translated] = await Promise.all([
-    translate(EN_HEADING, locale),
-    Promise.all(products.map((p) => translateProductCard(p, locale))),
+  const [all, seriesEn] = await Promise.all([getProducts(), getProductSeries()]);
+  const cards = all.map(toCard);
+  const uiKeys = Object.keys(EN_UI) as (keyof typeof EN_UI)[];
+  // Everything in three batched calls (cached per string after the first run).
+  const [uiValues, seriesNames, cardText] = await Promise.all([
+    translateMany(uiKeys.map((k) => EN_UI[k]), locale),
+    translateMany(seriesEn.map((s) => s.name), locale),
+    translateMany(cards.flatMap((p) => [p.name, p.excerpt]), locale),
   ]);
+  const T = Object.fromEntries(uiKeys.map((k, i) => [k, uiValues[i]])) as typeof EN_UI;
+  const series = seriesEn.map((s, i) => ({ ...s, name: seriesNames[i] }));
+  const seriesName = new Map(series.map((s) => [s.slug, s.name]));
+  const products = cards.map((p, i) => ({
+    ...p,
+    name: cardText[i * 2],
+    excerpt: cardText[i * 2 + 1],
+    seriesName: seriesName.get(p.seriesSlug) ?? p.seriesName,
+  }));
   const labels = cardLabels(locale);
+  const hrefBase = `/${locale}`;
 
   return (
     <div dir={dirForLocale(locale)} lang={locale}>
       <Section className="pt-28 sm:pt-32">
         <Container>
-          <h1 className="font-display text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
-            {heading}
+          <h1 className="mb-10 font-display text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+            {T.heading}
           </h1>
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {translated.map((p) => (
-              <ProductCard key={p.slug} product={p} hrefBase={`/${locale}`} labels={labels} />
-            ))}
-          </div>
+          <Suspense fallback={<ExplorerFallback products={products} hrefBase={hrefBase} cardLabels={labels} />}>
+            <ProductsExplorer
+              products={products}
+              series={series}
+              basePath={`${hrefBase}/products`}
+              hrefBase={hrefBase}
+              cardLabels={labels}
+              text={T}
+            />
+          </Suspense>
+          <ProductIndex
+            products={products}
+            series={series}
+            basePath={hrefBase}
+            labels={{ heading: T.indexHeading, hint: T.indexHint }}
+          />
         </Container>
       </Section>
     </div>

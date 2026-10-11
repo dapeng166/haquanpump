@@ -20,7 +20,7 @@ export function Logo({
   return (
     <Link
       href="/"
-      className={`group inline-flex items-center gap-2.5 ${className}`}
+      className={`group inline-flex shrink-0 items-center gap-2.5 ${className}`}
       aria-label={`${company.shortName} — home`}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}

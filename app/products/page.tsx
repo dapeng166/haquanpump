@@ -1,7 +1,10 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { getProducts, getProductSeries } from "@/lib/wordpress";
+import { toCard } from "@/lib/cardProduct";
 import { Container, Section } from "@/components/ui/Primitives";
 import { ProductsExplorer } from "@/components/products/ProductsExplorer";
+import { ExplorerFallback } from "@/components/products/ExplorerFallback";
 import { ProductIndex } from "@/components/products/ProductIndex";
 
 export const metadata: Metadata = {
@@ -11,31 +14,19 @@ export const metadata: Metadata = {
   alternates: { canonical: "/products" },
 };
 
-export default async function ProductsPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ series?: string }>;
-}) {
-  const [products, series, params] = await Promise.all([
-    getProducts(),
-    getProductSeries(),
-    searchParams,
-  ]);
-
-  const initialSeries =
-    params.series && series.some((s) => s.slug === params.series)
-      ? params.series
-      : "all";
+// Static (ISR) — the ?series= filter is read on the client, so this page is
+// no longer re-rendered with all ~500 products on every single request.
+export default async function ProductsPage() {
+  const [all, series] = await Promise.all([getProducts(), getProductSeries()]);
+  const products = all.map(toCard);
 
   return (
     <Section className="pt-28 sm:pt-32">
       <Container>
         <h1 className="sr-only">Sewage Pumps Engineered for Every Duty</h1>
-        <ProductsExplorer
-          products={products}
-          series={series}
-          initialSeries={initialSeries}
-        />
+        <Suspense fallback={<ExplorerFallback products={products} />}>
+          <ProductsExplorer products={products} series={series} />
+        </Suspense>
         <ProductIndex
           products={products}
           series={series}

@@ -8,6 +8,7 @@ import { Advantages } from "@/components/home/Advantages";
 import { ProductPreview } from "@/components/home/ProductPreview";
 import { Testimonials } from "@/components/home/Testimonials";
 import { FinalCTA } from "@/components/home/FinalCTA";
+import { toCard } from "@/lib/cardProduct";
 
 // Statically cache the homepage. Publishing revalidates "/" on demand
 // (WordPress → /api/revalidate), so the timed window is just a daily safety net.
@@ -47,7 +48,7 @@ export default async function HomePage() {
       <Hero subtitle={page?.subtitle} heroImage={page?.heroImage} />
       <TrustBar text={acfStr(page, "trust_bar_text") || undefined} />
       <Advantages items={cmsAdvantages.length === 3 ? cmsAdvantages : undefined} />
-      <ProductPreview products={preview} />
+      <ProductPreview products={preview.map(toCard)} />
       <Testimonials items={cmsTestimonials.length > 0 ? cmsTestimonials : undefined} />
       <FinalCTA />
     </>

@@ -253,7 +253,7 @@ function mapPump(raw: WPPump, index: number): Product {
     // product page can hide the "Model:" line instead of repeating the name.
     model: acf(fields, "model", "model_no"),
     seriesSlug: term?.slug ?? "sewage-pumps",
-    seriesName: term?.name ?? "Sewage Pumps",
+    seriesName: term?.name ? decodeEntities(term.name) : "Sewage Pumps",
     excerpt,
     description: raw.content?.rendered ?? `<p>${stripHtml(raw.excerpt?.rendered)}</p>`,
     image: mainImage,
@@ -352,7 +352,7 @@ export async function getProductSeries(): Promise<PumpSeries[]> {
   const live: PumpSeries[] = raw
     ? raw.map((t) => ({
         slug: t.slug,
-        name: t.name,
+        name: decodeEntities(t.name),
         description:
           stripHtml(t.description) ||
           pumpSeries.find((s) => s.slug === t.slug)?.description ||

@@ -9,6 +9,7 @@ const en = {
     home: "Home",
     about: "About",
     products: "Products",
+    wilden: "WILDEN",
     news: "News",
     support: "Support",
     contact: "Contact",
@@ -103,7 +104,7 @@ type DeepPartial<T> = { [K in keyof T]?: DeepPartial<T[K]> };
 
 // --- Chinese -------------------------------------------------------------
 const zh: DeepPartial<Dictionary> = {
-  nav: { home: "首页", about: "关于我们", products: "产品中心", news: "新闻", support: "技术支持", contact: "联系我们" },
+  nav: { home: "首页", about: "关于我们", products: "产品中心", wilden: "WILDEN", news: "新闻", support: "技术支持", contact: "联系我们" },
   cta: {
     getQuote: "获取报价", requestQuote: "索取报价", viewProducts: "查看全部产品", exploreProducts: "浏览产品",
     learnMore: "了解更多", readMore: "阅读全文", downloadBrochure: "下载样本", sendInquiry: "发送询盘",
@@ -150,7 +151,7 @@ const zh: DeepPartial<Dictionary> = {
 
 // --- Spanish -------------------------------------------------------------
 const es: DeepPartial<Dictionary> = {
-  nav: { home: "Inicio", about: "Nosotros", products: "Productos", news: "Noticias", support: "Soporte", contact: "Contacto" },
+  nav: { home: "Inicio", about: "Nosotros", products: "Productos", wilden: "WILDEN", news: "Noticias", support: "Soporte", contact: "Contacto" },
   cta: {
     getQuote: "Solicitar Cotización", requestQuote: "Pedir Cotización", viewProducts: "Ver Todos los Productos",
     exploreProducts: "Explorar Productos", learnMore: "Saber Más", readMore: "Leer Más",
@@ -197,7 +198,7 @@ const es: DeepPartial<Dictionary> = {
 
 // --- German --------------------------------------------------------------
 const de: DeepPartial<Dictionary> = {
-  nav: { home: "Startseite", about: "Über uns", products: "Produkte", news: "Aktuelles", support: "Support", contact: "Kontakt" },
+  nav: { home: "Startseite", about: "Über uns", products: "Produkte", wilden: "WILDEN", news: "Aktuelles", support: "Support", contact: "Kontakt" },
   cta: {
     getQuote: "Angebot Anfordern", requestQuote: "Angebot Anfordern", viewProducts: "Alle Produkte Ansehen",
     exploreProducts: "Produkte Entdecken", learnMore: "Mehr Erfahren", readMore: "Weiterlesen",
@@ -244,7 +245,7 @@ const de: DeepPartial<Dictionary> = {
 
 // --- Russian -------------------------------------------------------------
 const ru: DeepPartial<Dictionary> = {
-  nav: { home: "Главная", about: "О компании", products: "Продукция", news: "Новости", support: "Поддержка", contact: "Контакты" },
+  nav: { home: "Главная", about: "О компании", products: "Продукция", wilden: "WILDEN", news: "Новости", support: "Поддержка", contact: "Контакты" },
   cta: {
     getQuote: "Запросить Цену", requestQuote: "Запросить Цену", viewProducts: "Вся Продукция",
     exploreProducts: "Смотреть Продукцию", learnMore: "Подробнее", readMore: "Читать Далее",
@@ -291,7 +292,7 @@ const ru: DeepPartial<Dictionary> = {
 
 // --- Arabic (RTL) --------------------------------------------------------
 const ar: DeepPartial<Dictionary> = {
-  nav: { home: "الرئيسية", about: "من نحن", products: "المنتجات", news: "الأخبار", support: "الدعم", contact: "اتصل بنا" },
+  nav: { home: "الرئيسية", about: "من نحن", products: "المنتجات", wilden: "WILDEN", news: "الأخبار", support: "الدعم", contact: "اتصل بنا" },
   cta: {
     getQuote: "اطلب عرض سعر", requestQuote: "اطلب عرض سعر", viewProducts: "عرض كل المنتجات",
     exploreProducts: "استكشف المنتجات", learnMore: "اعرف المزيد", readMore: "اقرأ المزيد",
@@ -338,7 +339,7 @@ const ar: DeepPartial<Dictionary> = {
 
 // --- French ---------------------------------------------------------------
 const fr: DeepPartial<Dictionary> = {
-  nav: { home: "Accueil", about: "À propos", products: "Produits", news: "Actualités", support: "Support", contact: "Contact" },
+  nav: { home: "Accueil", about: "À propos", products: "Produits", wilden: "WILDEN", news: "Actualités", support: "Support", contact: "Contact" },
   cta: { viewDetails: "Voir les détails", getQuote: "Demander un devis", exploreProducts: "Voir les produits", contactUs: "Nous contacter", readMore: "Lire la suite" },
   specs: { flow: "Débit", head: "Hauteur", power: "Puissance", diameter: "Entrée / Sortie", material: "Matériau", specifications: "Spécifications" },
   common: { allSeries: "Toutes les séries", relatedProducts: "Produits associés", backToProducts: "Retour aux produits", industries: "Applications et secteurs", previous: "Précédent", next: "Suivant" },
@@ -346,7 +347,7 @@ const fr: DeepPartial<Dictionary> = {
 
 // --- Portuguese -----------------------------------------------------------
 const pt: DeepPartial<Dictionary> = {
-  nav: { home: "Início", about: "Sobre", products: "Produtos", news: "Notícias", support: "Suporte", contact: "Contato" },
+  nav: { home: "Início", about: "Sobre", products: "Produtos", wilden: "WILDEN", news: "Notícias", support: "Suporte", contact: "Contato" },
   cta: { viewDetails: "Ver detalhes", getQuote: "Solicitar orçamento", exploreProducts: "Ver produtos", contactUs: "Fale conosco", readMore: "Leia mais" },
   specs: { flow: "Vazão", head: "Altura", power: "Potência", diameter: "Entrada / Saída", material: "Material", specifications: "Especificações" },
   common: { allSeries: "Todas as séries", relatedProducts: "Produtos relacionados", backToProducts: "Voltar aos produtos", industries: "Aplicações e setores", previous: "Anterior", next: "Próximo" },

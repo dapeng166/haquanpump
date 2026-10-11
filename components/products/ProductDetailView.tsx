@@ -10,6 +10,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import type { Product } from "@/lib/types";
+import { WILDEN_HUB_PATH, WILDEN_SERIES } from "@/lib/wilden";
 import { Container, Section } from "@/components/ui/Primitives";
 import { Reveal } from "@/components/ui/Reveal";
 import { ProductGallery } from "@/components/products/ProductGallery";
@@ -100,7 +101,14 @@ export function ProductDetailView({
               <li><Link href={`${hrefBase}/products`} className="hover:text-accent-600">{labels.products}</Link></li>
               <li aria-hidden>/</li>
               <li>
-                <Link href={`${hrefBase}/products?series=${product.seriesSlug}`} className="hover:text-accent-600">
+                <Link
+                  href={
+                    product.seriesSlug === WILDEN_SERIES
+                      ? `${hrefBase}${WILDEN_HUB_PATH}`
+                      : `${hrefBase}/products?series=${product.seriesSlug}`
+                  }
+                  className="hover:text-accent-600"
+                >
                   {product.seriesName}
                 </Link>
               </li>

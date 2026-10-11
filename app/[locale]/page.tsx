@@ -15,6 +15,7 @@ import { localeAlternates } from "@/lib/i18n/alternates";
 import { translateMany } from "@/lib/i18n/translate";
 import { translateProductCard } from "@/lib/i18n/translateProduct";
 import { cardLabels } from "@/lib/i18n/uiLabels";
+import { toCard } from "@/lib/cardProduct";
 
 type Params = Promise<{ locale: string }>;
 
@@ -99,7 +100,7 @@ export default async function LocalizedHome({ params }: { params: Params }) {
     translateMany(testimonials.map((t) => t.quote), locale),
     translateMany(testimonials.map((t) => t.author), locale),
     translateMany(testimonials.map((t) => t.role), locale),
-    Promise.all(preview.map((p) => translateProductCard(p, locale))),
+    Promise.all(preview.map((p) => translateProductCard(toCard(p), locale))),
   ]);
   const T = Object.fromEntries(enKeys.map((k, i) => [k, staticValues[i]])) as typeof EN;
   const statLabels = [T.statExperience, T.statCountries, T.statModels, T.statDelivered];

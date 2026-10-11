@@ -11,6 +11,7 @@ export function ProductCard({
   priority = false,
   hrefBase = "",
   labels,
+  hideSpecs = false,
 }: {
   product: Product;
   priority?: boolean;
@@ -18,6 +19,8 @@ export function ProductCard({
   hrefBase?: string;
   /** Pre-translated card labels (localized routes). Falls back to t(). */
   labels?: { flow: string; head: string; power: string; viewDetails: string };
+  /** Hide the flow/head/power row (e.g. Wilden spare parts and articles). */
+  hideSpecs?: boolean;
 }) {
   const { t } = useTranslation();
   const href = `${hrefBase}/products/${product.slug}`;
@@ -57,11 +60,13 @@ export function ProductCard({
         </p>
 
         {/* Key specs at a glance */}
+        {!hideSpecs && (
         <dl className="mt-4 grid grid-cols-3 gap-2 border-y border-slate-200 py-3 text-center">
           <SpecMini icon={<Droplets className="h-3.5 w-3.5" />} label={L.flow} value={`${product.specs.flowRate}`} unit="m³/h" />
           <SpecMini icon={<Gauge className="h-3.5 w-3.5" />} label={L.head} value={`${product.specs.head}`} unit="m" />
           <SpecMini icon={<Zap className="h-3.5 w-3.5" />} label={L.power} value={`${product.specs.power}`} unit="kW" />
         </dl>
+        )}
 
         <div className="mt-auto flex items-center justify-between gap-3 pt-5">
           <Link

@@ -9,6 +9,7 @@ import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { ProductJsonLd } from "@/components/seo/ProductJsonLd";
 import { localeAlternates } from "@/lib/i18n/alternates";
 import { metaTitle, metaDescription } from "@/lib/seo";
+import { toCard } from "@/lib/cardProduct";
 
 // Render product pages on-demand (ISR) rather than at build time. This keeps a
 // deploy from depending on the CMS being reachable during the build (a
@@ -78,7 +79,7 @@ export default async function ProductDetailPage({
 
       <ProductDetailView
         product={product}
-        related={related}
+        related={related.map(toCard)}
         labels={EN_PRODUCT_LABELS}
         prev={prev}
         next={next}

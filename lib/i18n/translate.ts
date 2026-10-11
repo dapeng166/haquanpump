@@ -65,6 +65,20 @@ async function callFree(texts: string[], target: Locale): Promise<string[]> {
   return arr;
 }
 
+// Brand names the engine would otherwise translate as ordinary words ("Genuine
+// WILDEN" → "Salvaje genuino" / "Véritable SAUVAGE"). Each exact spelling is
+// swapped for an opaque token the engine passes through untouched (verified for
+// es/fr/ar), then restored verbatim — so slugs in href/src attributes survive too.
+const PROTECTED: [RegExp, string, string][] = [
+  [/\bWILDEN\b/g, "ZXQ0QXZ", "WILDEN"],
+  [/\bWilden\b/g, "ZXQ1QXZ", "Wilden"],
+  [/\bwilden\b/g, "ZXQ2QXZ", "wilden"],
+];
+const protect = (s: string) =>
+  PROTECTED.reduce((acc, [re, token]) => acc.replace(re, token), s);
+const restore = (s: string) =>
+  PROTECTED.reduce((acc, [, token, word]) => acc.split(token).join(word), s);
+
 // Translate a batch in chunks (keeps each request modest for the free endpoint).
 async function callEngine(
   texts: string[],
@@ -74,11 +88,11 @@ async function callEngine(
   const CHUNK = 40;
   const out: string[] = [];
   for (let i = 0; i < texts.length; i += CHUNK) {
-    const slice = texts.slice(i, i + CHUNK);
+    const slice = texts.slice(i, i + CHUNK).map(protect);
     const done = API_KEY
       ? await callOfficial(slice, target, format)
       : await callFree(slice, target);
-    out.push(...done);
+    out.push(...done.map(restore));
   }
   return out;
 }

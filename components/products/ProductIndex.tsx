@@ -1,4 +1,3 @@
-import Link from "next/link";
 import type { Product, PumpSeries } from "@/lib/types";
 
 /**
@@ -54,15 +53,13 @@ export function ProductIndex({
             <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-900">
               {g.series.name}
             </h2>
-            <ul className="mt-3 space-y-1.5">
+            {/* Styles live on the <ul> and links are plain <a>: with ~500 items,
+                a per-link className and <Link> wrapper added ~50 KB to every
+                listing page (ISR writes are billed per 8 KB). */}
+            <ul className="mt-3 space-y-1.5 text-sm leading-snug text-slate-600 [&_a:hover]:text-accent-600 [&_a:hover]:underline [&_a]:underline-offset-2">
               {g.items.map((p) => (
                 <li key={p.slug}>
-                  <Link
-                    href={`${basePath}/products/${p.slug}`}
-                    className="text-sm leading-snug text-slate-600 underline-offset-2 hover:text-accent-600 hover:underline"
-                  >
-                    {p.name}
-                  </Link>
+                  <a href={`${basePath}/products/${p.slug}`}>{p.name}</a>
                 </li>
               ))}
             </ul>
