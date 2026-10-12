@@ -1,5 +1,6 @@
 import type { Product } from "@/lib/types";
 import { company } from "@/lib/site";
+import { WILDEN_SERIES } from "@/lib/wilden";
 
 /** schema.org requires absolute URLs; CMS images already are, fallbacks may not be. */
 function absolute(url: string): string {
@@ -59,19 +60,29 @@ export function ProductJsonLd({
     ...(product.applications?.length ? { keywords: product.applications.join(", ") } : {}),
     ...(specs.length ? { additionalProperty: specs } : {}),
     ...(locale ? { inLanguage: locale } : {}),
-    brand: { "@type": "Brand", name: "Haquan" },
-    manufacturer: {
-      "@type": "Organization",
-      name: company.name,
-      url: company.url,
-      address: {
-        "@type": "PostalAddress",
-        streetAddress: `${company.address.line1}, ${company.address.line2}`,
-        addressLocality: company.address.city,
-        postalCode: company.address.postcode,
-        addressCountry: "CN",
-      },
-    },
+    // Wilden products are genuine Wilden pumps that Haquan supplies, not makes:
+    // labelling them brand/manufacturer "Haquan" told search engines and AI
+    // assistants the opposite. Haquan's own pumps keep Haquan as both.
+    ...(product.seriesSlug === WILDEN_SERIES
+      ? {
+          brand: { "@type": "Brand", name: "Wilden" },
+          manufacturer: { "@type": "Organization", name: "Wilden" },
+        }
+      : {
+          brand: { "@type": "Brand", name: "Haquan" },
+          manufacturer: {
+            "@type": "Organization",
+            name: company.name,
+            url: company.url,
+            address: {
+              "@type": "PostalAddress",
+              streetAddress: `${company.address.line1}, ${company.address.line2}`,
+              addressLocality: company.address.city,
+              postalCode: company.address.postcode,
+              addressCountry: "CN",
+            },
+          },
+        }),
   };
 
   return (
