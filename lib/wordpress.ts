@@ -136,7 +136,8 @@ async function wpFetchPage<T>(
   path: string,
 ): Promise<{ data: T[]; totalPages: number } | null> {
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 8000);
+  // A 100-item page with _embed takes Hostinger 3–6 s even on its own.
+  const timer = setTimeout(() => controller.abort(), 20000);
   try {
     const res = await fetch(`${WP_API_URL}${path}`, {
       next: { revalidate: REVALIDATE_SECONDS },
@@ -154,26 +155,42 @@ async function wpFetchPage<T>(
   }
 }
 
+/** One page, retried: Hostinger intermittently times out or answers 403. */
+async function wpFetchPageRetry<T>(path: string, attempts = 3) {
+  for (let i = 0; i < attempts; i++) {
+    const page = await wpFetchPage<T>(path);
+    if (page) return page;
+    await new Promise((r) => setTimeout(r, 1000 * (i + 1)));
+  }
+  return null;
+}
+
 /**
  * Fetch an ENTIRE WordPress collection, transparently paging past the REST
  * API's hard `per_page=100` limit. Page 1 tells us the total page count; the
- * remaining pages are fetched in parallel. `maxPages` caps the total requests
- * as a safety valve (100 × 30 = up to 3,000 items). Returns null only if the
- * very first request fails, so callers can fall back to seed data.
+ * rest are fetched two at a time (all at once overloaded Hostinger), each
+ * retried. `maxPages` caps the total requests (100 × 30 = up to 3,000 items).
+ *
+ * All-or-nothing: returns null if ANY page still fails. This used to skip
+ * failed pages, and one bad refresh cached 110 of 510 products for days.
+ * Callers treat null as "CMS unavailable" so Next keeps the last complete page.
  */
 async function wpFetchAll<T>(path: string, maxPages = 30): Promise<T[] | null> {
   const sep = path.includes("?") ? "&" : "?";
-  const first = await wpFetchPage<T>(`${path}${sep}per_page=100&page=1`);
+  const url = (n: number) => `${path}${sep}per_page=100&page=${n}`;
+  const first = await wpFetchPageRetry<T>(url(1));
   if (!first) return null;
-  if (first.totalPages <= 1) return first.data;
 
   const pages = Math.min(first.totalPages, maxPages);
-  const rest = await Promise.all(
-    Array.from({ length: pages - 1 }, (_, i) =>
-      wpFetchPage<T>(`${path}${sep}per_page=100&page=${i + 2}`),
-    ),
-  );
-  return rest.reduce<T[]>((all, r) => (r ? all.concat(r.data) : all), first.data);
+  const all = [...first.data];
+  for (let n = 2; n <= pages; n += 2) {
+    const batch = await Promise.all(
+      [n, n + 1].filter((k) => k <= pages).map((k) => wpFetchPageRetry<T>(url(k))),
+    );
+    if (batch.some((b) => b === null)) return null;
+    for (const b of batch) all.push(...b!.data);
+  }
+  return all;
 }
 
 /**
@@ -305,7 +322,9 @@ export async function getProducts(): Promise<Product[]> {
   // to placeholder products during a Hostinger hiccup. Throw instead, so Next
   // keeps serving the last-good page with the real products.
   if (raw === null) {
-    if (isBuildPhase()) return seedProducts; // never fail the deploy
+    // Throw at build time too: the listing pages are static, so building them
+    // from seed (or a partial list) would publish demo products for up to a
+    // week. A failed deploy is safer, since Vercel keeps the previous one live.
     throw new Error("CMS unavailable while listing products");
   }
   const live = raw.map(mapPump);
