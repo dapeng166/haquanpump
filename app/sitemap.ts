@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { company } from "@/lib/site";
 import { getNews, getProducts } from "@/lib/wordpress";
 import { indexableLocales } from "@/lib/i18n/config";
-import { WILDEN_HUB_PATH } from "@/lib/wilden";
+import { WILDEN_HUB_PATH, WILDEN_PARTS_PATH } from "@/lib/wilden";
 
 // Refresh the sitemap hourly so newly published news/products are submitted to
 // search engines automatically.
@@ -61,6 +61,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       alternates: { languages: altLanguages(WILDEN_HUB_PATH) },
     },
     {
+      url: `${base}${WILDEN_PARTS_PATH}`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+      alternates: { languages: altLanguages(WILDEN_PARTS_PATH) },
+    },
+    {
       url: `${base}/news`,
       lastModified: now,
       changeFrequency: "weekly",
@@ -92,7 +99,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })),
     // Localized about / support / contact / Wilden hub (static, CMS-independent).
     ...indexableLocales.flatMap((locale) =>
-      ["/about", "/support", "/contact", WILDEN_HUB_PATH].map((path) => ({
+      ["/about", "/support", "/contact", WILDEN_HUB_PATH, WILDEN_PARTS_PATH].map((path) => ({
         url: `${base}/${locale}${path}`,
         lastModified: now,
         changeFrequency: "monthly" as const,

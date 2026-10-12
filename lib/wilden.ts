@@ -7,6 +7,9 @@ export const WILDEN_SERIES = "wilden-aodd-pump";
 /** The standalone Wilden hub page (keeps product URLs at /products/<slug>). */
 export const WILDEN_HUB_PATH = "/wilden-aodd-pumps";
 
+/** Static part-number lookup (all PSG aluminum builds), linked from the hub. */
+export const WILDEN_PARTS_PATH = `${WILDEN_HUB_PATH}/part-numbers`;
+
 /**
  * Where a "browse this series" link should go. Wilden has its own hub and is
  * left out of the /products catalogue, so its series links to the hub.
@@ -109,7 +112,7 @@ export function wildenCatalogue(
 export const WILDEN_SIZES: { port: string; pro: string; shift: string; turbo: string }[] = [
   { port: '1/4"', pro: "P.025 · PS25", shift: "—", turbo: "—" },
   { port: '1/2"', pro: "P1 · P100", shift: "XPS1", turbo: "—" },
-  { port: '1"', pro: "P2 · P200", shift: "XPS220 · XPS230", turbo: "—" },
+  { port: '1"', pro: "P2 · P200 · P220", shift: "XPS220 · XPS230", turbo: "—" },
   { port: '1-1/2"', pro: "P4 · P420 · P430 · PS4 · PS400", shift: "XPS4 · XPS420 · XPS430", turbo: "—" },
   { port: '2"', pro: "P8 · P800 · P820 · P830 · PS8", shift: "XPS8 · XPS820 · XPS830", turbo: "T8" },
   { port: '3"', pro: "PS1530", shift: "XPS15 · XPS1520 · XPS1530", turbo: "T15" },

@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { getProducts, getNews, getDocuments, getSitePage } from "@/lib/wordpress";
 import { supportFaqs } from "@/lib/supportFaqs";
 import { seriesCodes } from "@/lib/searchCodes";
+import { WILDEN_PARTS_PATH } from "@/lib/wilden";
+import { WILDEN_ALUMINUM_BUILDS } from "@/lib/data/wildenAluminum";
 
 // Lightweight, self-contained search index for the whole site: the main pages,
 // every product, news article, technical document and Support FAQ. The client
@@ -21,6 +23,8 @@ export type SearchDoc = {
   keywords?: string;
   /** Pump series codes (e.g. "yw") so a full model number finds its datasheet. */
   codes?: string[];
+  /** Open with ?q=<search text> so the target page arrives pre-filtered. */
+  appendQuery?: boolean;
 };
 
 const PAGES: SearchDoc[] = [
@@ -86,7 +90,18 @@ export async function GET() {
     codes: seriesCodes(`${n.title} ${plainText(n.content)}`),
   }));
 
+  // One entry carrying every WILDEN part number and build code, so typing a
+  // code from a nameplate opens the lookup filtered to that build.
+  const wildenParts: SearchDoc = {
+    type: "Page",
+    title: "WILDEN Part Number Lookup",
+    excerpt: `${WILDEN_ALUMINUM_BUILDS.length} aluminum WILDEN pump builds by part number and build code.`,
+    href: WILDEN_PARTS_PATH,
+    appendQuery: true,
+    keywords: `wilden part number build code lookup ${WILDEN_ALUMINUM_BUILDS.map((b) => `${b.part} ${b.build}`).join(" ")}`,
+  };
+
   return NextResponse.json({
-    docs: [...PAGES, ...productDocs, ...documentDocs, ...faqDocs, ...newsDocs],
+    docs: [...PAGES, wildenParts, ...productDocs, ...documentDocs, ...faqDocs, ...newsDocs],
   });
 }

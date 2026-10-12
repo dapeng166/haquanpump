@@ -139,6 +139,10 @@ export function SiteSearch() {
 
   useEffect(() => setActive(0), [query]);
 
+  // Some targets (the WILDEN part-number lookup) filter themselves by ?q=.
+  const hrefFor = (d: SearchDoc) =>
+    d.appendQuery && query.trim() ? `${d.href}?q=${encodeURIComponent(query.trim())}` : d.href;
+
   const go = useCallback(
     (href: string) => {
       setOpen(false);
@@ -160,7 +164,7 @@ export function SiteSearch() {
       setActive((i) => Math.max(i - 1, 0));
     } else if (e.key === "Enter" && results[active]) {
       e.preventDefault();
-      go(results[active].href);
+      go(hrefFor(results[active]));
     }
   };
 
@@ -241,7 +245,7 @@ export function SiteSearch() {
                           <button
                             type="button"
                             onMouseMove={() => setActive(i)}
-                            onClick={() => go(d.href)}
+                            onClick={() => go(hrefFor(d))}
                             className={`flex w-full items-start gap-3 rounded-xl px-3 py-2.5 text-left transition-colors ${
                               selected ? "bg-accent/10" : "hover:bg-slate-50"
                             }`}
