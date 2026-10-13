@@ -14,7 +14,7 @@ const SECRET = process.env.REVALIDATE_SECRET;
 // The listing/index routes that must refresh when content changes. A caller may
 // also pass ?path=/products/some-slug to refresh one specific page.
 const BASE_PATHS = ["/", "/products", "/news", "/support", WILDEN_HUB_PATH];
-const PRODUCT_PATHS = ["/", "/products", WILDEN_HUB_PATH];
+const PRODUCT_PATHS = ["/", "/products", WILDEN_HUB_PATH, "/tools/pump-selector"];
 const NEWS_PATHS = ["/", "/news"];
 
 function revalidateAllLocales(path: string) {

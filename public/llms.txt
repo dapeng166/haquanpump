@@ -30,6 +30,8 @@ Municipal sewage and wastewater, flood and storm-water drainage, construction de
 - Wilden part number / build code lookup: https://www.haquanpump.com/wilden-aodd-pumps/part-numbers
 - News & engineering articles: https://www.haquanpump.com/news
 - Technical support, FAQs & downloadable datasheets: https://www.haquanpump.com/support
+- Free sewage pump selector (pump type, motor power and outlet size from flow and head): https://www.haquanpump.com/tools/pump-selector
+- Free pump head calculator (total dynamic head, friction loss, system curve): https://www.haquanpump.com/tools/head-calculator
 - About Haquan: https://www.haquanpump.com/about
 - Contact / request a quotation: https://www.haquanpump.com/contact
 - Sitemap: https://www.haquanpump.com/sitemap.xml

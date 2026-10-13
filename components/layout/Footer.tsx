@@ -73,6 +73,11 @@ export function Footer({ series }: { series?: PumpSeries[] }) {
                   </Link>
                 </li>
               ))}
+              <li>
+                <Link href="/tools" className="text-slate-300 transition-colors hover:text-amber-400">
+                  Engineering Tools
+                </Link>
+              </li>
             </ul>
           </div>
 

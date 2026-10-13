@@ -10,7 +10,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import type { Product } from "@/lib/types";
-import { seriesHref } from "@/lib/wilden";
+import { seriesHref, WILDEN_SERIES } from "@/lib/wilden";
 import { Container, Section } from "@/components/ui/Primitives";
 import { Reveal } from "@/components/ui/Reveal";
 import { ProductGallery } from "@/components/products/ProductGallery";
@@ -33,6 +33,8 @@ export type ProductDetailLabels = {
   applications: string;
   related: string;
   inquire: string;
+  selectorHint: string;
+  selectorLink: string;
   previous: string;
   next: string;
 };
@@ -52,6 +54,8 @@ export const EN_PRODUCT_LABELS: ProductDetailLabels = {
   applications: "Typical Applications",
   related: "Related Products",
   inquire: "Inquire About This Product",
+  selectorHint: "Not sure this pump fits your duty?",
+  selectorLink: "Try the pump selector",
   previous: "Previous",
   next: "Next",
 };
@@ -170,6 +174,14 @@ export function ProductDetailView({
                   {labels.inquire}
                   <ArrowRight className="h-4 w-4 rtl-flip" aria-hidden />
                 </Link>
+                {product.seriesSlug !== WILDEN_SERIES ? (
+                  <p className="mt-4 text-sm text-slate-500">
+                    {labels.selectorHint}{" "}
+                    <Link href="/tools/pump-selector" className="font-medium text-accent-600 hover:text-accent-700">
+                      {labels.selectorLink}
+                    </Link>
+                  </p>
+                ) : null}
               </div>
             </Reveal>
           </div>

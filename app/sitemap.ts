@@ -67,6 +67,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
       alternates: { languages: altLanguages(WILDEN_PARTS_PATH) },
     },
+    ...["/tools", "/tools/pump-selector", "/tools/head-calculator"].map((path) => ({
+      url: `${base}${path}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    })),
     {
       url: `${base}/news`,
       lastModified: now,
