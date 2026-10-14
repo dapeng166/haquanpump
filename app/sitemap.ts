@@ -8,6 +8,8 @@ import { WILDEN_HUB_PATH, WILDEN_PARTS_PATH } from "@/lib/wilden";
 // search engines automatically.
 export const revalidate = 86400;
 
+const TOOL_PATHS = ["/tools", "/tools/pump-selector", "/tools/head-calculator"];
+
 /**
  * Generates /sitemap.xml — the six core pages plus every product detail and
  * news article (so Google can discover and index each one). Falls back to just
@@ -67,12 +69,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
       alternates: { languages: altLanguages(WILDEN_PARTS_PATH) },
     },
-    ...["/tools", "/tools/pump-selector", "/tools/head-calculator"].map((path) => ({
-      url: `${base}${path}`,
-      lastModified: now,
-      changeFrequency: "monthly" as const,
-      priority: 0.8,
-    })),
+    // Engineering tools: English and every locale, each carrying the full set
+    // of reciprocal hreflang alternates.
+    ...TOOL_PATHS.flatMap((path) =>
+      ["", ...indexableLocales.map((l) => `/${l}`)].map((prefix) => ({
+        url: `${base}${prefix}${path}`,
+        lastModified: now,
+        changeFrequency: "monthly" as const,
+        priority: prefix ? 0.6 : 0.8,
+        alternates: { languages: altLanguages(path) },
+      })),
+    ),
     {
       url: `${base}/news`,
       lastModified: now,

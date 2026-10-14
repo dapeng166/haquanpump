@@ -47,6 +47,10 @@ async function handle(req: NextRequest) {
       ? NEWS_PATHS
       : BASE_PATHS;
   for (const path of listings) revalidateAllLocales(path);
+  // The localized pump selectors load the catalogue from a per-locale JSON (only
+  // their small default-duty seed is in the page, refreshed with it above).
+  if (listings === PRODUCT_PATHS)
+    for (const locale of indexableLocales) revalidatePath(`/api/tools/catalogue/${locale}`);
   // Sitemaps have no locale prefix.
   revalidatePath("/sitemap.xml");
   revalidatePath("/sitemap");

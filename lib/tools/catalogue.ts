@@ -1,5 +1,6 @@
 import type { Product } from "@/lib/types";
 import { WILDEN_SERIES } from "@/lib/wilden";
+import { SERIES } from "./series";
 
 /**
  * A product reduced to what the pump selector matches on. Flow and head are
@@ -11,11 +12,18 @@ export interface ToolProduct {
   name: string;
   image: string;
   seriesSlug: string;
-  seriesName: string;
   flow: [number, number];
   head: [number, number];
   exact: boolean;
+  /**
+   * Set when `name` has been translated, so the English article check below
+   * no longer works on it ("installation" is a French word too).
+   */
+  article?: boolean;
 }
+
+/** The duty point the pump selector opens with. */
+export const DEFAULT_DUTY = { q: 40, h: 15 };
 
 /**
  * Parse a CMS spec field into [min, max]. Handles the ways figures are typed
@@ -48,7 +56,6 @@ export function toToolProducts(products: Product[]): ToolProduct[] {
       name: p.name,
       image: p.image,
       seriesSlug: p.seriesSlug,
-      seriesName: p.seriesName,
       flow,
       head,
       exact: flow[0] === flow[1] && head[0] === head[1],
@@ -59,6 +66,33 @@ export function toToolProducts(products: Product[]): ToolProduct[] {
 
 const ARTICLE =
   /troubleshoot|problems|how to|how the|guide|maintenance|install|commission|explained|\bvs\.?\b|\bwhy\b|\bwhat\b|tips|checklist|read a|selection/i;
+
+const isArticle = (p: ToolProduct) => p.article ?? ARTICLE.test(p.name);
+
+/**
+ * Prepare the catalogue for translation: flag guide/article entries while the
+ * names are still English, and drop range entries that are articles, since
+ * `matchProducts` never lists them.
+ */
+export function flagArticles(list: ToolProduct[]): ToolProduct[] {
+  return list
+    .map((p) => ({ ...p, article: ARTICLE.test(p.name) }))
+    .filter((p) => p.exact || !p.article);
+}
+
+/**
+ * The products the pump selector lists when it opens (DEFAULT_DUTY, sewage,
+ * every other option "any"): the small server-rendered seed a localized
+ * selector shows, and crawlers see, before the full catalogue has loaded.
+ * Mirrors the selector's series filter for those defaults.
+ */
+export function openingMatches(list: ToolProduct[]): ToolProduct[] {
+  const known = new Set(SERIES.map((s) => s.slug));
+  const eligible = new Set(SERIES.filter((s) => s.liquids.includes("sewage")).map((s) => s.slug));
+  return matchProducts(list, DEFAULT_DUTY.q, DEFAULT_DUTY.h, (slug) => eligible.has(slug) || !known.has(slug)).map(
+    (m) => m.product,
+  );
+}
 
 /**
  * Catalogue entries for a duty point: single-model products close to it first
@@ -92,7 +126,7 @@ export function matchProducts(
   const covers = ok
     .filter((p) => !p.exact && q >= p.flow[0] && q <= p.flow[1] && h >= p.head[0] && h <= p.head[1])
     // Range entries are often guides ("…Troubleshooting", "How to…"); list pumps only.
-    .filter((p) => !ARTICLE.test(p.name))
+    .filter((p) => !isArticle(p))
     .sort((a, b) => width(a) - width(b))
     .filter((p) => (seen.has(p.seriesSlug) ? false : (seen.add(p.seriesSlug), true)));
   return [

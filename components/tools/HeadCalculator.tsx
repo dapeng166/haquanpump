@@ -14,11 +14,13 @@ import {
   systemHead,
   fmt,
 } from "@/lib/tools/hydraulics";
+import { fill, ltr, type CalcUi } from "@/lib/tools/strings";
 import { Field, NumberInput, Select } from "./FormBits";
 
 const MARGIN = 0.1; // recommended safety margin on the calculated head
 
-export function HeadCalculator() {
+/** `t` is the UI copy (English, or translated on the server); `hrefBase` the locale prefix. */
+export function HeadCalculator({ t, hrefBase = "" }: { t: CalcUi; hrefBase?: string }) {
   const [flow, setFlow] = useState("40");
   const [unit, setUnit] = useState<FlowUnit>("m3h");
   const [staticHead, setStaticHead] = useState("8");
@@ -58,12 +60,12 @@ export function HeadCalculator() {
         className="glass-card space-y-5 p-6 hover:shadow-sm lg:col-span-5"
         onSubmit={(e) => e.preventDefault()}
       >
-        <h2 className="font-display text-lg font-bold text-slate-900">Your system</h2>
-        <Field label="Flow rate" htmlFor="hc-flow">
+        <h2 className="font-display text-lg font-bold text-slate-900">{t.system}</h2>
+        <Field label={t.flowRate} htmlFor="hc-flow">
           <div className="flex gap-2">
             <NumberInput id="hc-flow" value={flow} onChange={setFlow} min={0} step="any" />
             <Select
-              aria-label="Flow unit"
+              aria-label={t.flowUnit}
               value={unit}
               onChange={(v) => setUnit(v as FlowUnit)}
               options={FLOW_UNITS}
@@ -71,18 +73,14 @@ export function HeadCalculator() {
             />
           </div>
         </Field>
-        <Field
-          label="Static height (m)"
-          htmlFor="hc-static"
-          hint="Vertical height from the lowest liquid level in the pit to the highest point of discharge."
-        >
+        <Field label={t.staticHeight} htmlFor="hc-static" hint={t.staticHint}>
           <NumberInput id="hc-static" value={staticHead} onChange={setStaticHead} step="any" />
         </Field>
         <div className="grid grid-cols-2 gap-4">
-          <Field label="Pipe length (m)" htmlFor="hc-length">
+          <Field label={t.pipeLength} htmlFor="hc-length">
             <NumberInput id="hc-length" value={length} onChange={setLength} min={0} step="any" />
           </Field>
-          <Field label="Pipe size" htmlFor="hc-dn">
+          <Field label={t.pipeSize} htmlFor="hc-dn">
             <Select
               id="hc-dn"
               value={dn}
@@ -91,89 +89,75 @@ export function HeadCalculator() {
             />
           </Field>
         </div>
-        <Field label="Pipe material" htmlFor="hc-material">
+        <Field label={t.pipeMaterial} htmlFor="hc-material">
           <Select
             id="hc-material"
             value={material}
             onChange={setMaterial}
-            options={PIPE_MATERIALS.map((m) => ({ value: m.value, label: m.label }))}
+            options={PIPE_MATERIALS.map((m) => ({ value: m.value, label: t.pipeMaterials[m.value] ?? m.label }))}
           />
         </Field>
         <fieldset>
-          <legend className="mb-1.5 block text-sm font-medium text-slate-700">Fittings (quantity)</legend>
+          <legend className="mb-1.5 block text-sm font-medium text-slate-700">{t.fittings}</legend>
           <div className="grid grid-cols-2 gap-3">
             {FITTINGS.map((ft) => (
               <label key={ft.key} className="flex items-center justify-between gap-2 text-sm text-slate-600">
-                <span>{ft.label}</span>
+                <span className="min-w-0">{t.fittingLabels[ft.key] ?? ft.label}</span>
                 <input
                   type="number"
                   min={0}
                   inputMode="numeric"
                   value={fittings[ft.key]}
                   onChange={(e) => setFittings((f) => ({ ...f, [ft.key]: e.target.value }))}
-                  className="w-16 rounded-lg border border-slate-300 px-2 py-1.5 text-right text-sm outline-none focus:border-accent focus:ring-2 focus:ring-accent/20"
+                  className="w-16 shrink-0 rounded-lg border border-slate-300 px-2 py-1.5 text-right text-sm outline-none focus:border-accent focus:ring-2 focus:ring-accent/20"
                 />
               </label>
             ))}
           </div>
         </fieldset>
-        <Field
-          label="Pressure required at the outlet (bar)"
-          htmlFor="hc-pressure"
-          hint="Leave 0 when the pipe discharges freely into a tank, channel or manhole."
-        >
+        <Field label={t.pressure} htmlFor="hc-pressure" hint={t.pressureHint}>
           <NumberInput id="hc-pressure" value={pressure} onChange={setPressure} min={0} step="any" />
         </Field>
       </form>
 
-      <div className="space-y-5 lg:col-span-7" aria-live="polite">
+      <div className="min-w-0 space-y-5 lg:col-span-7" aria-live="polite">
         {!r ? (
-          <p className="glass-card p-6 text-slate-600 hover:shadow-sm">
-            Enter the flow rate and pipe details to calculate the head.
-          </p>
+          <p className="glass-card p-6 text-slate-600 hover:shadow-sm">{t.empty}</p>
         ) : (
           <>
             <div className="glass-card p-6 hover:shadow-sm">
-              <p className="text-sm text-slate-500">Recommended pump head (incl. 10% margin)</p>
-              <p className="mt-1 font-display text-4xl font-bold text-accent-700">{fmt(recommended)} m</p>
+              <p className="text-sm text-slate-500">{t.recommended}</p>
+              <p className="mt-1 font-display text-4xl font-bold text-accent-700">
+                <span dir="ltr">{fmt(recommended)} m</span>
+              </p>
               <p className="mt-1 text-sm text-slate-500">
-                Calculated total dynamic head: {fmt(r.total)} m at {fmt(q)} m³/h
+                {fill(t.calculated, { h: ltr(`${fmt(r.total)} m`), q: ltr(`${fmt(q)} m³/h`) })}
               </p>
               <dl className="mt-5 divide-y divide-slate-100 text-sm">
-                <Row label="Static height" value={`${fmt(Number(staticHead) || 0)} m`} />
-                {r.pressure > 0 ? <Row label="Outlet pressure" value={`${fmt(r.pressure)} m`} /> : null}
-                <Row label="Pipe friction loss" value={`${fmt(r.friction)} m`} />
-                <Row label="Fittings and exit loss" value={`${fmt(r.minor)} m`} />
-                <Row label="Velocity in pipe" value={`${fmt(r.v)} m/s`} />
+                <Row label={t.rowStatic} value={`${fmt(Number(staticHead) || 0)} m`} />
+                {r.pressure > 0 ? <Row label={t.rowPressure} value={`${fmt(r.pressure)} m`} /> : null}
+                <Row label={t.rowFriction} value={`${fmt(r.friction)} m`} />
+                <Row label={t.rowFittings} value={`${fmt(r.minor)} m`} />
+                <Row label={t.rowVelocity} value={`${fmt(r.v)} m/s`} />
               </dl>
             </div>
 
-            {r.v < 0.7 ? (
-              <Warn>
-                The velocity is below 0.7 m/s: solids in sewage may settle in the pipe. Consider a
-                smaller pipe size.
-              </Warn>
-            ) : null}
-            {r.v > 3 ? (
-              <Warn>
-                The velocity is above 3 m/s: friction losses and wear are high. Consider a larger pipe
-                size.
-              </Warn>
-            ) : null}
+            {r.v < 0.7 ? <Warn>{t.slow}</Warn> : null}
+            {r.v > 3 ? <Warn>{t.fast}</Warn> : null}
 
-            <SystemCurve q={q} base={(Number(staticHead) || 0) + r.pressure} k={r.k} />
+            <SystemCurve q={q} base={(Number(staticHead) || 0) + r.pressure} k={r.k} t={t} />
 
             <div className="glass-strong flex flex-col items-start gap-4 rounded-2xl p-6 sm:flex-row sm:items-center sm:justify-between">
               <p className="text-sm text-slate-600">
-                Find pumps for {fmt(q)} m³/h at {fmt(recommended)} m with the pump selector.
+                {fill(t.findText, { q: ltr(`${fmt(q)} m³/h`), h: ltr(`${fmt(recommended)} m`) })}
               </p>
               <Link
-                href={`/tools/pump-selector?flow=${encodeURIComponent(fmt(q).replace(/,/g, ""))}&head=${encodeURIComponent(
+                href={`${hrefBase}/tools/pump-selector?flow=${encodeURIComponent(fmt(q).replace(/,/g, ""))}&head=${encodeURIComponent(
                   fmt(recommended).replace(/,/g, ""),
                 )}`}
                 className="btn-primary shrink-0"
               >
-                Find a pump
+                {t.findPump}
                 <ArrowRight className="h-4 w-4 rtl-flip" aria-hidden />
               </Link>
             </div>
@@ -186,9 +170,11 @@ export function HeadCalculator() {
 
 function Row({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex justify-between py-2">
+    <div className="flex justify-between gap-3 py-2">
       <dt className="text-slate-600">{label}</dt>
-      <dd className="font-medium text-slate-900">{value}</dd>
+      <dd className="shrink-0 font-medium text-slate-900" dir="ltr">
+        {value}
+      </dd>
     </div>
   );
 }
@@ -203,7 +189,7 @@ function Warn({ children }: { children: React.ReactNode }) {
 }
 
 /** System curve H = base + k·Q², from 0 to 1.5× the design flow. */
-function SystemCurve({ q, base, k }: { q: number; base: number; k: number }) {
+function SystemCurve({ q, base, k, t }: { q: number; base: number; k: number; t: CalcUi }) {
   const W = 560, H = 270, L = 48, B = 36, T = 28, R = 16;
   const qMax = q * 1.5;
   const hAt = (x: number) => base + k * x * x;
@@ -217,11 +203,12 @@ function SystemCurve({ q, base, k }: { q: number; base: number; k: number }) {
 
   return (
     <figure className="glass-card p-6 hover:shadow-sm">
-      <figcaption className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-900">
-        System curve
-        <span className="font-normal text-slate-500">(head required at each flow)</span>
+      <figcaption className="mb-3 flex flex-wrap items-center gap-x-2 text-sm font-semibold text-slate-900">
+        {t.curveTitle}
+        <span className="font-normal text-slate-500">{t.curveSub}</span>
       </figcaption>
-      <svg viewBox={`0 0 ${W} ${H}`} className="h-auto w-full" role="img" aria-label="System curve chart">
+      {/* The chart is drawn left to right in every language. */}
+      <svg viewBox={`0 0 ${W} ${H}`} className="h-auto w-full" role="img" aria-label={t.curveAria} direction="ltr">
         {ticks(hMax).map((y) => (
           <g key={`y${y}`}>
             <line x1={L} x2={W - R} y1={sy(y)} y2={sy(y)} stroke="#e2e8f0" />
@@ -246,8 +233,7 @@ function SystemCurve({ q, base, k }: { q: number; base: number; k: number }) {
       </svg>
       <p className="mt-3 flex gap-2 text-xs text-slate-500">
         <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden />
-        The pump runs where its own curve crosses this line. Choose a pump whose curve passes
-        through or just above the orange point.
+        {t.curveNote}
       </p>
     </figure>
   );
