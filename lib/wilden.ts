@@ -29,7 +29,7 @@ export type WildenGroup = { key: WildenGroupKey; items: Product[] };
 const PARTS =
   /(diaphragms?-(?!pump)|valve-seat|valve-balls|check-balls|gasket|glyd-ring|washer|center-block|shaft|air-valve|repair|spare-parts|air-parts)/;
 const PUMPS =
-  /^wilden-(p-?\d|t\d|xps\d|0\d-\d{5}|1-4|1-2|3-8|1-stainless)|^wilden-pump-00-/;
+  /^wilden-(p-?\d|t\d|xps\d|xp\d|ps\d|0\d-\d{5}|1-4|1-2|3-8|1-stainless)|^wilden-pump-00-/;
 const GUIDES = /(guide|introduction|principle|advantage|-vs-|how-to|checklist|maintenance-service)/;
 const RANGE =
   /(aluminium|aluminum|stainless|polypropylene|pvdf|cast-iron|alloy-c|conductive|ptfe-diaphragm-pump|pro-flo-shift|saniflo|sanitary|advanced-series|original-series|t-series|ps-series|explosion-proof|food-grade)/;
