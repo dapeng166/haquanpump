@@ -13,6 +13,8 @@ import { DocumentGrid } from "@/components/support/DocumentGrid";
 import { isIndexableLocale, dirForLocale } from "@/lib/i18n/config";
 import { localeAlternates } from "@/lib/i18n/alternates";
 import { translate, translateMany } from "@/lib/i18n/translate";
+import { toolStrings } from "@/lib/tools/translateTools";
+import { SupportTools } from "@/components/support/SupportTools";
 
 type Params = Promise<{ locale: string }>;
 
@@ -72,11 +74,12 @@ export default async function LocalizedSupportPage({
   const sourceFaqs = cmsFaqs.length > 0 ? cmsFaqs : faqs;
 
   const keys = Object.keys(EN) as (keyof typeof EN)[];
-  const [labelValues, faqFlat, docTitles, intro] = await Promise.all([
+  const [labelValues, faqFlat, docTitles, intro, tools] = await Promise.all([
     translateMany(keys.map((k) => EN[k]), locale),
     translateMany(sourceFaqs.flatMap((f) => [f.q, f.a]), locale),
     documents.length ? translateMany(documents.map((d) => d.title), locale) : Promise.resolve([]),
     translate(page?.subtitle || EN.intro, locale),
+    toolStrings(locale),
   ]);
   const T = Object.fromEntries(keys.map((k, i) => [k, labelValues[i]])) as typeof EN;
   const faqItems = sourceFaqs.map((_, i) => ({ q: faqFlat[i * 2], a: faqFlat[i * 2 + 1] }));
@@ -101,6 +104,8 @@ export default async function LocalizedSupportPage({
         image={page?.heroImage || img.supportHero}
         breadcrumbs={[{ label: T.eyebrow }]}
       />
+
+      <SupportTools t={tools} hrefBase={`/${locale}`} title={tools.index.title} subtitle={tools.index.intro} />
 
       <Section className="bg-slate-50">
         <Container>

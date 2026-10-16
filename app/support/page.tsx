@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Calculator, FileText, Gauge } from "lucide-react";
+import { ArrowRight, FileText } from "lucide-react";
+import { TOOLS_EN } from "@/lib/tools/strings";
+import { SupportTools } from "@/components/support/SupportTools";
 import { supportFaqs } from "@/lib/supportFaqs";
 import { img } from "@/lib/images";
 import { getSitePage, getDocuments } from "@/lib/wordpress";
@@ -54,45 +56,11 @@ export default async function TechnicalSupportPage() {
       />
 
       {/* Engineering tools */}
-      <Section id="tools" className="scroll-mt-24 pb-0 sm:pb-0">
-        <Container>
-          <SectionHeading
-            eyebrow="Engineering Tools"
-            title="Size Your Pump Online"
-            subtitle="Free calculators to work out your head and shortlist the right pump before you ask for a quote."
-          />
-          <div className="mx-auto grid max-w-5xl gap-6 md:grid-cols-2">
-            {[
-              {
-                href: "/tools/pump-selector",
-                icon: Gauge,
-                title: "Pump Selector",
-                text: "Suitable pump types, motor power and outlet size from your flow and head.",
-              },
-              {
-                href: "/tools/head-calculator",
-                icon: Calculator,
-                title: "Pump Head Calculator",
-                text: "Total dynamic head from static height, pipe length, size and fittings.",
-              },
-            ].map((t) => (
-              <Link key={t.href} href={t.href} className="glass-card group flex items-start gap-5 p-6">
-                <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-accent/10 text-accent-600 ring-1 ring-accent/20">
-                  <t.icon className="h-6 w-6" aria-hidden />
-                </span>
-                <span>
-                  <span className="block font-display text-lg font-bold text-slate-900">{t.title}</span>
-                  <span className="mt-1 block text-sm text-slate-600">{t.text}</span>
-                  <span className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-accent-600 group-hover:text-accent-700">
-                    Open tool
-                    <ArrowRight className="h-4 w-4 rtl-flip" aria-hidden />
-                  </span>
-                </span>
-              </Link>
-            ))}
-          </div>
-        </Container>
-      </Section>
+      <SupportTools
+        t={TOOLS_EN}
+        title={TOOLS_EN.index.title}
+        subtitle="Free tools to work out your head, convert units and shortlist the right sewage or WILDEN pump before you ask for a quote."
+      />
 
       {/* Downloads — from the WordPress "Documents" section (unlimited) */}
       <Section id="documents" className="scroll-mt-24 bg-slate-50">

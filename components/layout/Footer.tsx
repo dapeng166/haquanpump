@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { indexableLocales } from "@/lib/i18n/config";
 import { Mail, Phone, MapPin, Linkedin, Facebook } from "lucide-react";
 import { company, mainNav } from "@/lib/site";
 import { pumpSeries } from "@/lib/data/products";
@@ -14,6 +16,11 @@ import { WhatsappIcon } from "@/components/ui/WhatsappIcon";
 export function Footer({ series }: { series?: PumpSeries[] }) {
   const { t } = useTranslation();
   const year = new Date().getFullYear();
+  // Localized tool pages exist for the indexable locales; link to the one in the
+  // visitor's language instead of always the English /tools.
+  const pathname = usePathname() || "/";
+  const pathLocale = indexableLocales.find((l) => pathname === `/${l}` || pathname.startsWith(`/${l}/`));
+  const toolsHref = pathLocale ? `/${pathLocale}/tools` : "/tools";
 
   // Real product series from WordPress (those that actually have products),
   // falling back to the curated list when the CMS hasn't provided any.
@@ -74,7 +81,7 @@ export function Footer({ series }: { series?: PumpSeries[] }) {
                 </li>
               ))}
               <li>
-                <Link href="/tools" className="text-slate-300 transition-colors hover:text-amber-400">
+                <Link href={toolsHref} className="text-slate-300 transition-colors hover:text-amber-400">
                   Engineering Tools
                 </Link>
               </li>
