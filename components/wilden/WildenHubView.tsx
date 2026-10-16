@@ -1,10 +1,10 @@
 import { Suspense } from "react";
 import Link from "next/link";
-import { ArrowRight, BadgeCheck, Globe2, Hash } from "lucide-react";
+import { ArrowRight, BadgeCheck, Globe2, Hash, Wrench } from "lucide-react";
 import type { Product, PumpSeries } from "@/lib/types";
 import type { CardLabels } from "@/lib/i18n/uiLabels";
 import { img } from "@/lib/images";
-import { WILDEN_HUB_PATH, WILDEN_PARTS_PATH, WILDEN_SIZES, type WildenGroupKey } from "@/lib/wilden";
+import { WILDEN_HUB_PATH, WILDEN_PARTS_PATH, WILDEN_SIZES, WILDEN_SPARES_PATH, type WildenGroupKey } from "@/lib/wilden";
 import { PageHero } from "@/components/ui/PageHero";
 import { Container, Section, SectionHeading } from "@/components/ui/Primitives";
 import { Reveal } from "@/components/ui/Reveal";
@@ -29,8 +29,11 @@ export const WILDEN_EN = {
   why3Title: "Shipped worldwide",
   why3Text: "Export packing and documentation handled in-house, with one point of contact from quotation to delivery.",
   lookupTitle: "Know your part number?",
-  lookupText: "Search 600+ aluminum WILDEN pump builds by part number or build code, from 1/4\" to 3\".",
+  lookupText: "Search 2,400+ WILDEN pump builds by part number or build code: aluminum, stainless steel, polypropylene, iron and PVDF.",
   lookupButton: "Part Number Lookup",
+  sparesTitle: "Need a spare part or kit?",
+  sparesText: "Search 2,000+ WILDEN spare parts and repair kits by part number: diaphragms, valve balls and seats, air valves, manifolds, hardware and wet end kits.",
+  sparesButton: "Spare Parts Lookup",
   catalogueEyebrow: "Catalogue",
   catalogueTitle: "WILDEN pumps & spare parts",
   partsNote: "WILDEN spare parts fit WILDEN pumps only — they are not interchangeable with our own QBY diaphragm pumps.",
@@ -122,7 +125,7 @@ export function WildenHubView({
             ))}
           </div>
 
-          {/* Part-number lookup: its own static page, so this hub stays light */}
+          {/* Lookups: their own static pages, so this hub stays light */}
           <div className="mt-6 flex flex-col items-start justify-between gap-4 rounded-2xl border border-accent/30 bg-accent/5 p-6 sm:flex-row sm:items-center">
             <div>
               <h2 className="font-display text-lg font-semibold text-slate-900">{T.lookupTitle}</h2>
@@ -131,6 +134,16 @@ export function WildenHubView({
             <Link href={`${hrefBase}${WILDEN_PARTS_PATH}`} className="btn-primary shrink-0">
               <Hash className="h-4 w-4" aria-hidden />
               {T.lookupButton}
+            </Link>
+          </div>
+          <div className="mt-4 flex flex-col items-start justify-between gap-4 rounded-2xl border border-accent/30 bg-accent/5 p-6 sm:flex-row sm:items-center">
+            <div>
+              <h2 className="font-display text-lg font-semibold text-slate-900">{T.sparesTitle}</h2>
+              <p className="mt-1 text-sm text-slate-600">{T.sparesText}</p>
+            </div>
+            <Link href={`${hrefBase}${WILDEN_SPARES_PATH}`} className="btn-primary shrink-0">
+              <Wrench className="h-4 w-4" aria-hidden />
+              {T.sparesButton}
             </Link>
           </div>
         </Container>

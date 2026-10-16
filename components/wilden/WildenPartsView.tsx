@@ -1,23 +1,49 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { img } from "@/lib/images";
-import { WILDEN_HUB_PATH, WILDEN_PARTS_PATH } from "@/lib/wilden";
-import { WILDEN_ALUMINUM_BUILDS as BUILDS } from "@/lib/data/wildenAluminum";
+import {
+  WILDEN_HUB_PATH,
+  WILDEN_PUMP_MATERIALS,
+  WILDEN_SPARES_PATH,
+  pumpLookupPath,
+  type WildenPumpMaterial,
+} from "@/lib/wilden";
+import { WILDEN_PUMP_BUILDS } from "@/lib/data/wildenPumps";
 import { PageHero } from "@/components/ui/PageHero";
 import { Container, Section } from "@/components/ui/Primitives";
 import { WildenPartsFilter } from "./WildenPartsFilter";
+import { LookupTabs } from "./LookupTabs";
 
 /** English source strings; the localized route translates them as one batch. */
 export const PARTS_EN = {
-  metaTitle: "WILDEN Aluminum AODD Pump Part Numbers & Build Codes",
-  metaDesc:
+  // Per-material page titles: al = aluminum (the original URL), ss, pp, fe = iron, kv = PVDF.
+  alMetaTitle: "WILDEN Aluminum AODD Pump Part Numbers & Build Codes",
+  alMetaDesc:
     "Look up genuine WILDEN aluminum AODD pumps by part number or build code: Pro-Flo, Pro-Flo SHIFT and Turbo-Flo models from 1/4\" to 3\", with series, connection and elastomer for each build. Request a quote from Haquan.",
+  alTab: "Aluminum",
+  ssMetaTitle: "WILDEN Stainless Steel AODD Pump Part Numbers & Build Codes",
+  ssMetaDesc:
+    "Look up genuine WILDEN stainless steel AODD pumps by part number or build code: Pro-Flo, Pro-Flo SHIFT, FIT and Saniflo builds from 1/4\" to 3\", with series, connection and elastomer for each build. Request a quote from Haquan.",
+  ssTab: "Stainless steel",
+  ppMetaTitle: "WILDEN Polypropylene AODD Pump Part Numbers & Build Codes",
+  ppMetaDesc:
+    "Look up genuine WILDEN polypropylene AODD pumps by part number or build code: Pro-Flo and Pro-Flo SHIFT plastic builds from 1/4\" to 3\", with series, connection and elastomer for each build. Request a quote from Haquan.",
+  ppTab: "Polypropylene",
+  feMetaTitle: "WILDEN Iron AODD Pump Part Numbers & Build Codes",
+  feMetaDesc:
+    "Look up genuine WILDEN iron AODD pumps by part number or build code: Pro-Flo, Pro-Flo SHIFT and Turbo-Flo builds from 1\" to 4\", with series, connection and elastomer for each build. Request a quote from Haquan.",
+  feTab: "Iron",
+  kvMetaTitle: "WILDEN PVDF AODD Pump Part Numbers & Build Codes",
+  kvMetaDesc:
+    "Look up genuine WILDEN PVDF AODD pumps by part number or build code: Pro-Flo and Pro-Flo SHIFT plastic builds from 1/4\" to 3\", with series, connection and elastomer for each build. Request a quote from Haquan.",
+  kvTab: "PVDF",
   eyebrow: "Genuine WILDEN",
   title: "WILDEN Part Number Lookup",
   intro:
-    "Every aluminum WILDEN pump build we can supply, listed by part number and build code. Type the code from your pump nameplate, or filter by port size, series or elastomer.",
+    "Every WILDEN pump build we can supply, listed by part number and build code: aluminum, stainless steel, polypropylene, iron and PVDF. Pick the body material, then type the code from your pump nameplate or filter by port size, series or elastomer.",
   crumb: "Part numbers",
   hubCrumb: "WILDEN AODD Pumps",
+  tabsLabel: "Pump body material",
   search: "Part number or build code, e.g. 08-14814 or XPS830",
   allPorts: "All port sizes",
   allSeries: "All series",
@@ -25,6 +51,7 @@ export const PARTS_EN = {
   showing: "Showing",
   of: "of",
   noMatch: "No build matches. Send us the nameplate photo and we will identify it.",
+  alsoIn: "Also found in:",
   colPart: "Part No.",
   colModel: "Model",
   colBuild: "Build code",
@@ -35,7 +62,10 @@ export const PARTS_EN = {
   colElastomer: "Elastomer",
   quote: "Quote",
   note:
-    "Aluminum builds only. Stainless steel, cast iron, Alloy C, polypropylene and PVDF builds are available on request. In a build code, the last groups describe the diaphragm, valve ball and valve seat materials.",
+    "In a build code, the first letter of the second group is the wetted-path material (A aluminum, S stainless steel, P polypropylene, W iron, K PVDF) and the last groups describe the diaphragm, valve ball and valve seat materials. Alloy C and other builds are available on request.",
+  spareTitle: "Need spare parts or a repair kit?",
+  spareText: "Diaphragms, valve balls and seats, air valves, manifolds, hardware and wet end kits, by WILDEN part number.",
+  spareButton: "Spare Parts Lookup",
   ctaTitle: "Can't find your build?",
   ctaText: "Send the full code or a photo of the nameplate. We will confirm the exact configuration and reply within 24 hours.",
   ctaButton: "Request a Quote",
@@ -44,11 +74,29 @@ export const PARTS_EN = {
 export type PartsStrings = typeof PARTS_EN;
 
 const uniq = (xs: string[]) => [...new Set(xs.filter(Boolean))];
-const PORTS = uniq(BUILDS.map((b) => b.port));
-const SERIES = uniq(BUILDS.map((b) => b.series)).sort();
-const ELASTOMERS = uniq(BUILDS.map((b) => b.elastomer)).sort();
+const PORT_ORDER = ['1/4"', '1/2"', '1"', '1-1/2"', '2"', '3"', '4"'];
 
-export function WildenPartsView({ T, hrefBase = "" }: { T: PartsStrings; hrefBase?: string }) {
+const buildsOf = (m: WildenPumpMaterial) => WILDEN_PUMP_BUILDS.filter((b) => b.material === m.material);
+
+export function pumpPageMeta(T: PartsStrings, m: WildenPumpMaterial) {
+  return { title: T[`${m.key}MetaTitle`], description: T[`${m.key}MetaDesc`] };
+}
+
+export function WildenPartsView({
+  T,
+  material,
+  hrefBase = "",
+}: {
+  T: PartsStrings;
+  material: WildenPumpMaterial;
+  hrefBase?: string;
+}) {
+  const BUILDS = buildsOf(material);
+  const ports = uniq(BUILDS.map((b) => b.port)).sort((a, b) => PORT_ORDER.indexOf(a) - PORT_ORDER.indexOf(b));
+  const series = uniq(BUILDS.map((b) => b.series)).sort();
+  const elastomers = uniq(BUILDS.map((b) => b.elastomer)).sort();
+  const others = WILDEN_PUMP_MATERIALS.filter((m) => m.slug !== material.slug);
+
   return (
     <>
       <PageHero
@@ -61,25 +109,36 @@ export function WildenPartsView({ T, hrefBase = "" }: { T: PartsStrings; hrefBas
 
       <Section className="pt-12 sm:pt-16">
         <Container>
+          <LookupTabs
+            label={T.tabsLabel}
+            tabs={WILDEN_PUMP_MATERIALS.map((m) => ({
+              href: `${hrefBase}${pumpLookupPath(m.slug)}`,
+              label: T[`${m.key}Tab`],
+              count: buildsOf(m).length,
+              current: m.slug === material.slug,
+            }))}
+          />
+          <h2 className="mb-4 font-display text-xl font-semibold text-slate-900">{T[`${material.key}MetaTitle`]}</h2>
+
           <WildenPartsFilter
             tableId="wilden-builds"
             total={BUILDS.length}
-            ports={PORTS}
-            series={SERIES}
-            elastomers={ELASTOMERS}
-            labels={{
-              search: T.search,
-              allPorts: T.allPorts,
-              allSeries: T.allSeries,
-              allElastomers: T.allElastomers,
-              showing: T.showing,
-              of: T.of,
-              noMatch: T.noMatch,
-            }}
+            searchCols={[0, 1, 2]}
+            selects={[
+              { col: 3, all: T.allPorts, options: ports },
+              { col: 4, all: T.allSeries, options: series },
+              { col: 7, all: T.allElastomers, options: elastomers },
+            ]}
+            others={others.map((m) => ({
+              label: T[`${m.key}Tab`],
+              href: `${hrefBase}${pumpLookupPath(m.slug)}`,
+              parts: buildsOf(m).map((b) => b.part).join("|"),
+            }))}
+            labels={{ search: T.search, showing: T.showing, of: T.of, noMatch: T.noMatch, alsoIn: T.alsoIn }}
           />
 
           {/* Plain rows: styles live on the table and the filter reads cell text,
-              because per-row classes/attributes across 637 rows roughly doubled
+              because per-row classes/attributes across 600+ rows roughly doubled
               the page weight (ISR writes are billed per 8 KB). */}
           <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white">
             <table
@@ -120,6 +179,17 @@ export function WildenPartsView({ T, hrefBase = "" }: { T: PartsStrings; hrefBas
             </table>
           </div>
           <p className="mt-3 text-xs text-slate-500">{T.note}</p>
+
+          <div className="mt-8 flex flex-col items-start justify-between gap-4 rounded-2xl border border-accent/30 bg-accent/5 p-6 sm:flex-row sm:items-center">
+            <div>
+              <h2 className="font-display text-lg font-semibold text-slate-900">{T.spareTitle}</h2>
+              <p className="mt-1 text-sm text-slate-600">{T.spareText}</p>
+            </div>
+            <Link href={`${hrefBase}${WILDEN_SPARES_PATH}`} className="btn-primary shrink-0">
+              {T.spareButton}
+              <ArrowRight className="h-4 w-4 rtl-flip" aria-hidden />
+            </Link>
+          </div>
 
           <div className="glass-strong mt-12 flex flex-col items-center justify-between gap-6 rounded-3xl p-10 text-center sm:flex-row sm:text-left">
             <div>

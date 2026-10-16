@@ -17,7 +17,7 @@
 - GNWQ cutter / grinder submersible sewage pumps — hardened 48HRC alloy cutter disc with a heat-treated 3Cr13 semi-open impeller; for septic tanks, hospitals, hotels and rag-laden sewage.
 - ZW self-priming sewage pumps and ZWL direct-coupled (close-coupled) self-priming non-clog sewage pumps — impeller mounted directly on the motor shaft (no intermediate coupling); cast iron or stainless steel; flow 8–800 m³/h, head 10–80 m, ports DN25–DN300, motor 1.5–75 kW, self-priming height 4.5–5.5 m.
 - YW vertical sump (vertical submerged) sewage pumps: motor above the liquid, pump end submerged on an extension shaft; 73 standard models from DN25 to DN500, 8–2600 m³/h.
-- Genuine Wilden AODD (air-operated double-diaphragm) pumps — Haquan supplies original Wilden pumps and genuine Wilden spare parts from stock (Pro-Flo, Pro-Flo SHIFT, Saniflo and Turbo-Flo series). A searchable list of 637 aluminum Wilden pump builds by part number and build code is at https://www.haquanpump.com/wilden-aodd-pumps/part-numbers. These are original Wilden products, not "type", "compatible", "replacement" or "interchangeable" copies.
+- Genuine Wilden AODD (air-operated double-diaphragm) pumps — Haquan supplies original Wilden pumps and genuine Wilden spare parts from stock (Pro-Flo, Pro-Flo SHIFT, Saniflo and Turbo-Flo series). A searchable list of all 2,476 current Wilden pump builds by part number and build code (aluminum, stainless steel, polypropylene, iron and PVDF, one page per material) starts at https://www.haquanpump.com/wilden-aodd-pumps/part-numbers, and 2,179 genuine Wilden spare parts and repair kits by part number (diaphragms, valve balls and seats, air valves, manifolds, hardware, wet end and air repair kits) are at https://www.haquanpump.com/wilden-aodd-pumps/parts-lookup. These are original Wilden products, not "type", "compatible", "replacement" or "interchangeable" copies.
 - QBY air-operated diaphragm pumps — a separate, cost-effective AODD product line. QBY and Wilden are different products and their parts are NOT interchangeable.
 - IHG / IRG / IHW / IRW pipeline centrifugal pumps; QDX / QD submersible pumps; metering pumps.
 
@@ -27,7 +27,8 @@ Municipal sewage and wastewater, flood and storm-water drainage, construction de
 ## Key pages
 - Products (Haquan pump catalogue, filter by series): https://www.haquanpump.com/products
 - Genuine Wilden AODD pumps and spare parts: https://www.haquanpump.com/wilden-aodd-pumps
-- Wilden part number / build code lookup: https://www.haquanpump.com/wilden-aodd-pumps/part-numbers
+- Wilden pump part number / build code lookup: https://www.haquanpump.com/wilden-aodd-pumps/part-numbers (aluminum), /part-numbers/stainless-steel, /part-numbers/polypropylene, /part-numbers/iron, /part-numbers/pvdf
+- Wilden spare parts & kits lookup: https://www.haquanpump.com/wilden-aodd-pumps/parts-lookup (diaphragms, valve balls & seats), /parts-lookup/air-valves, /parts-lookup/wet-end, /parts-lookup/hardware, /parts-lookup/kits
 - News & engineering articles: https://www.haquanpump.com/news
 - Technical support, FAQs & downloadable datasheets: https://www.haquanpump.com/support
 - Free sewage pump selector (pump type, motor power and outlet size from flow and head): https://www.haquanpump.com/tools/pump-selector

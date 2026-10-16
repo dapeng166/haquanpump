@@ -7,8 +7,76 @@ export const WILDEN_SERIES = "wilden-aodd-pump";
 /** The standalone Wilden hub page (keeps product URLs at /products/<slug>). */
 export const WILDEN_HUB_PATH = "/wilden-aodd-pumps";
 
-/** Static part-number lookup (all PSG aluminum builds), linked from the hub. */
+/** Static pump part-number lookup (all PSG pump builds), linked from the hub. */
 export const WILDEN_PARTS_PATH = `${WILDEN_HUB_PATH}/part-numbers`;
+
+/**
+ * The pump lookup is split into one page per body material to keep each page
+ * light. Aluminum stays at the original URL; the others get a sub-path.
+ * `material` matches the `material` field in lib/data/wildenPumps.ts.
+ */
+export const WILDEN_PUMP_MATERIALS = [
+  { slug: "", key: "al", material: "Aluminum" },
+  { slug: "stainless-steel", key: "ss", material: "Stainless Steel" },
+  { slug: "polypropylene", key: "pp", material: "Polypropylene" },
+  { slug: "iron", key: "fe", material: "Iron" },
+  { slug: "pvdf", key: "kv", material: "PVDF" },
+] as const;
+
+export type WildenPumpMaterial = (typeof WILDEN_PUMP_MATERIALS)[number];
+
+export const pumpLookupPath = (slug: string) => (slug ? `${WILDEN_PARTS_PATH}/${slug}` : WILDEN_PARTS_PATH);
+
+/** Static spare parts & kits lookup, split into one page per part category. */
+export const WILDEN_SPARES_PATH = `${WILDEN_HUB_PATH}/parts-lookup`;
+
+/**
+ * Spare-part categories, each its own page. `types` lists the part types it
+ * holds (as in lib/data/wildenParts.ts); a type not listed anywhere falls into
+ * "hardware", so a newly regenerated type never disappears. Kits are their
+ * own list (WILDEN_KITS), not matched by type.
+ */
+export const WILDEN_SPARE_CATEGORIES = [
+  {
+    slug: "",
+    key: "valves",
+    types: [
+      "Diaphragm", "Back-up Diaphragm", "Valve Ball", "Valve Seat", "Valve Seat Retainer", "Valve Seat/Ball Combo",
+      "Valve Seat/Flap Combo", "Valve Seat/Mushroom Combo", "Mushroom Valve", "Flap Valve Assembly", "Flap Valve Seat",
+      "Flap Valve Hinge", "Flap Valve Retainer", "Ball Cage", "Gasket", "Wet Path O-Ring", "O-Ring",
+    ],
+  },
+  {
+    slug: "air-valves",
+    key: "air",
+    types: [
+      "Air Valve Assembly", "Air Valve", "End Cap", "Air Valve Spool Kit", "Air Control Spool", "Pilot Sleeve", "Pilot Plug",
+      "Retaining Ring", "Muffler", "Muffler Plate", "Center Block/Section", "Air Chamber", "Shaft", "Piston", "Outer Piston",
+      "Guide Ring",
+    ],
+  },
+  {
+    slug: "wet-end",
+    key: "wet",
+    types: [
+      "Liquid Chamber", "Manifold (Inlet)", "Manifold (Discharge)", "Manifold (Combo Inlet or Discharge)", "T-Section",
+      "Inlet Elbow", "Discharge Elbows", "Elbow", "Clamp Band",
+    ],
+  },
+  { slug: "hardware", key: "hardware", types: [] },
+  { slug: "kits", key: "kits", types: [] },
+] as const;
+
+export type WildenSpareCategory = (typeof WILDEN_SPARE_CATEGORIES)[number];
+export type WildenSpareKey = WildenSpareCategory["key"];
+
+export const spareLookupPath = (slug: string) => (slug ? `${WILDEN_SPARES_PATH}/${slug}` : WILDEN_SPARES_PATH);
+
+/** Every lookup page path (pumps and spare parts), for the sitemap and hreflang. */
+export const WILDEN_LOOKUP_PATHS = [
+  ...WILDEN_PUMP_MATERIALS.map((m) => pumpLookupPath(m.slug)),
+  ...WILDEN_SPARE_CATEGORIES.map((c) => spareLookupPath(c.slug)),
+];
 
 /**
  * Where a "browse this series" link should go. Wilden has its own hub and is

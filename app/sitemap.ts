@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { company } from "@/lib/site";
 import { getNews, getProducts } from "@/lib/wordpress";
 import { indexableLocales } from "@/lib/i18n/config";
-import { WILDEN_HUB_PATH, WILDEN_PARTS_PATH } from "@/lib/wilden";
+import { WILDEN_HUB_PATH, WILDEN_LOOKUP_PATHS } from "@/lib/wilden";
 
 // Refresh the sitemap hourly so newly published news/products are submitted to
 // search engines automatically.
@@ -62,13 +62,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9,
       alternates: { languages: altLanguages(WILDEN_HUB_PATH) },
     },
-    {
-      url: `${base}${WILDEN_PARTS_PATH}`,
+    // WILDEN lookups: pump builds per material, spare parts per category.
+    ...WILDEN_LOOKUP_PATHS.map((path) => ({
+      url: `${base}${path}`,
       lastModified: now,
-      changeFrequency: "monthly",
+      changeFrequency: "monthly" as const,
       priority: 0.8,
-      alternates: { languages: altLanguages(WILDEN_PARTS_PATH) },
-    },
+      alternates: { languages: altLanguages(path) },
+    })),
     // Engineering tools: English and every locale, each carrying the full set
     // of reciprocal hreflang alternates.
     ...TOOL_PATHS.flatMap((path) =>
@@ -112,7 +113,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })),
     // Localized about / support / contact / Wilden hub (static, CMS-independent).
     ...indexableLocales.flatMap((locale) =>
-      ["/about", "/support", "/contact", WILDEN_HUB_PATH, WILDEN_PARTS_PATH].map((path) => ({
+      ["/about", "/support", "/contact", WILDEN_HUB_PATH, ...WILDEN_LOOKUP_PATHS].map((path) => ({
         url: `${base}/${locale}${path}`,
         lastModified: now,
         changeFrequency: "monthly" as const,

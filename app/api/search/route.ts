@@ -2,8 +2,9 @@ import { NextResponse } from "next/server";
 import { getProducts, getNews, getDocuments, getSitePage } from "@/lib/wordpress";
 import { supportFaqs } from "@/lib/supportFaqs";
 import { seriesCodes } from "@/lib/searchCodes";
-import { WILDEN_PARTS_PATH } from "@/lib/wilden";
-import { WILDEN_ALUMINUM_BUILDS } from "@/lib/data/wildenAluminum";
+import { WILDEN_PUMP_MATERIALS, WILDEN_SPARE_CATEGORIES, pumpLookupPath, spareLookupPath } from "@/lib/wilden";
+import { WILDEN_PUMP_BUILDS } from "@/lib/data/wildenPumps";
+import { partsOf, SPARES_EN } from "@/components/wilden/WildenSparesView";
 
 // Lightweight, self-contained search index for the whole site: the main pages,
 // every product, news article, technical document and Support FAQ. The client
@@ -90,18 +91,33 @@ export async function GET() {
     codes: seriesCodes(`${n.title} ${plainText(n.content)}`),
   }));
 
-  // One entry carrying every WILDEN part number and build code, so typing a
-  // code from a nameplate opens the lookup filtered to that build.
-  const wildenParts: SearchDoc = {
-    type: "Page",
-    title: "WILDEN Part Number Lookup",
-    excerpt: `${WILDEN_ALUMINUM_BUILDS.length} aluminum WILDEN pump builds by part number and build code.`,
-    href: WILDEN_PARTS_PATH,
-    appendQuery: true,
-    keywords: `wilden part number build code lookup ${WILDEN_ALUMINUM_BUILDS.map((b) => `${b.part} ${b.build}`).join(" ")}`,
-  };
+  // One entry per WILDEN lookup page carrying all of its part numbers (and
+  // build codes for pumps), so typing a code from a nameplate or parts list
+  // opens the right page already filtered to it.
+  const wildenPumps: SearchDoc[] = WILDEN_PUMP_MATERIALS.map((m) => {
+    const builds = WILDEN_PUMP_BUILDS.filter((b) => b.material === m.material);
+    return {
+      type: "Page",
+      title: `WILDEN ${m.material} Pump Part Numbers`,
+      excerpt: `${builds.length} ${m.material.toLowerCase()} WILDEN pump builds by part number and build code.`,
+      href: pumpLookupPath(m.slug),
+      appendQuery: true,
+      keywords: `wilden pump part number build code lookup ${m.material} ${builds.map((b) => `${b.part} ${b.build}`).join(" ")}`,
+    };
+  });
+  const wildenSpares: SearchDoc[] = WILDEN_SPARE_CATEGORIES.map((c) => {
+    const parts = partsOf(c);
+    return {
+      type: "Page",
+      title: `WILDEN Spare Parts: ${SPARES_EN[`${c.key}Tab`]}`,
+      excerpt: `${parts.length} genuine WILDEN ${c.key === "kits" ? "repair kits" : "spare parts"} by part number.`,
+      href: spareLookupPath(c.slug),
+      appendQuery: true,
+      keywords: `wilden spare parts lookup ${[...new Set(parts.map((p) => p.type))].join(" ")} ${parts.map((p) => p.part).join(" ")}`,
+    };
+  });
 
   return NextResponse.json({
-    docs: [...PAGES, wildenParts, ...productDocs, ...documentDocs, ...faqDocs, ...newsDocs],
+    docs: [...PAGES, ...wildenPumps, ...wildenSpares, ...productDocs, ...documentDocs, ...faqDocs, ...newsDocs],
   });
 }
