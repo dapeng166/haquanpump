@@ -8,7 +8,13 @@ import { WILDEN_HUB_PATH, WILDEN_LOOKUP_PATHS } from "@/lib/wilden";
 // search engines automatically.
 export const revalidate = 86400;
 
-const TOOL_PATHS = ["/tools", "/tools/pump-selector", "/tools/head-calculator"];
+const TOOL_PATHS = [
+  "/tools",
+  "/tools/pump-selector",
+  "/tools/head-calculator",
+  "/tools/wilden-pump-selector",
+  "/tools/unit-converter",
+];
 
 /**
  * Generates /sitemap.xml — the six core pages plus every product detail and

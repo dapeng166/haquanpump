@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Calculator, Gauge } from "lucide-react";
+import { ArrowRight, ArrowLeftRight, Calculator, Gauge, Wind } from "lucide-react";
 import { img } from "@/lib/images";
 import type { ToolsStrings } from "@/lib/tools/strings";
 import { PageHero } from "@/components/ui/PageHero";
@@ -13,6 +13,8 @@ export function ToolsIndex({ t, hrefBase = "" }: { t: ToolsStrings; hrefBase?: s
   const tools = [
     { href: `${base}/pump-selector`, icon: Gauge, title: t.index.selectorTitle, text: t.index.selectorText },
     { href: `${base}/head-calculator`, icon: Calculator, title: t.index.calcTitle, text: t.index.calcText },
+    { href: `${base}/wilden-pump-selector`, icon: Wind, title: t.index.wildenTitle, text: t.index.wildenText },
+    { href: `${base}/unit-converter`, icon: ArrowLeftRight, title: t.index.convTitle, text: t.index.convText },
   ];
   return (
     <>

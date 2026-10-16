@@ -33,6 +33,8 @@ Municipal sewage and wastewater, flood and storm-water drainage, construction de
 - Technical support, FAQs & downloadable datasheets: https://www.haquanpump.com/support
 - Free sewage pump selector (pump type, motor power and outlet size from flow and head): https://www.haquanpump.com/tools/pump-selector
 - Free pump head calculator (total dynamic head, friction loss, system curve): https://www.haquanpump.com/tools/head-calculator
+- Free WILDEN pump selector (shortlist of genuine WILDEN AODD models by flow, liquid, temperature and air pressure, with suggested body/diaphragm materials and example part numbers): https://www.haquanpump.com/tools/wilden-pump-selector
+- Free pump unit converter (flow m³/h, L/s, L/min, US/UK GPM; pressure and head bar, psi, kPa, MPa, m/ft of water; power kW, HP): https://www.haquanpump.com/tools/unit-converter
 - About Haquan: https://www.haquanpump.com/about
 - Contact / request a quotation: https://www.haquanpump.com/contact
 - Sitemap: https://www.haquanpump.com/sitemap.xml

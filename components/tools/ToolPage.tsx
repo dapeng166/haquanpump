@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { company } from "@/lib/site";
 import { img } from "@/lib/images";
+import { WILDEN_PARTS_PATH, WILDEN_SPARES_PATH } from "@/lib/wilden";
 import type { ToolPageText, ToolsStrings } from "@/lib/tools/strings";
 import { fill } from "@/lib/tools/strings";
 import { PageHero } from "@/components/ui/PageHero";
@@ -63,6 +64,9 @@ export function ToolPage({
   const howItWorks = fill(page.howItWorks, {
     calcHref: `${toolsUrl}/head-calculator`,
     selectorHref: `${toolsUrl}/pump-selector`,
+    converterHref: `${toolsUrl}/unit-converter`,
+    lookupHref: `${hrefBase}${WILDEN_PARTS_PATH}`,
+    sparesHref: `${hrefBase}${WILDEN_SPARES_PATH}`,
   });
 
   return (

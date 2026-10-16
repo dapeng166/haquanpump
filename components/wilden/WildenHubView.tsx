@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import Link from "next/link";
-import { ArrowRight, BadgeCheck, Globe2, Hash, Wrench } from "lucide-react";
+import { ArrowRight, BadgeCheck, Gauge, Globe2, Hash, Wrench } from "lucide-react";
 import type { Product, PumpSeries } from "@/lib/types";
 import type { CardLabels } from "@/lib/i18n/uiLabels";
 import { img } from "@/lib/images";
@@ -34,6 +34,9 @@ export const WILDEN_EN = {
   sparesTitle: "Need a spare part or kit?",
   sparesText: "Search 2,000+ WILDEN spare parts and repair kits by part number: diaphragms, valve balls and seats, air valves, manifolds, hardware and wet end kits.",
   sparesButton: "Spare Parts Lookup",
+  selectorTitle: "Not sure which WILDEN pump you need?",
+  selectorText: "Enter your flow, liquid, temperature and air pressure to get a shortlist of WILDEN models, suggested materials and example part numbers.",
+  selectorButton: "WILDEN Pump Selector",
   catalogueEyebrow: "Catalogue",
   catalogueTitle: "WILDEN pumps & spare parts",
   partsNote: "WILDEN spare parts fit WILDEN pumps only — they are not interchangeable with our own QBY diaphragm pumps.",
@@ -144,6 +147,16 @@ export function WildenHubView({
             <Link href={`${hrefBase}${WILDEN_SPARES_PATH}`} className="btn-primary shrink-0">
               <Wrench className="h-4 w-4" aria-hidden />
               {T.sparesButton}
+            </Link>
+          </div>
+          <div className="mt-4 flex flex-col items-start justify-between gap-4 rounded-2xl border border-accent/30 bg-accent/5 p-6 sm:flex-row sm:items-center">
+            <div>
+              <h2 className="font-display text-lg font-semibold text-slate-900">{T.selectorTitle}</h2>
+              <p className="mt-1 text-sm text-slate-600">{T.selectorText}</p>
+            </div>
+            <Link href={`${hrefBase}/tools/wilden-pump-selector`} className="btn-primary shrink-0">
+              <Gauge className="h-4 w-4" aria-hidden />
+              {T.selectorButton}
             </Link>
           </div>
         </Container>
