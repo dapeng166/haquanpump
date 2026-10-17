@@ -27,6 +27,11 @@ export const productImages = [
   `${U}1531297484001-80022131f5a1${Q}&w=900`,
 ];
 
+// Real WILDEN pump line-up photo from the WP media library (item 591): shown
+// for Wilden products without a Featured Image instead of a stock photo.
+export const wildenFallbackImage =
+  "https://cms.haquanpump.com/wp-content/uploads/2026/07/342c33565709fb992b67bba420e6223f.jpg";
+
 export const newsImages = [
   `${U}1497435334941-8c899ee9e8e9${Q}&w=1000`,
   `${U}1542013936693-884638332954${Q}&w=1000`,

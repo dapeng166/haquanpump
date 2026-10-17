@@ -2,7 +2,8 @@ import { WP_API_URL } from "@/lib/site";
 import type { NewsPost, Product, PumpSeries, SitePage, TechDocument } from "@/lib/types";
 import { pumpSeries, seedProducts, seriesWithCounts } from "@/lib/data/products";
 import { seedNews } from "@/lib/data/news";
-import { productImages, newsImages, pickImage } from "@/lib/images";
+import { productImages, newsImages, pickImage, wildenFallbackImage } from "@/lib/images";
+import { WILDEN_SERIES } from "@/lib/wilden";
 
 /**
  * WordPress REST API integration.
@@ -252,8 +253,9 @@ function mapPump(raw: WPPump, index: number): Product {
   const cmsGallery = Array.isArray(raw.gallery)
     ? raw.gallery.filter((u) => typeof u === "string" && u.startsWith("http"))
     : [];
-  const mainImage =
-    cmsGallery[0] ?? featuredImage(raw._embedded, pickImage(productImages, index));
+  const fallbackImage =
+    term?.slug === WILDEN_SERIES ? wildenFallbackImage : pickImage(productImages, index);
+  const mainImage = cmsGallery[0] ?? featuredImage(raw._embedded, fallbackImage);
   const gallery = cmsGallery.length ? cmsGallery : [mainImage];
 
   // WordPress's auto-excerpt truncates by word (spaces). Chinese text has no
