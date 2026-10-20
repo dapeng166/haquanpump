@@ -22,10 +22,23 @@ export async function generateStaticParams() {
   return [];
 }
 
+// Hand-written titles that lead with the phrase people actually search in each
+// language ("bombas wilden" had 73 impressions and no clicks under the
+// machine-translated "Proveedor de bombas…" title).
+const HUB_TITLES: Record<string, string> = {
+  es: "Bombas WILDEN AODD originales y repuestos",
+  pt: "Bombas WILDEN AODD originais e peças de reposição",
+  fr: "Pompes WILDEN AODD d'origine et pièces détachées",
+  de: "WILDEN Druckluft-Membranpumpen: Original und Ersatzteile",
+  ru: "Насосы WILDEN AODD: оригинальные насосы и запчасти",
+  ar: "مضخات WILDEN AODD الأصلية وقطع الغيار",
+};
+
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { locale } = await params;
   if (!isIndexableLocale(locale)) return {};
-  const [title, description] = await translateMany([WILDEN_EN.metaTitle, WILDEN_EN.metaDesc], locale);
+  const [mtTitle, description] = await translateMany([WILDEN_EN.metaTitle, WILDEN_EN.metaDesc], locale);
+  const title = HUB_TITLES[locale] ?? mtTitle;
   return {
     title: { absolute: `${title} | Haquan Pump` },
     description,
