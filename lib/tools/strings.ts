@@ -98,7 +98,7 @@ const WILDEN_FAQS = [
   },
   {
     q: "Are these genuine WILDEN pumps?",
-    a: "Yes. Haquan supplies genuine, original WILDEN pumps and spare parts, identified by their official part numbers. The models and figures in this selector come from the WILDEN build listings of PSG, WILDEN's parent company. WILDEN parts fit WILDEN pumps only and are not interchangeable with our own QBY diaphragm pumps.",
+    a: "Yes. Haquan supplies genuine, original WILDEN pumps and spare parts, identified by their official part numbers. The models and figures in this selector come from WILDEN's official build listings. WILDEN parts fit WILDEN pumps only and are not interchangeable with our own QBY diaphragm pumps.",
   },
 ];
 
