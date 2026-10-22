@@ -35,7 +35,7 @@ export function ProductCard({
     <article className="group glass-card flex h-full flex-col overflow-hidden p-0">
       <Link
         href={href}
-        className="relative block aspect-[4/3] overflow-hidden"
+        className="relative block aspect-[4/3] overflow-hidden bg-white"
       >
         <Image
           src={product.image}
@@ -43,7 +43,7 @@ export function ProductCard({
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1280px) 33vw, 360px"
           priority={priority}
-          className="object-cover transition-transform duration-700 group-hover:scale-105"
+          className="object-contain p-3 transition-transform duration-700 group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-white via-white/20 to-transparent" />
         <span className="absolute left-4 top-4 rounded-full border border-slate-300 bg-white/70 px-3 py-1 text-xs font-medium text-slate-600 backdrop-blur">

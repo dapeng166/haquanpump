@@ -9,7 +9,9 @@ export function ProductGallery({ images, alt }: { images: string[]; alt: string 
 
   return (
     <div>
-      <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-slate-200 bg-slate-100">
+      <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-slate-200 bg-white">
+        {/* contain, not cover: tall pump photos (vertical / multistage / borehole)
+            would otherwise lose their top and bottom in the 4:3 frame */}
         <Image
           key={active}
           src={gallery[active]}
@@ -17,7 +19,7 @@ export function ProductGallery({ images, alt }: { images: string[]; alt: string 
           fill
           priority
           sizes="(max-width: 1024px) 100vw, 50vw"
-          className="object-cover"
+          className="object-contain p-2"
         />
       </div>
       {gallery.length > 1 && (
@@ -35,7 +37,7 @@ export function ProductGallery({ images, alt }: { images: string[]; alt: string 
                   : "border-slate-200 opacity-70 hover:opacity-100"
               }`}
             >
-              <Image src={src} alt="" fill sizes="120px" className="object-cover" />
+              <Image src={src} alt="" fill sizes="120px" className="bg-white object-contain p-1" />
             </button>
           ))}
         </div>
