@@ -35,7 +35,7 @@ const isBuildPhase = () => process.env.NEXT_PHASE === "phase-production-build";
 type WPMedia = { source_url?: string; alt_text?: string };
 type WPEmbedded = {
   "wp:featuredmedia"?: WPMedia[];
-  "wp:term"?: Array<Array<{ slug: string; name: string }>>;
+  "wp:term"?: Array<Array<{ slug: string; name: string; taxonomy?: string }>>;
 };
 type WPRendered = { rendered?: string };
 
@@ -238,7 +238,10 @@ function featuredImage(embedded?: WPEmbedded, fallback?: string): string {
 
 function mapPump(raw: WPPump, index: number): Product {
   const fields = raw.acf ?? {};
-  const term = raw._embedded?.["wp:term"]?.flat()?.[0];
+  // Pumps also carry WP's default "category" taxonomy (new posts can get "Blog"),
+  // so pick the pump_series term explicitly rather than the first embedded one.
+  const terms = raw._embedded?.["wp:term"]?.flat() ?? [];
+  const term = terms.find((t) => t.taxonomy === "pump_series") ?? terms.find((t) => !t.taxonomy);
 
   const brochure = fields["pdf_brochure"] ?? fields["brochure"] ?? fields["pdf"];
   const brochureUrl =
