@@ -77,23 +77,31 @@ export function ProductsExplorer({
     const urlSeries = searchParams.get("series");
     return urlSeries && series.some((s) => s.slug === urlSeries) ? urlSeries : initialSeries;
   });
-  const [page, setPage] = useState(1);
+  // The page number lives in the URL (?page=) too, so "back" from a product
+  // returns to the page you were on instead of page 1.
+  const urlPage = () => Math.max(1, parseInt(searchParams.get("page") ?? "1", 10) || 1);
+  const [page, setPage] = useState<number>(urlPage);
   const topRef = useRef<HTMLDivElement>(null);
 
-  // Keep the active filter in sync with the REAL address bar (useSearchParams),
-  // not the server-passed initialSeries. On browser back/forward — e.g. returning
-  // from a product detail page — Next may restore /products from its client cache
-  // with a stale initialSeries; reading the live URL instead guarantees the
-  // filter always matches the series you were actually viewing.
+  // Keep the active filter and page in sync with the REAL address bar
+  // (useSearchParams), not the server-passed initialSeries. On browser
+  // back/forward — e.g. returning from a product detail page — Next may restore
+  // the listing from its client cache with stale props; reading the live URL
+  // guarantees you land on the series and page you were actually viewing.
   useEffect(() => {
     const urlSeries = searchParams.get("series");
     setActive(urlSeries && series.some((s) => s.slug === urlSeries) ? urlSeries : "all");
+    setPage(urlPage());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams, series]);
 
-  // Reset to the first page whenever the filter changes.
-  useEffect(() => {
-    setPage(1);
-  }, [active]);
+  function listUrl(slug: string, n: number) {
+    const params = new URLSearchParams();
+    if (slug !== "all") params.set("series", slug);
+    if (n > 1) params.set("page", String(n));
+    const qs = params.toString();
+    return qs ? `${basePath}?${qs}` : basePath;
+  }
 
   const filtered = useMemo(
     () => (active === "all" ? products : products.filter((p) => p.seriesSlug === active)),
@@ -109,6 +117,9 @@ export function ProductsExplorer({
   function goToPage(n: number) {
     const next = Math.min(Math.max(1, n), totalPages);
     setPage(next);
+    // replaceState: paging shouldn't add history entries, but the URL must hold
+    // the page so returning from a product lands back here.
+    window.history.replaceState(null, "", listUrl(active, next));
     topRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
@@ -124,14 +135,14 @@ export function ProductsExplorer({
 
   function select(slug: string) {
     setActive(slug); // instant client-side filter
+    setPage(1);
     // Reflect the filter in the URL IMMEDIATELY via the native History API.
     // router.replace() here triggered an RSC refetch that took ~2-3s on
     // production, during which the address bar still read /products — so a quick
     // product click was recorded from the unfiltered URL and "back" lost the
     // series. pushState updates the URL synchronously (no server round-trip) and
     // still syncs with useSearchParams, so back/forward restores the series.
-    const url = slug === "all" ? basePath : `${basePath}?series=${slug}`;
-    window.history.pushState(null, "", url);
+    window.history.pushState(null, "", listUrl(slug, 1));
   }
 
   const chips = [
