@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Calendar, ChevronLeft, ChevronRight, Clock } from "lucide-react";
@@ -41,8 +41,28 @@ export function NewsGrid({
   const start = (page - 1) * PER_PAGE;
   const visible = posts.slice(start, start + PER_PAGE);
 
+  // The page number lives in the URL (?page=) so "back" from an article
+  // returns to the page you were on instead of page 1. Read from
+  // window.location (not useSearchParams) so the server-rendered HTML keeps
+  // page 1's cards without needing a Suspense fallback.
+  useEffect(() => {
+    function syncFromUrl() {
+      const n = parseInt(new URLSearchParams(window.location.search).get("page") ?? "1", 10) || 1;
+      setPage(Math.min(Math.max(1, n), totalPages));
+    }
+    syncFromUrl();
+    window.addEventListener("popstate", syncFromUrl);
+    return () => window.removeEventListener("popstate", syncFromUrl);
+  }, [totalPages]);
+
   function go(next: number) {
     setPage(next);
+    // replaceState: paging shouldn't add history entries, but the URL must hold
+    // the page so returning from an article lands back here.
+    const url = new URL(window.location.href);
+    if (next > 1) url.searchParams.set("page", String(next));
+    else url.searchParams.delete("page");
+    window.history.replaceState(window.history.state, "", url.pathname + url.search + url.hash);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
