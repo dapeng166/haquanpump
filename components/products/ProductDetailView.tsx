@@ -42,6 +42,7 @@ export type ProductDetailLabels = {
   trustReply: string;
   trustGenuine: string;
   trustMore: string;
+  guides: string;
 };
 
 /** English source strings; localized routes translate these before rendering. */
@@ -69,6 +70,7 @@ export const EN_PRODUCT_LABELS: ProductDetailLabels = {
   trustReply: "Reply within 24 hours",
   trustGenuine: "Genuine Wilden pumps",
   trustMore: "Quality & after-sales",
+  guides: "Related Technical Guides",
 };
 
 /**
@@ -85,6 +87,7 @@ export function ProductDetailView({
   cardLabels,
   prev = null,
   next = null,
+  guides = [],
 }: {
   product: Product;
   related: Product[];
@@ -95,6 +98,8 @@ export function ProductDetailView({
   /** Catalogue neighbours for Previous/Next navigation. */
   prev?: Product | null;
   next?: Product | null;
+  /** Guides and case studies from the same series, already translated. */
+  guides?: { slug: string; title: string }[];
 }) {
   const specRows = [
     { icon: Droplets, label: labels.flowRate, value: product.specs.flowRate, unit: "m³/h" },
@@ -237,6 +242,23 @@ export function ProductDetailView({
                   ))}
                 </ul>
               </div>
+              {guides.length > 0 && (
+                <div className="glass-card mt-6 p-6">
+                  <h3 className="font-display text-lg font-semibold text-slate-900">{labels.guides}</h3>
+                  <ul className="mt-4 space-y-3">
+                    {guides.map((g) => (
+                      <li key={g.slug}>
+                        <Link
+                          href={`${hrefBase}/news/${g.slug}`}
+                          className="text-sm font-medium leading-snug text-accent-600 hover:text-accent-700 hover:underline"
+                        >
+                          {g.title}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </Reveal>
           </div>
         </Container>

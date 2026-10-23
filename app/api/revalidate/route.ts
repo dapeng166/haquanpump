@@ -14,7 +14,9 @@ const SECRET = process.env.REVALIDATE_SECRET;
 // The listing/index routes that must refresh when content changes. A caller may
 // also pass ?path=/products/some-slug to refresh one specific page.
 const BASE_PATHS = ["/", "/products", "/news", "/support", WILDEN_HUB_PATH];
-const PRODUCT_PATHS = ["/", "/products", WILDEN_HUB_PATH, "/tools/pump-selector"];
+// "/news" too: a `pump` entry tagged as a guide or case study is listed under
+// News & Guides (and its /products URL redirects to /news).
+const PRODUCT_PATHS = ["/", "/products", "/news", WILDEN_HUB_PATH, "/tools/pump-selector"];
 const NEWS_PATHS = ["/", "/news"];
 
 function revalidateAllLocales(path: string) {
@@ -70,6 +72,8 @@ async function handle(req: NextRequest) {
   revalidatePath("/api/search");
 
   if (extra && extra.startsWith("/")) for (const p of pathVariants(extra)) revalidateAllLocales(p);
+  if (extra?.startsWith("/products/"))
+    for (const p of pathVariants(extra.replace("/products/", "/news/"))) revalidateAllLocales(p);
 
   return NextResponse.json({
     revalidated: true,

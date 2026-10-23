@@ -7,23 +7,25 @@ import { NewsGrid } from "@/components/news/NewsGrid";
 import { localeAlternates } from "@/lib/i18n/alternates";
 
 export const metadata: Metadata = {
-  title: "Sewage Pump News & Engineering Insights",
+  title: "Pump News, Technical Guides & Case Studies",
   description:
-    "Product launches, technical guides and company news from Shanghai Haquan Pump — practical pump-selection advice and updates for industrial buyers worldwide.",
+    "Company news, technical guides and real order case studies from Haquan Pump — practical pump selection, installation, maintenance and troubleshooting advice for buyers worldwide.",
   alternates: { canonical: "/news", languages: localeAlternates("/news") },
 };
 
 export default async function NewsPage() {
-  const posts = await getNews();
+  // Cards only need the summary fields; leave the article bodies out of the
+  // client payload (the list holds every guide and case study).
+  const posts = (await getNews()).map((p) => ({ ...p, content: "" }));
 
   return (
     <>
       <PageHero
-        eyebrow="Newsroom"
-        title="Sewage Pump News & Engineering Insights"
-        intro="Product launches, practical pump-selection guides and company updates from the Haquan engineering team."
+        eyebrow="News & Guides"
+        title="Pump News, Technical Guides & Case Studies"
+        intro="Company news, technical guides on selection, installation, maintenance and troubleshooting, and real order cases from the Haquan engineering team."
         image={img.supportHero}
-        breadcrumbs={[{ label: "News" }]}
+        breadcrumbs={[{ label: "News & Guides" }]}
       />
       <Section>
         <Container>

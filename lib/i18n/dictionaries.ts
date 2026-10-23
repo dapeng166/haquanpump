@@ -10,7 +10,7 @@ const en = {
     about: "About",
     products: "Products",
     wilden: "WILDEN",
-    news: "News",
+    news: "News & Guides",
     support: "Support",
     contact: "Contact",
   },
@@ -56,6 +56,8 @@ const en = {
     ctaSubtitle:
       "Send us your duty point and application — our engineers will recommend the right pump and return a quotation within 24 hours.",
   },
+  // Filter chips on the News & Guides page (owner's three groups, 2026-10-23).
+  newsFilter: { all: "All", company: "Company News", guides: "Technical Guides", cases: "Case Studies" },
   footer: {
     tagline:
       "A professional sewage pump manufacturer since 2014 — reliable wastewater and fluid-handling solutions for industry worldwide.",
@@ -106,7 +108,8 @@ type DeepPartial<T> = { [K in keyof T]?: DeepPartial<T[K]> };
 
 // --- Chinese -------------------------------------------------------------
 const zh: DeepPartial<Dictionary> = {
-  nav: { home: "首页", about: "关于我们", products: "产品中心", wilden: "WILDEN", news: "新闻", support: "技术支持", contact: "联系我们" },
+  nav: { home: "首页", about: "关于我们", products: "产品中心", wilden: "WILDEN", news: "资讯", support: "技术支持", contact: "联系我们" },
+  newsFilter: { all: "全部", company: "公司新闻", guides: "技术文章", cases: "相关案例" },
   cta: {
     getQuote: "获取报价", requestQuote: "索取报价", viewProducts: "查看全部产品", exploreProducts: "浏览产品",
     learnMore: "了解更多", readMore: "阅读全文", downloadBrochure: "下载样本", sendInquiry: "发送询盘",
@@ -153,7 +156,8 @@ const zh: DeepPartial<Dictionary> = {
 
 // --- Spanish -------------------------------------------------------------
 const es: DeepPartial<Dictionary> = {
-  nav: { home: "Inicio", about: "Nosotros", products: "Productos", wilden: "WILDEN", news: "Noticias", support: "Soporte", contact: "Contacto" },
+  nav: { home: "Inicio", about: "Nosotros", products: "Productos", wilden: "WILDEN", news: "Noticias y guías", support: "Soporte", contact: "Contacto" },
+  newsFilter: { all: "Todo", company: "Noticias de la empresa", guides: "Guías técnicas", cases: "Casos" },
   cta: {
     getQuote: "Solicitar Cotización", requestQuote: "Pedir Cotización", viewProducts: "Ver Todos los Productos",
     exploreProducts: "Explorar Productos", learnMore: "Saber Más", readMore: "Leer Más",
@@ -200,7 +204,8 @@ const es: DeepPartial<Dictionary> = {
 
 // --- German --------------------------------------------------------------
 const de: DeepPartial<Dictionary> = {
-  nav: { home: "Startseite", about: "Über uns", products: "Produkte", wilden: "WILDEN", news: "Aktuelles", support: "Support", contact: "Kontakt" },
+  nav: { home: "Startseite", about: "Über uns", products: "Produkte", wilden: "WILDEN", news: "News & Ratgeber", support: "Support", contact: "Kontakt" },
+  newsFilter: { all: "Alle", company: "Firmennews", guides: "Technische Ratgeber", cases: "Fallstudien" },
   cta: {
     getQuote: "Angebot Anfordern", requestQuote: "Angebot Anfordern", viewProducts: "Alle Produkte Ansehen",
     exploreProducts: "Produkte Entdecken", learnMore: "Mehr Erfahren", readMore: "Weiterlesen",
@@ -247,7 +252,8 @@ const de: DeepPartial<Dictionary> = {
 
 // --- Russian -------------------------------------------------------------
 const ru: DeepPartial<Dictionary> = {
-  nav: { home: "Главная", about: "О компании", products: "Продукция", wilden: "WILDEN", news: "Новости", support: "Поддержка", contact: "Контакты" },
+  nav: { home: "Главная", about: "О компании", products: "Продукция", wilden: "WILDEN", news: "Новости и статьи", support: "Поддержка", contact: "Контакты" },
+  newsFilter: { all: "Все", company: "Новости компании", guides: "Технические статьи", cases: "Кейсы" },
   cta: {
     getQuote: "Запросить Цену", requestQuote: "Запросить Цену", viewProducts: "Вся Продукция",
     exploreProducts: "Смотреть Продукцию", learnMore: "Подробнее", readMore: "Читать Далее",
@@ -294,7 +300,8 @@ const ru: DeepPartial<Dictionary> = {
 
 // --- Arabic (RTL) --------------------------------------------------------
 const ar: DeepPartial<Dictionary> = {
-  nav: { home: "الرئيسية", about: "من نحن", products: "المنتجات", wilden: "WILDEN", news: "الأخبار", support: "الدعم", contact: "اتصل بنا" },
+  nav: { home: "الرئيسية", about: "من نحن", products: "المنتجات", wilden: "WILDEN", news: "الأخبار والأدلة", support: "الدعم", contact: "اتصل بنا" },
+  newsFilter: { all: "الكل", company: "أخبار الشركة", guides: "أدلة فنية", cases: "دراسات حالة" },
   cta: {
     getQuote: "اطلب عرض سعر", requestQuote: "اطلب عرض سعر", viewProducts: "عرض كل المنتجات",
     exploreProducts: "استكشف المنتجات", learnMore: "اعرف المزيد", readMore: "اقرأ المزيد",
@@ -341,7 +348,8 @@ const ar: DeepPartial<Dictionary> = {
 
 // --- French ---------------------------------------------------------------
 const fr: DeepPartial<Dictionary> = {
-  nav: { home: "Accueil", about: "À propos", products: "Produits", wilden: "WILDEN", news: "Actualités", support: "Support", contact: "Contact" },
+  nav: { home: "Accueil", about: "À propos", products: "Produits", wilden: "WILDEN", news: "Actualités et guides", support: "Support", contact: "Contact" },
+  newsFilter: { all: "Tout", company: "Actualités de l'entreprise", guides: "Guides techniques", cases: "Études de cas" },
   cta: { viewDetails: "Voir les détails", getQuote: "Demander un devis", exploreProducts: "Voir les produits", contactUs: "Nous contacter", readMore: "Lire la suite" },
   specs: { flow: "Débit", head: "Hauteur", power: "Puissance", diameter: "Entrée / Sortie", material: "Matériau", specifications: "Spécifications" },
   common: { allSeries: "Toutes les séries", relatedProducts: "Produits associés", backToProducts: "Retour aux produits", industries: "Applications et secteurs", previous: "Précédent", next: "Suivant" },
@@ -350,7 +358,8 @@ const fr: DeepPartial<Dictionary> = {
 
 // --- Portuguese -----------------------------------------------------------
 const pt: DeepPartial<Dictionary> = {
-  nav: { home: "Início", about: "Sobre", products: "Produtos", wilden: "WILDEN", news: "Notícias", support: "Suporte", contact: "Contato" },
+  nav: { home: "Início", about: "Sobre", products: "Produtos", wilden: "WILDEN", news: "Notícias e guias", support: "Suporte", contact: "Contato" },
+  newsFilter: { all: "Todos", company: "Notícias da empresa", guides: "Guias técnicos", cases: "Estudos de caso" },
   cta: { viewDetails: "Ver detalhes", getQuote: "Solicitar orçamento", exploreProducts: "Ver produtos", contactUs: "Fale conosco", readMore: "Leia mais" },
   specs: { flow: "Vazão", head: "Altura", power: "Potência", diameter: "Entrada / Saída", material: "Material", specifications: "Especificações" },
   common: { allSeries: "Todas as séries", relatedProducts: "Produtos relacionados", backToProducts: "Voltar aos produtos", industries: "Aplicações e setores", previous: "Anterior", next: "Próximo" },

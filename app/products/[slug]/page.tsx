@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
-import { getProductBySlug, getRelatedProducts, getAdjacentProducts } from "@/lib/wordpress";
+import { notFound, permanentRedirect } from "next/navigation";
+import { getProductBySlug, getRelatedProducts, getAdjacentProducts, getSeriesGuides } from "@/lib/wordpress";
 import {
   ProductDetailView,
   EN_PRODUCT_LABELS,
@@ -60,10 +60,13 @@ export default async function ProductDetailPage({
   const { slug } = await params;
   const product = await getProductBySlug(slug);
   if (!product) notFound();
+  // Guides and case studies moved to News & Guides; keep old links working.
+  if (product.kind) permanentRedirect(`/news/${product.slug}`);
 
-  const [related, { prev, next }] = await Promise.all([
+  const [related, { prev, next }, guides] = await Promise.all([
     getRelatedProducts(product),
     getAdjacentProducts(product),
+    getSeriesGuides(product.seriesSlug),
   ]);
 
   return (
@@ -83,6 +86,7 @@ export default async function ProductDetailPage({
         labels={EN_PRODUCT_LABELS}
         prev={prev}
         next={next}
+        guides={guides.map((g) => ({ slug: g.slug, title: g.title }))}
       />
     </>
   );

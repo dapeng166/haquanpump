@@ -42,6 +42,7 @@ type WPRendered = { rendered?: string };
 interface WPPump {
   id: number;
   slug: string;
+  date?: string;
   title: WPRendered;
   excerpt?: WPRendered;
   content?: WPRendered;
@@ -236,6 +237,69 @@ function featuredImage(embedded?: WPEmbedded, fallback?: string): string {
   return embedded?.["wp:featuredmedia"]?.[0]?.source_url ?? fallback ?? productImages[0];
 }
 
+// WP categories that mark reading material for the News & Guides section. The
+// `pump` CPT shares WP's category taxonomy with posts, so a pump entry tagged
+// with one of these is a guide or case study: it is listed under /news, not in
+// the product catalogue (owner, 2026-10-23). Untagged entries stay products.
+const GUIDE_CATEGORIES: Record<string, "guide" | "case"> = {
+  "technical-guide": "guide",
+  "selection-guide": "guide",
+  "case-studies": "case",
+};
+
+function categoryTerm(embedded?: WPEmbedded) {
+  return (embedded?.["wp:term"]?.flat() ?? []).find(
+    (t) => t.taxonomy === "category" && GUIDE_CATEGORIES[t.slug],
+  );
+}
+
+function guideGroup(embedded?: WPEmbedded): "guide" | "case" | null {
+  const t = categoryTerm(embedded);
+  return t ? GUIDE_CATEGORIES[t.slug] : null;
+}
+
+// One card label per section, whatever the WP category is called ("NewS",
+// "Product News", "Selection Guide"…): the owner's three groups.
+const GROUP_LABEL = { news: "Company News", guide: "Technical Guide", case: "Case Study" } as const;
+
+const readingTime = (html?: string) =>
+  Math.max(2, Math.round(stripHtml(html).split(/\s+/).length / 200));
+
+/** A guide/case `pump` entry, shaped as a News & Guides article. */
+function mapPumpGuide(raw: WPPump, index: number): NewsPost {
+  const p = mapPump(raw, index);
+  const group = guideGroup(raw._embedded) ?? "guide";
+  return {
+    slug: p.slug,
+    title: p.name,
+    excerpt: p.excerpt,
+    content: p.description,
+    image: p.image,
+    date: raw.date ?? "",
+    author: "Haquan",
+    category: GROUP_LABEL[group],
+    readingTime: readingTime(raw.content?.rendered),
+    group,
+    seriesSlug: p.seriesSlug,
+    seriesName: p.seriesName,
+  };
+}
+
+function mapPost(post: WPPost, i: number): NewsPost {
+  return {
+    slug: post.slug,
+    title: stripHtml(post.title.rendered),
+    excerpt: stripHtml(post.excerpt?.rendered).slice(0, 200),
+    content: post.content?.rendered ?? "",
+    image: featuredImage(post._embedded, pickImage(newsImages, i)),
+    date: post.date,
+    author: "Haquan",
+    category: GROUP_LABEL[guideGroup(post._embedded) ?? "news"],
+    readingTime: readingTime(post.content?.rendered),
+    group: guideGroup(post._embedded) ?? "news",
+  };
+}
+
 function mapPump(raw: WPPump, index: number): Product {
   const fields = raw.acf ?? {};
   // Pumps also carry WP's default "category" taxonomy (new posts can get "Blog"),
@@ -332,7 +396,8 @@ export async function getProducts(): Promise<Product[]> {
     // week. A failed deploy is safer, since Vercel keeps the previous one live.
     throw new Error("CMS unavailable while listing products");
   }
-  const live = raw.map(mapPump);
+  // Guides and case studies (WP category) live under /news, not the catalogue.
+  const live = raw.filter((r) => !guideGroup(r._embedded)).map(mapPump);
   if (CONTENT_MODE === "merge") return mergeBySlug(seedProducts, live);
   // Genuine 200-empty from a reachable CMS: return the (empty) live list, never
   // the seed demos. Repopulating with seed here is exactly what made the whole
@@ -355,7 +420,10 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
     if (seed) return seed;
     throw new Error(`CMS unavailable while resolving product "${slug}"`);
   }
-  if (raw.length > 0) return mapPump(raw[0], 0);
+  if (raw.length > 0) {
+    const kind = guideGroup(raw[0]._embedded);
+    return kind ? { ...mapPump(raw[0], 0), kind } : mapPump(raw[0], 0);
+  }
   // Genuine 200-empty: the CMS is reachable and has no such product, so it truly
   // doesn't exist → 404. (Do NOT fall back to seedProducts here: that resurrects
   // demo products on their own URLs and keeps them indexed by Google. Seed is
@@ -420,33 +488,32 @@ export async function getAdjacentProducts(
 
 export async function getNews(): Promise<NewsPost[]> {
   if (CONTENT_MODE === "seed") return seedNews;
-  const raw = await wpFetch<WPPost[]>("/wp/v2/posts?_embed&per_page=24");
+  // News & Guides = every news post plus the `pump` entries tagged as guides or
+  // case studies. The pump list is the same (cached) request getProducts makes.
+  const [rawPosts, rawPumps] = await Promise.all([
+    wpFetchAll<WPPost>("/wp/v2/posts?_embed"),
+    wpFetchAll<WPPump>("/wp/v2/pump?_embed"),
+  ]);
   // Null = CMS unreachable. Throw rather than show the seed demo articles (and
   // let ISR cache them); Next keeps serving the last-good news list instead.
-  if (raw === null) {
+  if (rawPosts === null || rawPumps === null) {
     if (isBuildPhase()) return seedNews; // never fail the deploy
     throw new Error("CMS unavailable while listing news");
   }
-  const live: NewsPost[] = raw
-    ? raw.map((post, i) => ({
-        slug: post.slug,
-        title: stripHtml(post.title.rendered),
-        excerpt: stripHtml(post.excerpt?.rendered).slice(0, 200),
-        content: post.content?.rendered ?? "",
-        image: featuredImage(post._embedded, pickImage(newsImages, i)),
-        date: post.date,
-        author:
-          post._embedded?.["wp:term"]?.flat()?.find(Boolean)?.name ?? "Haquan",
-        category: post._embedded?.["wp:term"]?.[0]?.[0]?.name ?? "News",
-        readingTime: Math.max(
-          2,
-          Math.round(stripHtml(post.content?.rendered).split(/\s+/).length / 200),
-        ),
-      }))
-    : [];
+  const live = [
+    ...rawPosts.map(mapPost),
+    ...rawPumps.filter((r) => guideGroup(r._embedded)).map(mapPumpGuide),
+  ].sort((x, y) => (y.date > x.date ? 1 : y.date < x.date ? -1 : 0));
   if (CONTENT_MODE === "merge") return mergeBySlug(seedNews, live);
   // Genuine 200-empty → return the live (empty) list, never seed demos.
   return live;
+}
+
+/** Up to `limit` guides/case studies from one pump series, newest first, for
+ *  the "Related Technical Guides" box on product pages. */
+export async function getSeriesGuides(seriesSlug: string, limit = 4): Promise<NewsPost[]> {
+  const all = await getNews();
+  return all.filter((n) => n.group !== "news" && n.seriesSlug === seriesSlug).slice(0, limit);
 }
 
 export async function getNewsBySlug(slug: string): Promise<NewsPost | null> {
@@ -464,18 +531,16 @@ export async function getNewsBySlug(slug: string): Promise<NewsPost | null> {
   }
   if (raw.length > 0) {
     const post = raw[0];
-    return {
-      slug: post.slug,
-      title: stripHtml(post.title.rendered),
-      excerpt: stripHtml(post.excerpt?.rendered),
-      content: post.content?.rendered ?? "",
-      image: featuredImage(post._embedded),
-      date: post.date,
-      author: "Haquan",
-      category: "News",
-      readingTime: Math.max(2, Math.round(stripHtml(post.content?.rendered).split(/\s+/).length / 200)),
-    };
+    return { ...mapPost(post, 0), excerpt: stripHtml(post.excerpt?.rendered), image: featuredImage(post._embedded) };
   }
+  // Not a news post: it may be a guide/case-study `pump` entry (see getNews).
+  let pumps: WPPump[];
+  try {
+    pumps = await wpFetchStrict<WPPump[]>(`/wp/v2/pump?slug=${encodeURIComponent(slug)}&_embed`);
+  } catch {
+    throw new Error(`CMS unavailable while resolving article "${slug}"`);
+  }
+  if (pumps.length > 0 && guideGroup(pumps[0]._embedded)) return mapPumpGuide(pumps[0], 0);
   // CMS reachable but no such article → 404. (Do NOT serve seedNews here: that
   // keeps the demo articles alive on their URLs and indexed by Google. Seed is
   // only for when the CMS is unreachable — handled in the catch above.)

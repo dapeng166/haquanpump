@@ -23,7 +23,7 @@ const TYPE_META: Record<
   Product: { icon: Package, label: "Product" },
   Document: { icon: FileDown, label: "Document" },
   FAQ: { icon: HelpCircle, label: "FAQ" },
-  News: { icon: Newspaper, label: "News" },
+  News: { icon: Newspaper, label: "News & Guides" },
   Page: { icon: FileText, label: "Page" },
 };
 

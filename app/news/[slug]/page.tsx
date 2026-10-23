@@ -3,7 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Calendar, Clock, User } from "lucide-react";
-import { getNewsBySlug, getAdjacentNews } from "@/lib/wordpress";
+import { getNewsBySlug, getAdjacentNews, getProducts } from "@/lib/wordpress";
+import { toCard } from "@/lib/cardProduct";
+import { SeriesProducts } from "@/components/news/SeriesProducts";
 import { company } from "@/lib/site";
 import { Container, Section } from "@/components/ui/Primitives";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
@@ -60,7 +62,12 @@ export default async function NewsArticlePage({
   const post = await getNewsBySlug(slug);
   if (!post) notFound();
 
-  const { prev, next } = await getAdjacentNews(post);
+  const [{ prev, next }, seriesProducts] = await Promise.all([
+    getAdjacentNews(post),
+    post.seriesSlug
+      ? getProducts().then((all) => all.filter((p) => p.seriesSlug === post.seriesSlug).slice(0, 3).map(toCard))
+      : Promise.resolve([]),
+  ]);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -82,7 +89,7 @@ export default async function NewsArticlePage({
       <BreadcrumbJsonLd
         items={[
           { name: "Home", path: "/" },
-          { name: "News", path: "/news" },
+          { name: "News & Guides", path: "/news" },
           { name: post.title, path: `/news/${post.slug}` },
         ]}
       />
@@ -93,7 +100,7 @@ export default async function NewsArticlePage({
               href="/news"
               className="inline-flex items-center gap-1.5 text-sm font-medium text-accent-600 hover:text-accent"
             >
-              <ArrowLeft className="h-4 w-4 rtl-flip" aria-hidden /> Back to News
+              <ArrowLeft className="h-4 w-4 rtl-flip" aria-hidden /> Back to News & Guides
             </Link>
 
             <span className="mt-6 inline-block rounded-full border border-accent/30 bg-accent/10 px-3 py-1 text-xs font-medium text-accent-600">
@@ -116,13 +123,15 @@ export default async function NewsArticlePage({
             </div>
 
             <div className="relative mt-8 aspect-[16/9] overflow-hidden rounded-2xl border border-slate-200">
-              <Image src={post.image} alt={post.title} fill priority sizes="(max-width: 768px) 100vw, 768px" className="object-cover" />
+              <Image src={post.image} alt={post.title} fill priority sizes="(max-width: 768px) 100vw, 768px" className={post.seriesSlug ? "bg-white object-contain" : "object-cover"} />
             </div>
 
             <div
               className="cms-content mt-10 space-y-5 text-lg leading-relaxed text-slate-600 [&_a]:text-accent-600 [&_h2]:mt-8 [&_h2]:font-display [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-slate-900 [&_p]:mb-5"
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
+
+            <SeriesProducts title="Products in This Series" products={seriesProducts} />
 
             <ArticleNav prev={prev} next={next} labels={{ previous: "Previous", next: "Next" }} />
 

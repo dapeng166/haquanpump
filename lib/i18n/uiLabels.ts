@@ -29,11 +29,20 @@ export function newsLabels(locale: Locale): {
   readMore: string;
   previous: string;
   next: string;
+  all: string;
+  company: string;
+  guides: string;
+  cases: string;
 } {
   const d = dictionaries[locale];
+  const f = { ...enDictionary.newsFilter, ...d?.newsFilter };
   return {
     readMore: d?.cta?.readMore ?? enDictionary.cta.readMore,
     previous: d?.common?.previous ?? enDictionary.common.previous,
     next: d?.common?.next ?? enDictionary.common.next,
+    all: f.all,
+    company: f.company,
+    guides: f.guides,
+    cases: f.cases,
   };
 }

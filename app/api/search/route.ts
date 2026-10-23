@@ -87,7 +87,10 @@ export async function GET() {
     meta: n.category,
     // Article body too, so a term mentioned only inside a post still finds it.
     // Capped to keep the index small (it is fetched each time search opens).
-    keywords: [n.category, n.author, plainText(n.content).slice(0, 4000)].filter(Boolean).join(" "),
+    // Guides from the catalogue (150+) get a shorter slice to keep the index small.
+    keywords: [n.category, n.author, n.seriesName ?? "", plainText(n.content).slice(0, n.seriesSlug ? 800 : 4000)]
+      .filter(Boolean)
+      .join(" "),
     codes: seriesCodes(`${n.title} ${plainText(n.content)}`),
   }));
 

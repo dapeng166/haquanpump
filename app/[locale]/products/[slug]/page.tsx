@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
-import { getProductBySlug, getRelatedProducts, getAdjacentProducts } from "@/lib/wordpress";
+import { notFound, permanentRedirect } from "next/navigation";
+import { getProductBySlug, getRelatedProducts, getAdjacentProducts, getSeriesGuides } from "@/lib/wordpress";
 import { ProductDetailView } from "@/components/products/ProductDetailView";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { ProductJsonLd } from "@/components/seo/ProductJsonLd";
@@ -67,8 +67,10 @@ export default async function LocalizedProductDetailPage({
 
   const source = await getProductBySlug(slug);
   if (!source) notFound();
+  // Guides and case studies moved to News & Guides; keep old links working.
+  if (source.kind) permanentRedirect(`/${locale}/news/${source.slug}`);
 
-  const [product, related, labels, crumbLabels, adjacent] = await Promise.all([
+  const [product, related, labels, crumbLabels, adjacent, guides] = await Promise.all([
     translateProduct(source, locale),
     getRelatedProducts(source).then((list) =>
       Promise.all(list.map((p) => translateProductCard(toCard(p), locale))),
@@ -80,6 +82,10 @@ export default async function LocalizedProductDetailPage({
       prev: prev ? { ...prev, name: await translate(prev.name, locale) } : null,
       next: next ? { ...next, name: await translate(next.name, locale) } : null,
     })),
+    getSeriesGuides(source.seriesSlug).then(async (list) => {
+      const titles = await translateMany(list.map((g) => g.title), locale);
+      return list.map((g, i) => ({ slug: g.slug, title: titles[i] }));
+    }),
   ]);
   const [homeLabel, productsLabel] = crumbLabels;
 
@@ -105,6 +111,7 @@ export default async function LocalizedProductDetailPage({
         cardLabels={cardLabels(locale)}
         prev={adjacent.prev}
         next={adjacent.next}
+        guides={guides}
       />
     </div>
   );

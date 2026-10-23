@@ -3,7 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Calendar, Clock, User } from "lucide-react";
-import { getNewsBySlug, getAdjacentNews } from "@/lib/wordpress";
+import { getNewsBySlug, getAdjacentNews, getProducts } from "@/lib/wordpress";
+import { toCard } from "@/lib/cardProduct";
+import { SeriesProducts } from "@/components/news/SeriesProducts";
+import { translateProductCard } from "@/lib/i18n/translateProduct";
+import { cardLabels } from "@/lib/i18n/uiLabels";
 import { company } from "@/lib/site";
 import { Container, Section } from "@/components/ui/Primitives";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
@@ -78,17 +82,19 @@ export default async function LocalizedNewsArticlePage({
     newsLabel,
     prevLabel,
     nextLabel,
+    seriesProductsLabel,
   ] = await translateMany(
     [
-      "Back to News",
+      "Back to News & Guides",
       "min read",
       "Need a pump for your application?",
       "Our engineers respond to technical inquiries within 24 hours.",
       "Get a Quote",
       "Home",
-      "News",
+      "News & Guides",
       "Previous",
       "Next",
+      "Products in This Series",
     ],
     locale,
   );
@@ -98,6 +104,17 @@ export default async function LocalizedNewsArticlePage({
     prev: prev ? { ...prev, title: await translate(prev.title, locale) } : null,
     next: next ? { ...next, title: await translate(next.title, locale) } : null,
   }));
+
+  const seriesProducts = source.seriesSlug
+    ? await getProducts().then((all) =>
+        Promise.all(
+          all
+            .filter((p) => p.seriesSlug === source.seriesSlug)
+            .slice(0, 3)
+            .map((p) => translateProductCard(toCard(p), locale)),
+        ),
+      )
+    : [];
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -154,12 +171,19 @@ export default async function LocalizedNewsArticlePage({
             </div>
 
             <div className="relative mt-8 aspect-[16/9] overflow-hidden rounded-2xl border border-slate-200">
-              <Image src={post.image} alt={post.title} fill priority sizes="(max-width: 768px) 100vw, 768px" className="object-cover" />
+              <Image src={post.image} alt={post.title} fill priority sizes="(max-width: 768px) 100vw, 768px" className={post.seriesSlug ? "bg-white object-contain" : "object-cover"} />
             </div>
 
             <div
               className="cms-content mt-10 space-y-5 text-lg leading-relaxed text-slate-600 [&_a]:text-accent-600 [&_h2]:mt-8 [&_h2]:font-display [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-slate-900 [&_p]:mb-5"
               dangerouslySetInnerHTML={{ __html: post.content }}
+            />
+
+            <SeriesProducts
+              title={seriesProductsLabel}
+              products={seriesProducts}
+              hrefBase={`/${locale}`}
+              cardLabels={cardLabels(locale)}
             />
 
             <ArticleNav

@@ -76,7 +76,7 @@ export default async function SitemapPage() {
     { label: "Home", href: "/" },
     { label: "About Us", href: "/about" },
     { label: "Products", href: "/products" },
-    { label: "News", href: "/news" },
+    { label: "News & Guides", href: "/news" },
     { label: "Technical Support", href: "/support" },
     { label: "Contact", href: "/contact" },
   ];

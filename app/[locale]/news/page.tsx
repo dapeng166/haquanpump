@@ -18,12 +18,12 @@ export async function generateStaticParams() {
   return [];
 }
 
-const EN_EYEBROW = "Newsroom";
-const EN_TITLE = "Sewage Pump News & Engineering Insights";
+const EN_EYEBROW = "News & Guides";
+const EN_TITLE = "Pump News, Technical Guides & Case Studies";
 const EN_INTRO =
-  "Product launches, practical pump-selection guides and company updates from the Haquan engineering team.";
+  "Company news, technical guides on selection, installation, maintenance and troubleshooting, and real order cases from the Haquan engineering team.";
 const EN_DESC =
-  "Product launches, technical guides and company news from Shanghai Haquan Pump — practical pump-selection advice and updates for industrial buyers worldwide.";
+  "Company news, technical guides and real order case studies from Haquan Pump — practical pump selection, installation, maintenance and troubleshooting advice for buyers worldwide.";
 
 export async function generateMetadata({
   params,
@@ -54,7 +54,8 @@ export default async function LocalizedNewsPage({
   const { locale } = await params;
   if (!isIndexableLocale(locale)) notFound();
 
-  const posts = await getNews();
+  // Cards only need the summary fields; leave the article bodies out.
+  const posts = (await getNews()).map((p) => ({ ...p, content: "" }));
   const [title, intro, eyebrow, translated] = await Promise.all([
     translate(EN_TITLE, locale),
     translate(EN_INTRO, locale),

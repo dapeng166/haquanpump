@@ -33,6 +33,9 @@ export interface Product {
   featured?: boolean;
   /** Comma-separated SEO keywords (from the CMS), used in <meta keywords>. */
   seoKeywords?: string;
+  /** Set when this `pump` entry is really a guide or case study (WP category);
+   *  it then lives under /news and its /products URL redirects there. */
+  kind?: "guide" | "case";
 }
 
 // Content for a single front-end page, sourced from the `site_page` CPT.
@@ -58,6 +61,11 @@ export interface NewsPost {
   author: string;
   category: string;
   readingTime: number; // minutes
+  /** Section filter on the News & Guides page. */
+  group?: "news" | "guide" | "case";
+  /** Pump series a guide belongs to (guides that come from `pump` entries). */
+  seriesSlug?: string;
+  seriesName?: string;
 }
 
 // A downloadable technical document (Support page), from the `document` CPT.

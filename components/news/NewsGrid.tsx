@@ -9,7 +9,10 @@ import { Reveal } from "@/components/ui/Reveal";
 import { useTranslation } from "@/lib/i18n/I18nProvider";
 import { paginationRange } from "@/lib/pagination";
 
-const PER_PAGE = 6;
+const PER_PAGE = 9;
+
+type Group = "all" | "news" | "guide" | "case";
+const GROUPS: Group[] = ["all", "news", "guide", "case"];
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("en-US", {
@@ -28,18 +31,34 @@ export function NewsGrid({
   /** Locale URL prefix, e.g. "/es". Empty for the English (root) routes. */
   hrefBase?: string;
   /** Pre-translated labels for localized routes. Falls back to t(). */
-  labels?: { readMore: string; previous: string; next: string };
+  labels?: {
+    readMore: string;
+    previous: string;
+    next: string;
+    all: string;
+    company: string;
+    guides: string;
+    cases: string;
+  };
 }) {
   const { t } = useTranslation();
   const L = labels ?? {
     readMore: t("cta.readMore"),
     previous: t("common.previous"),
     next: t("common.next"),
+    all: t("newsFilter.all"),
+    company: t("newsFilter.company"),
+    guides: t("newsFilter.guides"),
+    cases: t("newsFilter.cases"),
   };
+  const groupLabel: Record<Group, string> = { all: L.all, news: L.company, guide: L.guides, case: L.cases };
   const [page, setPage] = useState(1);
-  const totalPages = Math.max(1, Math.ceil(posts.length / PER_PAGE));
-  const start = (page - 1) * PER_PAGE;
-  const visible = posts.slice(start, start + PER_PAGE);
+  const [group, setGroup] = useState<Group>("all");
+  const inGroup = (p: NewsPost, g: Group) => g === "all" || (p.group ?? "news") === g;
+  const filtered = posts.filter((p) => inGroup(p, group));
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
+  const start = (Math.min(page, totalPages) - 1) * PER_PAGE;
+  const visible = filtered.slice(start, start + PER_PAGE);
 
   // The page number lives in the URL (?page=) so "back" from an article
   // returns to the page you were on instead of page 1. Read from
@@ -47,27 +66,65 @@ export function NewsGrid({
   // page 1's cards without needing a Suspense fallback.
   useEffect(() => {
     function syncFromUrl() {
-      const n = parseInt(new URLSearchParams(window.location.search).get("page") ?? "1", 10) || 1;
-      setPage(Math.min(Math.max(1, n), totalPages));
+      const q = new URLSearchParams(window.location.search);
+      const cat = q.get("cat") as Group | null;
+      setGroup(cat && GROUPS.includes(cat) ? cat : "all");
+      setPage(Math.max(1, parseInt(q.get("page") ?? "1", 10) || 1));
     }
     syncFromUrl();
     window.addEventListener("popstate", syncFromUrl);
     return () => window.removeEventListener("popstate", syncFromUrl);
-  }, [totalPages]);
+  }, []);
+
+  function writeUrl(g: Group, n: number) {
+    const url = new URL(window.location.href);
+    if (g !== "all") url.searchParams.set("cat", g);
+    else url.searchParams.delete("cat");
+    if (n > 1) url.searchParams.set("page", String(n));
+    else url.searchParams.delete("page");
+    window.history.replaceState(window.history.state, "", url.pathname + url.search + url.hash);
+  }
+
+  function choose(g: Group) {
+    setGroup(g);
+    setPage(1);
+    writeUrl(g, 1);
+  }
 
   function go(next: number) {
     setPage(next);
     // replaceState: paging shouldn't add history entries, but the URL must hold
-    // the page so returning from an article lands back here.
-    const url = new URL(window.location.href);
-    if (next > 1) url.searchParams.set("page", String(next));
-    else url.searchParams.delete("page");
-    window.history.replaceState(window.history.state, "", url.pathname + url.search + url.hash);
+    // the page (and filter) so returning from an article lands back here.
+    writeUrl(group, next);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   return (
     <div>
+      <div role="tablist" aria-label="Filter" className="mb-10 flex flex-wrap justify-center gap-2">
+        {GROUPS.map((g) => {
+          const count = posts.filter((p) => inGroup(p, g)).length;
+          if (g !== "all" && count === 0) return null;
+          const on = g === group;
+          return (
+            <button
+              key={g}
+              type="button"
+              role="tab"
+              aria-selected={on}
+              onClick={() => choose(g)}
+              className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
+                on
+                  ? "border-accent bg-accent/10 text-accent-600"
+                  : "border-slate-200 text-slate-600 hover:border-slate-300 hover:text-slate-900"
+              }`}
+            >
+              {groupLabel[g]}
+              <span className="text-xs text-slate-400">{count}</span>
+            </button>
+          );
+        })}
+      </div>
       <div className="grid gap-7 md:grid-cols-2 lg:grid-cols-3">
         {visible.map((post, i) => (
           <Reveal as="div" key={post.slug} index={i % 3} className="h-full">
@@ -78,7 +135,7 @@ export function NewsGrid({
                   alt={post.title}
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  className={`${post.seriesSlug ? "bg-white object-contain" : "object-cover"} transition-transform duration-700 group-hover:scale-105`}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent" />
                 <span className="absolute left-4 top-4 rounded-full border border-slate-300 bg-white/70 px-3 py-1 text-xs font-medium text-accent-600 backdrop-blur">
