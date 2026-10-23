@@ -40,10 +40,10 @@ const EN = {
   getQuote: "Get a Quote",
   exploreProducts: "Explore Products",
   viewProducts: "View All Products",
-  statExperience: "Years of Expertise",
-  statCountries: "Countries Served",
-  statModels: "Pump Models",
-  statDelivered: "Units Delivered",
+  statSince: "Making Pumps Since",
+  statWarranty: "Months Warranty",
+  statReply: "Hours to Reply",
+  statSpares: "Working Days to Ship Spares",
   whyEyebrow: "Why Haquan",
   advantagesTitle: "Why Global Buyers Choose Haquan",
   advantagesSubtitle:
@@ -95,7 +95,8 @@ export default async function LocalizedHome({ params }: { params: Params }) {
     Promise.all(preview.map((p) => translateProductCard(toCard(p), locale))),
   ]);
   const T = Object.fromEntries(enKeys.map((k, i) => [k, staticValues[i]])) as typeof EN;
-  const statLabels = [T.statExperience, T.statCountries, T.statModels, T.statDelivered];
+  // Same order as `stats` in lib/data/content.ts.
+  const statLabels = [T.statSince, T.statWarranty, T.statReply, T.statSpares];
   const labels = cardLabels(locale);
   const marquee = [...industryT, ...industryT];
 

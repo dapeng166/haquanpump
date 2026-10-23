@@ -23,9 +23,10 @@ export const advantages = [
 ];
 
 export const stats = [
-  { value: "10+", labelKey: "stats.experience" },
-  { value: "300+", labelKey: "stats.models" },
-  { value: "10k+", labelKey: "stats.delivered" },
+  { value: "2014", labelKey: "stats.since" },
+  { value: "12", labelKey: "stats.warranty" },
+  { value: "24", labelKey: "stats.reply" },
+  { value: "2", labelKey: "stats.spares" },
 ];
 
 export const milestones = [

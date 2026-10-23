@@ -35,11 +35,13 @@ const en = {
     subtitle:
       "Shanghai Haquan Pump Valve Manufacturing Co., Ltd. is a professional sewage pump manufacturer and a supplier of genuine, original Wilden AODD diaphragm pumps and spare parts — supplying submersible, cutter and self-priming sewage pumps, and genuine Wilden pumps for chemical, food & beverage, pharmaceutical, mining and industrial fluid transfer worldwide.",
   },
+  // Owner-confirmed figures only (2026-10-23); the old "300+ models" and
+  // "10k+ units" were never confirmed.
   stats: {
-    experience: "Years of Expertise",
-    countries: "Countries Served",
-    models: "Pump Models",
-    delivered: "Units Delivered",
+    since: "Making Pumps Since",
+    warranty: "Months Warranty",
+    reply: "Hours to Reply",
+    spares: "Working Days to Ship Spares",
   },
   sections: {
     advantagesTitle: "Why Global Buyers Choose Haquan",
@@ -116,7 +118,7 @@ const zh: DeepPartial<Dictionary> = {
     subtitle:
       "上海哈泉泵阀制造有限公司是专业的排污泵生产制造厂家，为排污水、食品饮料、农田灌溉、生物制药、市政化粪池处理及石油化工等基础行业提供高性能水泵，产品远销 60 多个国家和地区。",
   },
-  stats: { experience: "年专业经验", countries: "服务国家", models: "泵型号", delivered: "交付台数" },
+  stats: { since: "年起专注制泵", warranty: "个月质保", reply: "小时内回复", spares: "个工作日配件发货" },
   sections: {
     advantagesTitle: "全球客户为何选择哈泉",
     advantagesSubtitle: "十年如一的工程标准、自有制造能力与丰富的出口经验，铸就每一台水泵。",
@@ -163,7 +165,7 @@ const es: DeepPartial<Dictionary> = {
     subtitle:
       "Shanghai Haquan Pump Valve Manufacturing Co., Ltd. es un fabricante profesional de bombas de aguas residuales, con bombas de alto rendimiento para el tratamiento de aguas residuales, alimentación y bebidas, riego agrícola, biofarmacia, tratamiento de fosas sépticas municipales y petroquímica — entregadas en más de 60 países.",
   },
-  stats: { experience: "Años de Experiencia", countries: "Países Atendidos", models: "Modelos de Bombas", delivered: "Unidades Entregadas" },
+  stats: { since: "Fabricando Bombas Desde", warranty: "Meses de Garantía", reply: "Horas para Responder", spares: "Días Hábiles para Enviar Repuestos" },
   sections: {
     advantagesTitle: "Por Qué los Compradores Globales Eligen Haquan",
     advantagesSubtitle: "Una década de disciplina de ingeniería, fabricación propia y experiencia exportadora detrás de cada bomba.",
@@ -210,7 +212,7 @@ const de: DeepPartial<Dictionary> = {
     subtitle:
       "Shanghai Haquan Pump Valve Manufacturing Co., Ltd. ist ein professioneller Hersteller von Abwasserpumpen und fertigt Hochleistungspumpen für Abwasserförderung, Lebensmittel- und Getränkeindustrie, Feldbewässerung, Biopharmazie, kommunale Klärgrubenbehandlung und Petrochemie — geliefert in über 60 Länder.",
   },
-  stats: { experience: "Jahre Erfahrung", countries: "Belieferte Länder", models: "Pumpenmodelle", delivered: "Gelieferte Einheiten" },
+  stats: { since: "Pumpenbau Seit", warranty: "Monate Garantie", reply: "Stunden bis zur Antwort", spares: "Werktage bis zum Ersatzteilversand" },
   sections: {
     advantagesTitle: "Warum Globale Einkäufer Haquan Wählen",
     advantagesSubtitle: "Ein Jahrzehnt technischer Disziplin, eigene Fertigung und Exporterfahrung in jeder Pumpe.",
@@ -257,7 +259,7 @@ const ru: DeepPartial<Dictionary> = {
     subtitle:
       "Shanghai Haquan Pump Valve Manufacturing Co., Ltd. — профессиональный производитель канализационных насосов, выпускающий высокопроизводительные насосы для отвода сточных вод, пищевой промышленности, орошения полей, биофармацевтики, обработки муниципальных септиков и нефтехимии — с поставками более чем в 60 стран.",
   },
-  stats: { experience: "Лет Опыта", countries: "Стран Поставок", models: "Моделей Насосов", delivered: "Поставлено Единиц" },
+  stats: { since: "Производим Насосы С", warranty: "Месяцев Гарантии", reply: "Часов на Ответ", spares: "Рабочих Дня на Отправку Запчастей" },
   sections: {
     advantagesTitle: "Почему Покупатели по Всему Миру Выбирают Haquan",
     advantagesSubtitle: "Десятилетие инженерной дисциплины, собственное производство и опыт экспорта в каждом насосе.",
@@ -304,7 +306,7 @@ const ar: DeepPartial<Dictionary> = {
     subtitle:
       "شركة شنغهاي هاكوان لتصنيع المضخات والصمامات المحدودة مُصنّع محترف لمضخات الصرف الصحي، تصمم مضخات عالية الأداء لتصريف مياه الصرف والأغذية والمشروبات والري الزراعي والصناعات الحيوية الدوائية ومعالجة خزانات الصرف البلدية والبتروكيماويات — وتُصدّر إلى أكثر من 60 دولة.",
   },
-  stats: { experience: "سنوات الخبرة", countries: "الدول المخدومة", models: "موديلات المضخات", delivered: "وحدة تم تسليمها" },
+  stats: { since: "نصنع المضخات منذ", warranty: "شهراً ضمان", reply: "ساعة للرد", spares: "يوما عمل لشحن قطع الغيار" },
   sections: {
     advantagesTitle: "لماذا يختار المشترون حول العالم هاكوان",
     advantagesSubtitle: "عقد من الانضباط الهندسي والتصنيع الذاتي وخبرة التصدير وراء كل مضخة.",
