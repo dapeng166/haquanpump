@@ -33,6 +33,8 @@ export function newsLabels(locale: Locale): {
   company: string;
   guides: string;
   cases: string;
+  allSeries: string;
+  general: string;
 } {
   const d = dictionaries[locale];
   const f = { ...enDictionary.newsFilter, ...d?.newsFilter };
@@ -44,5 +46,7 @@ export function newsLabels(locale: Locale): {
     company: f.company,
     guides: f.guides,
     cases: f.cases,
+    allSeries: f.allSeries,
+    general: f.general,
   };
 }

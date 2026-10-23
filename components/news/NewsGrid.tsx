@@ -8,6 +8,7 @@ import type { NewsPost } from "@/lib/types";
 import { Reveal } from "@/components/ui/Reveal";
 import { useTranslation } from "@/lib/i18n/I18nProvider";
 import { paginationRange } from "@/lib/pagination";
+import { SERIES_SHORT, GENERAL_SERIES } from "@/lib/newsSeries";
 
 const PER_PAGE = 9;
 
@@ -26,8 +27,11 @@ export function NewsGrid({
   posts,
   hrefBase = "",
   labels,
+  seriesLabels,
 }: {
   posts: NewsPost[];
+  /** Translated short series names (localized routes); defaults to SERIES_SHORT. */
+  seriesLabels?: Record<string, string>;
   /** Locale URL prefix, e.g. "/es". Empty for the English (root) routes. */
   hrefBase?: string;
   /** Pre-translated labels for localized routes. Falls back to t(). */
@@ -39,6 +43,8 @@ export function NewsGrid({
     company: string;
     guides: string;
     cases: string;
+    allSeries: string;
+    general: string;
   };
 }) {
   const { t } = useTranslation();
@@ -50,12 +56,31 @@ export function NewsGrid({
     company: t("newsFilter.company"),
     guides: t("newsFilter.guides"),
     cases: t("newsFilter.cases"),
+    allSeries: t("newsFilter.allSeries"),
+    general: t("newsFilter.general"),
   };
+  const seriesOf = (p: NewsPost) => p.seriesSlug ?? GENERAL_SERIES;
+  const seriesName = (slug: string) =>
+    slug === GENERAL_SERIES
+      ? L.general
+      : (seriesLabels?.[slug] ?? SERIES_SHORT[slug] ?? posts.find((p) => p.seriesSlug === slug)?.seriesName ?? slug);
   const groupLabel: Record<Group, string> = { all: L.all, news: L.company, guide: L.guides, case: L.cases };
   const [page, setPage] = useState(1);
   const [group, setGroup] = useState<Group>("all");
+  // Second-level filter, only under Technical Guides: one chip per pump series.
+  const [series, setSeries] = useState("all");
   const inGroup = (p: NewsPost, g: Group) => g === "all" || (p.group ?? "news") === g;
-  const filtered = posts.filter((p) => inGroup(p, group));
+  const guides = posts.filter((p) => inGroup(p, "guide"));
+  const seriesCounts = new Map<string, number>();
+  for (const p of guides) seriesCounts.set(seriesOf(p), (seriesCounts.get(seriesOf(p)) ?? 0) + 1);
+  // Biggest series first, the catch-all "General" chip last.
+  const seriesList = [...seriesCounts.entries()]
+    .sort((a, b) => (a[0] === GENERAL_SERIES ? 1 : b[0] === GENERAL_SERIES ? -1 : b[1] - a[1]))
+    .map(([slug, count]) => ({ slug, count }));
+  const activeSeries = group === "guide" && seriesCounts.has(series) ? series : "all";
+  const filtered = posts.filter(
+    (p) => inGroup(p, group) && (activeSeries === "all" || seriesOf(p) === activeSeries),
+  );
   const totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
   const start = (Math.min(page, totalPages) - 1) * PER_PAGE;
   const visible = filtered.slice(start, start + PER_PAGE);
@@ -69,6 +94,7 @@ export function NewsGrid({
       const q = new URLSearchParams(window.location.search);
       const cat = q.get("cat") as Group | null;
       setGroup(cat && GROUPS.includes(cat) ? cat : "all");
+      setSeries(q.get("series") ?? "all");
       setPage(Math.max(1, parseInt(q.get("page") ?? "1", 10) || 1));
     }
     syncFromUrl();
@@ -76,10 +102,12 @@ export function NewsGrid({
     return () => window.removeEventListener("popstate", syncFromUrl);
   }, []);
 
-  function writeUrl(g: Group, n: number) {
+  function writeUrl(g: Group, n: number, sr = "all") {
     const url = new URL(window.location.href);
     if (g !== "all") url.searchParams.set("cat", g);
     else url.searchParams.delete("cat");
+    if (g === "guide" && sr !== "all") url.searchParams.set("series", sr);
+    else url.searchParams.delete("series");
     if (n > 1) url.searchParams.set("page", String(n));
     else url.searchParams.delete("page");
     window.history.replaceState(window.history.state, "", url.pathname + url.search + url.hash);
@@ -87,21 +115,28 @@ export function NewsGrid({
 
   function choose(g: Group) {
     setGroup(g);
+    setSeries("all");
     setPage(1);
     writeUrl(g, 1);
+  }
+
+  function chooseSeries(sr: string) {
+    setSeries(sr);
+    setPage(1);
+    writeUrl("guide", 1, sr);
   }
 
   function go(next: number) {
     setPage(next);
     // replaceState: paging shouldn't add history entries, but the URL must hold
     // the page (and filter) so returning from an article lands back here.
-    writeUrl(group, next);
+    writeUrl(group, next, activeSeries);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   return (
     <div>
-      <div role="tablist" aria-label="Filter" className="mb-10 flex flex-wrap justify-center gap-2">
+      <div role="tablist" aria-label="Filter" className="flex flex-wrap justify-center gap-3">
         {GROUPS.map((g) => {
           const count = posts.filter((p) => inGroup(p, g)).length;
           if (g !== "all" && count === 0) return null;
@@ -113,18 +148,44 @@ export function NewsGrid({
               role="tab"
               aria-selected={on}
               onClick={() => choose(g)}
-              className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
+              // Hover scales the whole chip (transform), so neighbours never shift.
+              className={`inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-base transition duration-200 ease-out hover:-translate-y-0.5 hover:scale-105 hover:border-accent/60 hover:bg-accent/5 hover:text-accent-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 motion-reduce:transition-none motion-reduce:hover:transform-none ${
                 on
-                  ? "border-accent bg-accent/10 text-accent-600"
-                  : "border-slate-200 text-slate-600 hover:border-slate-300 hover:text-slate-900"
+                  ? "border-accent bg-accent/10 font-semibold text-accent-600"
+                  : "border-slate-200 font-medium text-slate-700"
               }`}
             >
               {groupLabel[g]}
-              <span className="text-xs text-slate-400">{count}</span>
+              <span className="text-sm font-normal text-slate-400">{count}</span>
             </button>
           );
         })}
       </div>
+      {group === "guide" && seriesList.length > 1 && (
+        <div role="tablist" aria-label="Pump series" className="mt-5 flex flex-wrap justify-center gap-2">
+          {[{ slug: "all", count: guides.length }, ...seriesList].map(({ slug, count }) => {
+            const on = slug === activeSeries;
+            return (
+              <button
+                key={slug}
+                type="button"
+                role="tab"
+                aria-selected={on}
+                onClick={() => chooseSeries(slug)}
+                className={`inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-sm transition duration-200 ease-out hover:scale-105 hover:border-accent/60 hover:text-accent-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 motion-reduce:transition-none motion-reduce:hover:transform-none ${
+                  on
+                    ? "border-accent bg-accent/10 font-semibold text-accent-600"
+                    : "border-slate-200 bg-white font-medium text-slate-600"
+                }`}
+              >
+                {slug === "all" ? L.allSeries : seriesName(slug)}
+                <span className="text-xs font-normal text-slate-400">{count}</span>
+              </button>
+            );
+          })}
+        </div>
+      )}
+      <div className="mb-10" />
       <div className="grid gap-7 md:grid-cols-2 lg:grid-cols-3">
         {visible.map((post, i) => (
           <Reveal as="div" key={post.slug} index={i % 3} className="h-full">

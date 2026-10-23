@@ -10,6 +10,8 @@ import { localeAlternates } from "@/lib/i18n/alternates";
 import { translateNewsCard } from "@/lib/i18n/translateNews";
 import { translate } from "@/lib/i18n/translate";
 import { newsLabels } from "@/lib/i18n/uiLabels";
+import { translateMany } from "@/lib/i18n/translate";
+import { SERIES_SHORT } from "@/lib/newsSeries";
 
 type Params = Promise<{ locale: string }>;
 
@@ -56,12 +58,15 @@ export default async function LocalizedNewsPage({
 
   // Cards only need the summary fields; leave the article bodies out.
   const posts = (await getNews()).map((p) => ({ ...p, content: "" }));
-  const [title, intro, eyebrow, translated] = await Promise.all([
+  const seriesKeys = Object.keys(SERIES_SHORT);
+  const [title, intro, eyebrow, translated, seriesNames] = await Promise.all([
     translate(EN_TITLE, locale),
     translate(EN_INTRO, locale),
     translate(EN_EYEBROW, locale),
     Promise.all(posts.map((p) => translateNewsCard(p, locale))),
+    translateMany(seriesKeys.map((k) => SERIES_SHORT[k]), locale),
   ]);
+  const seriesLabels = Object.fromEntries(seriesKeys.map((k, i) => [k, seriesNames[i]]));
 
   return (
     <div dir={dirForLocale(locale)} lang={locale}>
@@ -78,6 +83,7 @@ export default async function LocalizedNewsPage({
             posts={translated}
             hrefBase={`/${locale}`}
             labels={newsLabels(locale)}
+            seriesLabels={seriesLabels}
           />
         </Container>
       </Section>
