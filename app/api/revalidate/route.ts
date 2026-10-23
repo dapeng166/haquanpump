@@ -24,6 +24,17 @@ function revalidateAllLocales(path: string) {
   }
 }
 
+// WordPress sends slugs percent-encoded (e.g. "m%c2%b3" for "m³"), which may not
+// match the path Next cached, so refresh the decoded and re-encoded forms too.
+function pathVariants(path: string) {
+  let decoded = path;
+  try {
+    decoded = decodeURIComponent(path);
+  } catch {}
+  const encoded = encodeURI(decoded);
+  return [...new Set([path, decoded, encoded, encoded.toLowerCase()])];
+}
+
 async function handle(req: NextRequest) {
   const provided =
     req.nextUrl.searchParams.get("secret") ??
@@ -58,7 +69,7 @@ async function handle(req: NextRequest) {
   // rather than after its daily refresh.
   revalidatePath("/api/search");
 
-  if (extra && extra.startsWith("/")) revalidateAllLocales(extra);
+  if (extra && extra.startsWith("/")) for (const p of pathVariants(extra)) revalidateAllLocales(p);
 
   return NextResponse.json({
     revalidated: true,
