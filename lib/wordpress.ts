@@ -421,8 +421,14 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
     throw new Error(`CMS unavailable while resolving product "${slug}"`);
   }
   if (raw.length > 0) {
-    const kind = guideGroup(raw[0]._embedded);
-    return kind ? { ...mapPump(raw[0], 0), kind } : mapPump(raw[0], 0);
+    // The per-slug response may predate the guide tag (see getNewsBySlug), so
+    // also check the News & Guides list before treating it as a product.
+    const kind =
+      guideGroup(raw[0]._embedded) ??
+      (await getNews().catch(() => [] as NewsPost[])).find((n) => n.slug === slug && n.group !== "news")?.group ??
+      null;
+    const product = mapPump(raw[0], 0);
+    return kind && kind !== "news" ? { ...product, kind } : product;
   }
   // Genuine 200-empty: the CMS is reachable and has no such product, so it truly
   // doesn't exist → 404. (Do NOT fall back to seedProducts here: that resurrects
@@ -533,7 +539,12 @@ export async function getNewsBySlug(slug: string): Promise<NewsPost | null> {
     const post = raw[0];
     return { ...mapPost(post, 0), excerpt: stripHtml(post.excerpt?.rendered), image: featuredImage(post._embedded) };
   }
-  // Not a news post: it may be a guide/case-study `pump` entry (see getNews).
+  // Not a news post: it may be a guide/case-study `pump` entry. Look it up in
+  // the News & Guides list first: the per-slug pump request below can be served
+  // from a cache made before the entry was tagged as a guide, which made 123
+  // guide pages 404 right after the split (2026-10-23).
+  const listed = (await getNews()).find((n) => n.slug === slug && n.group !== "news");
+  if (listed) return listed;
   let pumps: WPPump[];
   try {
     pumps = await wpFetchStrict<WPPump[]>(`/wp/v2/pump?slug=${encodeURIComponent(slug)}&_embed`);
