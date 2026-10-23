@@ -2,8 +2,8 @@
 // series-level figures published on the product pages; the selector only uses
 // them to shortlist series — the exact model is confirmed by our engineers.
 
-export type Liquid = "drainage" | "sewage" | "fibrous" | "chemical";
-export type Install = "submersible" | "dry" | "vertical" | "mobile";
+export type Liquid = "clean" | "drainage" | "sewage" | "fibrous" | "chemical";
+export type Install = "submersible" | "dry" | "vertical" | "mobile" | "well" | "inline";
 export type Material = "ci" | "ss304" | "ss316";
 export type Drive = "electric" | "air" | "diesel";
 
@@ -157,10 +157,47 @@ export const SERIES: SeriesSpec[] = [
       "For flood control, emergency drainage and temporary works",
     ],
   },
+  // Clean-water lines (added 2026-10-23). Ranges from the published series
+  // pages: QJ 2–50 m³/h up to 450 m; ISG up to 1200 m³/h / 128 m, CDL up to
+  // 150 m³/h / 250 m. Offered only for clean water (deep well also drainage,
+  // e.g. construction dewatering) so they never appear for sewage duties.
+  {
+    slug: "deep-well-pump",
+    name: "QJ Deep Well Submersible Pump",
+    flow: [2, 50],
+    head: [6, 450],
+    install: "well",
+    drive: "electric",
+    liquids: ["clean", "drainage"],
+    best: ["clean"],
+    materials: ["ci", "ss304", "ss316"],
+    points: [
+      "Pump and motor go down the well together: no suction lift, no priming",
+      "For 4-inch and larger wells and boreholes, up to 450 m head",
+      "Cast iron or stainless steel; 316 for salty or corrosive water",
+    ],
+  },
+  {
+    slug: "pipeline-centrifugal-pump",
+    name: "Pipeline Centrifugal Pump (ISG / CDL Multistage)",
+    flow: [2, 1200],
+    head: [5, 250],
+    install: "inline",
+    drive: "electric",
+    liquids: ["clean"],
+    best: ["clean"],
+    materials: ["ci", "ss304"],
+    points: [
+      "Installed in the pipeline for water supply, boosting and circulation",
+      "ISG in cast iron, IRG for hot water, IHG and CDL in stainless steel",
+      "CDL multistage for high head at low flow, up to 250 m",
+    ],
+  },
 ];
 
 export const LIQUID_LABELS: Record<Liquid, string> = {
-  drainage: "Clean or drainage water",
+  clean: "Clean water (supply, boosting, wells)",
+  drainage: "Drainage, rain or surface water",
   sewage: "Sewage / wastewater with solids",
   fibrous: "Sewage with rags, fibres or hair",
   chemical: "Viscous, slurry or chemical liquid",
@@ -172,6 +209,8 @@ export const INSTALL_LABELS: Record<Install | "any", string> = {
   vertical: "Vertical, motor above the pit",
   dry: "Dry, beside or above the liquid",
   mobile: "Mobile / emergency",
+  well: "In a well or borehole",
+  inline: "In a pipeline (booster / circulation)",
 };
 
 export const MATERIAL_LABELS: Record<Material | "any", string> = {

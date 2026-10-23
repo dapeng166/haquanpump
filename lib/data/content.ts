@@ -6,7 +6,7 @@ export const advantages = [
     icon: "Factory",
     title: "In-House Manufacturing",
     description:
-      "Casting, machining, winding and assembly under one roof in Shanghai — full control over quality and lead time, with every pump hydraulically tested before dispatch.",
+      "Machining, assembly and test running in our own factory in Shanghai, building pumps to Chinese national (GB) standards since 2014.",
   },
   {
     icon: "Gauge",
@@ -18,7 +18,7 @@ export const advantages = [
     icon: "Globe2",
     title: "Export-Ready Worldwide",
     description:
-      "Complete export documentation, seaworthy packing and multilingual support — trusted by industrial and municipal buyers worldwide.",
+      "Haquan pumps are in service in Dubai, Vietnam, Thailand, Cyprus, Chile, Brazil, Portugal and more, backed by a 12-month warranty and a reply within 24 hours.",
   },
 ];
 
