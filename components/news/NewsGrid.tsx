@@ -196,7 +196,10 @@ export function NewsGrid({
                   alt={post.title}
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
-                  className={`${post.seriesSlug ? "bg-white object-contain" : "object-cover"} transition-transform duration-700 group-hover:scale-105`}
+                  // Every card fills its frame (owner, 2026-10-23): guides from the
+                  // catalogue carry square product photos, and showing them whole
+                  // made them look shrunk next to the 1800×1000 news images.
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent" />
                 <span className="absolute left-4 top-4 rounded-full border border-slate-300 bg-white/70 px-3 py-1 text-xs font-medium text-accent-600 backdrop-blur">
