@@ -29,14 +29,6 @@ export const stats = [
   { value: "2", labelKey: "stats.spares" },
 ];
 
-export const milestones = [
-  { year: "2014", text: "Shanghai Haquan Pump Valve Manufacturing Co., Ltd. founded in Fengxian District, Shanghai." },
-  { year: "2017", text: "Expanded into stainless-steel submersible and AODD product lines for corrosive duty." },
-  { year: "2020", text: "Expanded in-house hydraulic testing and launched a dedicated export support division." },
-  { year: "2023", text: "Grew exports across Asia, the Middle East and beyond; opened multilingual export support desk." },
-  { year: "2026", text: "Catalogue of 300+ pump models, exported worldwide." },
-];
-
 export const faqs = [
   {
     q: "What information do you need to recommend a pump?",

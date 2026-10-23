@@ -3,13 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Target, Eye, ShieldCheck, Wrench, Globe2, BadgeCheck } from "lucide-react";
 import { company } from "@/lib/site";
-import { milestones } from "@/lib/data/content";
 import { img } from "@/lib/images";
 import { getSitePage, acfStr } from "@/lib/wordpress";
 import { PageHero } from "@/components/ui/PageHero";
 import { Container, Section, SectionHeading } from "@/components/ui/Primitives";
 import { Reveal } from "@/components/ui/Reveal";
 import { localeAlternates } from "@/lib/i18n/alternates";
+import { WorldwideSection } from "@/components/about/WorldwideSection";
 
 export const metadata: Metadata = {
   // Distinct About-page title (absolute = no "| Haquan Pump" suffix).
@@ -172,21 +172,7 @@ export default async function AboutPage() {
         </Container>
       </Section>
 
-      {/* Timeline */}
-      <Section className="bg-slate-50">
-        <Container>
-          <SectionHeading eyebrow="Our Journey" title="Milestones" />
-          <ol className="relative mx-auto max-w-3xl border-l border-slate-200 pl-8">
-            {milestones.map((m, i) => (
-              <Reveal as="li" key={m.year} index={i} className="mb-10 last:mb-0">
-                <span className="absolute -left-[9px] mt-1.5 h-4 w-4 rounded-full border-2 border-accent bg-white" />
-                <div className="font-display text-xl font-bold text-accent-600">{m.year}</div>
-                <p className="mt-1 leading-relaxed text-slate-600">{m.text}</p>
-              </Reveal>
-            ))}
-          </ol>
-        </Container>
-      </Section>
+      <WorldwideSection />
 
       {/* CTA */}
       <Section>

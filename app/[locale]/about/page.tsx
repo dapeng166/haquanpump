@@ -4,7 +4,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight, Target, Eye, ShieldCheck, Wrench, Globe2, BadgeCheck } from "lucide-react";
 import { company } from "@/lib/site";
-import { milestones } from "@/lib/data/content";
 import { img } from "@/lib/images";
 import { getSitePage, acfStr } from "@/lib/wordpress";
 import { PageHero } from "@/components/ui/PageHero";
@@ -12,6 +11,7 @@ import { Container, Section, SectionHeading } from "@/components/ui/Primitives";
 import { Reveal } from "@/components/ui/Reveal";
 import { isIndexableLocale, dirForLocale } from "@/lib/i18n/config";
 import { localeAlternates } from "@/lib/i18n/alternates";
+import { WorldwideSection, EN_WORLDWIDE, type WorldwideLabels } from "@/components/about/WorldwideSection";
 import { translate, translateMany } from "@/lib/i18n/translate";
 
 type Params = Promise<{ locale: string }>;
@@ -47,8 +47,6 @@ const EN = {
     "To be the partner of choice for industrial buyers worldwide who value technical precision over the lowest price — recognised for hydraulics that last and service that earns repeat orders.",
   apartEyebrow: "What Sets Us Apart",
   apartTitle: "Why Buyers Standardise on Haquan",
-  journeyEyebrow: "Our Journey",
-  journeyTitle: "Milestones",
   ctaTitle: "Let's engineer the right pump for your process.",
   ctaText: "Share your duty point — we'll respond with a recommendation within 24 hours.",
   getQuote: "Get a Quote",
@@ -97,18 +95,39 @@ export default async function LocalizedAboutPage({
     labelValues,
     storyParas,
     diffValues,
-    milestoneText,
+    worldValues,
     mission,
     intro,
   ] = await Promise.all([
     translateMany(keys.map((k) => EN[k]), locale),
     translateMany(storySource, locale),
     translateMany(DIFFERENTIATORS.flatMap((d) => [d.title, d.text]), locale),
-    translateMany(milestones.map((m) => m.text), locale),
+    translateMany(
+      [
+        EN_WORLDWIDE.eyebrow, EN_WORLDWIDE.title, EN_WORLDWIDE.subtitle, EN_WORLDWIDE.more, EN_WORLDWIDE.readCase,
+        ...EN_WORLDWIDE.countries,
+        ...EN_WORLDWIDE.cases.flatMap((c) => [c.place, c.text]),
+      ],
+      locale,
+    ),
     translate(missionSource, locale),
     translate(page?.subtitle || EN.intro, locale),
   ]);
   const T = Object.fromEntries(keys.map((k, i) => [k, labelValues[i]])) as typeof EN;
+  const nC = EN_WORLDWIDE.countries.length;
+  const W: WorldwideLabels = {
+    eyebrow: worldValues[0],
+    title: worldValues[1],
+    subtitle: worldValues[2],
+    more: worldValues[3],
+    readCase: worldValues[4],
+    countries: worldValues.slice(5, 5 + nC),
+    cases: EN_WORLDWIDE.cases.map((c, i) => ({
+      ...c,
+      place: worldValues[5 + nC + i * 2],
+      text: worldValues[5 + nC + i * 2 + 1],
+    })),
+  };
   const diffs = DIFFERENTIATORS.map((d, i) => ({
     icon: d.icon,
     title: diffValues[i * 2],
@@ -200,20 +219,7 @@ export default async function LocalizedAboutPage({
         </Container>
       </Section>
 
-      <Section className="bg-slate-50">
-        <Container>
-          <SectionHeading eyebrow={T.journeyEyebrow} title={T.journeyTitle} />
-          <ol className="relative mx-auto max-w-3xl border-l border-slate-200 pl-8">
-            {milestones.map((m, i) => (
-              <Reveal as="li" key={m.year} index={i} className="mb-10 last:mb-0">
-                <span className="absolute -left-[9px] mt-1.5 h-4 w-4 rounded-full border-2 border-accent bg-white" />
-                <div className="font-display text-xl font-bold text-accent-600">{m.year}</div>
-                <p className="mt-1 leading-relaxed text-slate-600">{milestoneText[i]}</p>
-              </Reveal>
-            ))}
-          </ol>
-        </Container>
-      </Section>
+      <WorldwideSection T={W} hrefBase={`/${locale}`} />
 
       <Section>
         <Container>
