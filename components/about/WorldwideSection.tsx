@@ -28,8 +28,10 @@ export const EN_WORLDWIDE = {
       slug: "haquan-pump-valve-ships-custom-zw-self-priming-pumps-to-portugal",
     },
     {
-      place: "Cyprus and Brazil",
-      text: "Pumps built for 60 Hz and special voltages, from 440 V for a ship conversion to 380 V, 60 Hz.",
+      // Owner, 2026-10-23: both Cyprus jobs use Haquan GNWQ cutter pumps. The
+      // linked post covers the ship's 440 V, 60 Hz build.
+      place: "Cyprus",
+      text: "Haquan GNWQ cutter pumps discharge wastewater on a ship and at a farm.",
       slug: "60hz-special-voltage-sewage-pumps",
     },
   ],
