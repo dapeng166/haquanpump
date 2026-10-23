@@ -24,6 +24,10 @@ export function ProductCard({
 }) {
   const { t } = useTranslation();
   const href = `${hrefBase}/products/${product.slug}`;
+  // A row of three "—" tells the buyer nothing: hide it when no figure is set.
+  const hasSpecs = [product.specs.flowRate, product.specs.head, product.specs.power].some(
+    (v) => v && v.trim() !== "—",
+  );
   const L = labels ?? {
     flow: t("specs.flow"),
     head: t("specs.head"),
@@ -60,7 +64,7 @@ export function ProductCard({
         </p>
 
         {/* Key specs at a glance */}
-        {!hideSpecs && (
+        {!hideSpecs && hasSpecs && (
         <dl className="mt-4 grid grid-cols-3 gap-2 border-y border-slate-200 py-3 text-center">
           <SpecMini icon={<Droplets className="h-3.5 w-3.5" />} label={L.flow} value={`${product.specs.flowRate}`} unit="m³/h" />
           <SpecMini icon={<Gauge className="h-3.5 w-3.5" />} label={L.head} value={`${product.specs.head}`} unit="m" />
