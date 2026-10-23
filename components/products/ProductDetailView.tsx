@@ -185,11 +185,11 @@ export function ProductDetailView({
                   {labels.inquire}
                   <ArrowRight className="h-4 w-4 rtl-flip" aria-hidden />
                 </Link>
-                {/* Warranty and spares promises cover Haquan's own lines; for
-                    Wilden we only state what is true of the brand we resell. */}
+                {/* Same warranty and spares promise for Haquan's own lines and
+                    genuine Wilden (owner, 2026-10-23); Wilden also says genuine. */}
                 <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm text-slate-600">
                   {(product.seriesSlug === WILDEN_SERIES
-                    ? [labels.trustGenuine, labels.trustReply]
+                    ? [labels.trustGenuine, labels.trustWarranty, labels.trustSpares, labels.trustReply]
                     : [labels.trustWarranty, labels.trustSpares, labels.trustReply]
                   ).map((t) => (
                     <li key={t} className="inline-flex items-center gap-1.5">

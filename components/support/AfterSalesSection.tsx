@@ -11,9 +11,10 @@ export const EN_AFTER_SALES = {
   subtitle: "Plain commitments, so you know exactly what comes with a Haquan pump.",
   warrantyTitle: "12-Month Warranty",
   warrantyText:
-    "12 months from the shipping date, with lifetime maintenance support and wearing parts supplied at factory price.",
+    "12 months from the shipping date, for our own pumps and genuine Wilden pumps alike, with lifetime maintenance support and wearing parts supplied at factory price.",
   sparesTitle: "Spare Parts in Stock",
-  sparesText: "Common spare parts are kept in our warehouse and ship within 2 working days of your order.",
+  sparesText:
+    "Common spare parts are kept in our warehouse and ship within 2 working days of your order, genuine Wilden parts included.",
   docsTitle: "Test Reports on Request",
   docsText: "Need a test report or an installation diagram for your pump? Ask and we will provide it.",
   replyTitle: "Reply Within 24 Hours",
