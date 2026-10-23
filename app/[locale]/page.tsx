@@ -15,6 +15,7 @@ import { localeAlternates } from "@/lib/i18n/alternates";
 import { translateMany } from "@/lib/i18n/translate";
 import { translateProductCard } from "@/lib/i18n/translateProduct";
 import { cardLabels } from "@/lib/i18n/uiLabels";
+import { dictionaries } from "@/lib/i18n/dictionaries";
 import { toCard } from "@/lib/cardProduct";
 
 type Params = Promise<{ locale: string }>;
@@ -95,8 +96,16 @@ export default async function LocalizedHome({ params }: { params: Params }) {
     Promise.all(preview.map((p) => translateProductCard(toCard(p), locale))),
   ]);
   const T = Object.fromEntries(enKeys.map((k, i) => [k, staticValues[i]])) as typeof EN;
-  // Same order as `stats` in lib/data/content.ts.
-  const statLabels = [T.statSince, T.statWarranty, T.statReply, T.statSpares];
+  // Same order as `stats` in lib/data/content.ts. Hand-written labels from the
+  // dictionary when present (machine translation garbles these short phrases,
+  // e.g. "Making Pumps Since" → "since then"), else the machine translation.
+  const ds = dictionaries[locale]?.stats;
+  const statLabels = [
+    ds?.since ?? T.statSince,
+    ds?.warranty ?? T.statWarranty,
+    ds?.reply ?? T.statReply,
+    ds?.spares ?? T.statSpares,
+  ];
   const labels = cardLabels(locale);
   const marquee = [...industryT, ...industryT];
 

@@ -345,6 +345,7 @@ const fr: DeepPartial<Dictionary> = {
   cta: { viewDetails: "Voir les détails", getQuote: "Demander un devis", exploreProducts: "Voir les produits", contactUs: "Nous contacter", readMore: "Lire la suite" },
   specs: { flow: "Débit", head: "Hauteur", power: "Puissance", diameter: "Entrée / Sortie", material: "Matériau", specifications: "Spécifications" },
   common: { allSeries: "Toutes les séries", relatedProducts: "Produits associés", backToProducts: "Retour aux produits", industries: "Applications et secteurs", previous: "Précédent", next: "Suivant" },
+  stats: { since: "Fabricant de Pompes Depuis", warranty: "Mois de Garantie", reply: "Heures pour Répondre", spares: "Jours Ouvrés pour Expédier les Pièces" },
 };
 
 // --- Portuguese -----------------------------------------------------------
@@ -353,6 +354,7 @@ const pt: DeepPartial<Dictionary> = {
   cta: { viewDetails: "Ver detalhes", getQuote: "Solicitar orçamento", exploreProducts: "Ver produtos", contactUs: "Fale conosco", readMore: "Leia mais" },
   specs: { flow: "Vazão", head: "Altura", power: "Potência", diameter: "Entrada / Saída", material: "Material", specifications: "Especificações" },
   common: { allSeries: "Todas as séries", relatedProducts: "Produtos relacionados", backToProducts: "Voltar aos produtos", industries: "Aplicações e setores", previous: "Anterior", next: "Próximo" },
+  stats: { since: "Fabricando Bombas Desde", warranty: "Meses de Garantia", reply: "Horas para Responder", spares: "Dias Úteis para Enviar Peças" },
 };
 
 export const dictionaries: Record<Locale, DeepPartial<Dictionary>> = {
