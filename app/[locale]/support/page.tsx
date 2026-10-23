@@ -15,6 +15,7 @@ import { localeAlternates } from "@/lib/i18n/alternates";
 import { translate, translateMany } from "@/lib/i18n/translate";
 import { toolStrings } from "@/lib/tools/translateTools";
 import { SupportTools } from "@/components/support/SupportTools";
+import { AfterSalesSection, EN_AFTER_SALES, type AfterSalesLabels } from "@/components/support/AfterSalesSection";
 
 type Params = Promise<{ locale: string }>;
 
@@ -74,14 +75,17 @@ export default async function LocalizedSupportPage({
   const sourceFaqs = cmsFaqs.length > 0 ? cmsFaqs : faqs;
 
   const keys = Object.keys(EN) as (keyof typeof EN)[];
-  const [labelValues, faqFlat, docTitles, intro, tools] = await Promise.all([
+  const asKeys = Object.keys(EN_AFTER_SALES) as (keyof AfterSalesLabels)[];
+  const [labelValues, faqFlat, docTitles, intro, tools, asValues] = await Promise.all([
     translateMany(keys.map((k) => EN[k]), locale),
     translateMany(sourceFaqs.flatMap((f) => [f.q, f.a]), locale),
     documents.length ? translateMany(documents.map((d) => d.title), locale) : Promise.resolve([]),
     translate(page?.subtitle || EN.intro, locale),
     toolStrings(locale),
+    translateMany(asKeys.map((k) => EN_AFTER_SALES[k]), locale),
   ]);
   const T = Object.fromEntries(keys.map((k, i) => [k, labelValues[i]])) as typeof EN;
+  const AS = Object.fromEntries(asKeys.map((k, i) => [k, asValues[i]])) as AfterSalesLabels;
   const faqItems = sourceFaqs.map((_, i) => ({ q: faqFlat[i * 2], a: faqFlat[i * 2 + 1] }));
 
   const faqJsonLd = {
@@ -106,6 +110,8 @@ export default async function LocalizedSupportPage({
       />
 
       <SupportTools t={tools} hrefBase={`/${locale}`} title={tools.index.title} subtitle={tools.index.intro} />
+
+      <AfterSalesSection T={AS} />
 
       <Section className="bg-slate-50">
         <Container>

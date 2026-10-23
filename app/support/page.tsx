@@ -11,6 +11,7 @@ import { Container, Section, SectionHeading } from "@/components/ui/Primitives";
 import { Reveal } from "@/components/ui/Reveal";
 import { FaqAccordion } from "@/components/support/FaqAccordion";
 import { DocumentGrid } from "@/components/support/DocumentGrid";
+import { AfterSalesSection } from "@/components/support/AfterSalesSection";
 import { localeAlternates } from "@/lib/i18n/alternates";
 
 export const metadata: Metadata = {
@@ -61,6 +62,8 @@ export default async function TechnicalSupportPage() {
         title={TOOLS_EN.index.title}
         subtitle="Free tools to work out your head, convert units and shortlist the right sewage or WILDEN pump before you ask for a quote."
       />
+
+      <AfterSalesSection />
 
       {/* Downloads — from the WordPress "Documents" section (unlimited) */}
       <Section id="documents" className="scroll-mt-24 bg-slate-50">

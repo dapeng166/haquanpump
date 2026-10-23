@@ -37,6 +37,11 @@ export type ProductDetailLabels = {
   selectorLink: string;
   previous: string;
   next: string;
+  trustWarranty: string;
+  trustSpares: string;
+  trustReply: string;
+  trustGenuine: string;
+  trustMore: string;
 };
 
 /** English source strings; localized routes translate these before rendering. */
@@ -58,6 +63,12 @@ export const EN_PRODUCT_LABELS: ProductDetailLabels = {
   selectorLink: "Try the pump selector",
   previous: "Previous",
   next: "Next",
+  // Owner-confirmed commitments (2026-10-23); see AfterSalesSection.
+  trustWarranty: "12-month warranty",
+  trustSpares: "Spare parts ship in 2 working days",
+  trustReply: "Reply within 24 hours",
+  trustGenuine: "Genuine Wilden pumps",
+  trustMore: "Quality & after-sales",
 };
 
 /**
@@ -174,6 +185,24 @@ export function ProductDetailView({
                   {labels.inquire}
                   <ArrowRight className="h-4 w-4 rtl-flip" aria-hidden />
                 </Link>
+                {/* Warranty and spares promises cover Haquan's own lines; for
+                    Wilden we only state what is true of the brand we resell. */}
+                <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm text-slate-600">
+                  {(product.seriesSlug === WILDEN_SERIES
+                    ? [labels.trustGenuine, labels.trustReply]
+                    : [labels.trustWarranty, labels.trustSpares, labels.trustReply]
+                  ).map((t) => (
+                    <li key={t} className="inline-flex items-center gap-1.5">
+                      <CheckCircle2 className="h-4 w-4 shrink-0 text-accent-600" aria-hidden />
+                      {t}
+                    </li>
+                  ))}
+                  <li>
+                    <Link href={`${hrefBase}/support#after-sales`} className="font-medium text-accent-600 hover:text-accent-700">
+                      {labels.trustMore}
+                    </Link>
+                  </li>
+                </ul>
                 {product.seriesSlug !== WILDEN_SERIES ? (
                   <p className="mt-4 text-sm text-slate-500">
                     {labels.selectorHint}{" "}

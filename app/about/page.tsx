@@ -23,10 +23,10 @@ export const metadata: Metadata = {
 };
 
 const differentiators = [
-  { icon: Wrench, title: "Vertically Integrated", text: "Casting, machining, motor winding and assembly in-house — quality controlled end to end." },
-  { icon: ShieldCheck, title: "Tested Before Shipment", text: "Every pump is hydrostatically and performance tested before it leaves our factory." },
-  { icon: Globe2, title: "Export Expertise", text: "Complete export documentation, seaworthy packing and multilingual support for buyers worldwide." },
-  { icon: BadgeCheck, title: "Application-First", text: "We size to your duty point and medium rather than pushing a catalogue compromise." },
+  { icon: Wrench, title: "Built In-House", text: "Machining, assembly and test running in our own factory, to Chinese national (GB) standards." },
+  { icon: ShieldCheck, title: "12-Month Warranty", text: "12 months from the shipping date, lifetime maintenance support and wearing parts at factory price." },
+  { icon: Globe2, title: "Working Worldwide", text: "Making pumps since 2014, with Haquan pumps in service in Dubai, Vietnam, Thailand, Cyprus, Chile, Brazil, Portugal and more." },
+  { icon: BadgeCheck, title: "Application-First", text: "We size to your duty point and medium rather than pushing a catalogue compromise, and answer every inquiry within 24 hours." },
 ];
 
 export default async function AboutPage() {
