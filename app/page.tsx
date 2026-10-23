@@ -34,7 +34,7 @@ export default async function HomePage() {
     .filter((a) => a.title && a.description);
 
   // Editable testimonials (home site_page → "Testimonial 1–3"); shows whichever
-  // are filled in, else the curated quotes.
+  // are filled in, else nothing.
   const cmsTestimonials = [1, 2, 3]
     .map((n) => ({
       quote: acfStr(page, `testimonial_${n}_quote`),

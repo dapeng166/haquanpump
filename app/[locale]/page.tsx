@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowRight, Sparkles, Factory, Gauge, Globe2, Quote, PhoneCall, type LucideIcon } from "lucide-react";
+import { ArrowRight, Sparkles, Factory, Gauge, Globe2, PhoneCall, type LucideIcon } from "lucide-react";
 import { company, industries } from "@/lib/site";
-import { stats, advantages, testimonials } from "@/lib/data/content";
+import { stats, advantages } from "@/lib/data/content";
 import { img } from "@/lib/images";
 import { getProducts } from "@/lib/wordpress";
 import { Container, Section, SectionHeading } from "@/components/ui/Primitives";
@@ -52,8 +52,6 @@ const EN = {
   productsTitle: "Our Pump Series",
   productsSubtitle:
     "We manufacture and supply a full sewage-focused pump range — stainless-steel sewage pumps, ZW and ZWL self-priming pumps, YW submersible sewage pumps, the QBY air-operated diaphragm series, irrigation & drainage mobile pump trucks, GNWQ and WQK cutter submersible pumps, IHG/IHW/IRG/IRW pipeline pumps, metering pumps, high-head sewage pumps, QDX submersible pumps and QD oil-filled submersible pumps. We also supply genuine, original Wilden AODD diaphragm pumps and spare parts.",
-  testimonialsEyebrow: "Testimonials",
-  testimonialsTitle: "Trusted by Industry Leaders",
   ctaTitle: "Ready to Solve Your Fluid Challenge?",
   ctaSubtitle:
     "Send us your duty point and application — our engineers will recommend the right pump and return a quotation within 24 hours.",
@@ -80,26 +78,20 @@ export default async function LocalizedHome({ params }: { params: Params }) {
   const featured = products.filter((p) => p.featured);
   const preview = (featured.length >= 3 ? featured : products).slice(0, 6);
 
-  // Translate every static string, the industry names, the advantages and the
-  // testimonials in batched calls, plus the featured product cards.
+  // Translate every static string, the industry names and the advantages
+  // in batched calls, plus the featured product cards.
   const enKeys = Object.keys(EN) as (keyof typeof EN)[];
   const [
     staticValues,
     industryT,
     advTitles,
     advDescs,
-    testiQuotes,
-    testiAuthors,
-    testiRoles,
     previewCards,
   ] = await Promise.all([
     translateMany(enKeys.map((k) => EN[k]), locale),
     translateMany([...industries], locale),
     translateMany(advantages.map((a) => a.title), locale),
     translateMany(advantages.map((a) => a.description), locale),
-    translateMany(testimonials.map((t) => t.quote), locale),
-    translateMany(testimonials.map((t) => t.author), locale),
-    translateMany(testimonials.map((t) => t.role), locale),
     Promise.all(preview.map((p) => translateProductCard(toCard(p), locale))),
   ]);
   const T = Object.fromEntries(enKeys.map((k, i) => [k, staticValues[i]])) as typeof EN;
@@ -216,29 +208,6 @@ export default async function LocalizedHome({ params }: { params: Params }) {
               {T.viewProducts}
               <ArrowRight className="h-4 w-4 rtl-flip" aria-hidden />
             </Link>
-          </div>
-        </Container>
-      </Section>
-
-      {/* Testimonials */}
-      <Section>
-        <Container>
-          <SectionHeading eyebrow={T.testimonialsEyebrow} title={T.testimonialsTitle} />
-          <div className="grid gap-6 md:grid-cols-3">
-            {testimonials.map((item, i) => (
-              <Reveal key={`${item.author}-${i}`} index={i} className="h-full">
-                <figure className="glass-card flex h-full flex-col p-7">
-                  <Quote className="h-8 w-8 text-accent/60" aria-hidden />
-                  <blockquote className="mt-4 flex-1 text-sm leading-relaxed text-slate-700">
-                    “{testiQuotes[i]}”
-                  </blockquote>
-                  <figcaption className="mt-6 border-t border-slate-200 pt-4">
-                    <div className="font-semibold text-slate-900">{testiAuthors[i]}</div>
-                    <div className="text-sm text-slate-500">{testiRoles[i]}</div>
-                  </figcaption>
-                </figure>
-              </Reveal>
-            ))}
           </div>
         </Container>
       </Section>

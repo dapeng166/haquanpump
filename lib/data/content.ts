@@ -6,7 +6,7 @@ export const advantages = [
     icon: "Factory",
     title: "In-House Manufacturing",
     description:
-      "Machining, assembly and test running in our own factory in Shanghai, building pumps to Chinese national (GB) standards since 2014.",
+      "Machining, assembly and test running in our own factories, building pumps to Chinese national (GB) standards since 2014.",
   },
   {
     icon: "Gauge",
@@ -26,27 +26,6 @@ export const stats = [
   { value: "10+", labelKey: "stats.experience" },
   { value: "300+", labelKey: "stats.models" },
   { value: "10k+", labelKey: "stats.delivered" },
-];
-
-export const testimonials = [
-  {
-    quote:
-      "Haquan sized a self-priming sewage pump for a difficult lifting station and it has run without a single blockage for two years. Their engineering support before the sale was the difference.",
-    author: "Operations Manager",
-    role: "Municipal Water Utility, Southeast Asia",
-  },
-  {
-    quote:
-      "Haquan's QBY air-operated diaphragm pumps have handled our aggressive chemical transfer without a hiccup — reliable metering, easy maintenance and responsive engineering support made them an easy standardisation choice.",
-    author: "Maintenance Lead",
-    role: "Petrochemical Plant, Middle East",
-  },
-  {
-    quote:
-      "The stainless submersible pumps have survived our brine application where coated cast iron used to fail every season. Documentation for customs was complete and correct.",
-    author: "Procurement Director",
-    role: "Desalination Project, North Africa",
-  },
 ];
 
 export const milestones = [

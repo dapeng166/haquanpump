@@ -1,18 +1,20 @@
 "use client";
 
 import { Quote } from "lucide-react";
-import { testimonials as seedTestimonials } from "@/lib/data/content";
 import { Container, Section, SectionHeading } from "@/components/ui/Primitives";
 import { Reveal } from "@/components/ui/Reveal";
 import { useTranslation } from "@/lib/i18n/I18nProvider";
 
 type Testimonial = { quote: string; author: string; role: string };
 
-/** Editable via WordPress (home site_page → "Testimonial 1–3"); falls back to
- *  the curated quotes when none are provided. */
+/** Real customer quotes only, entered in WordPress (home site_page →
+ *  "Testimonial 1–3"). The old built-in sample quotes were not from real
+ *  customers and were removed (owner, 2026-10-23), so with none entered the
+ *  section is not shown. */
 export function Testimonials({ items }: { items?: Testimonial[] }) {
   const { t } = useTranslation();
-  const list = items && items.length > 0 ? items : seedTestimonials;
+  if (!items || items.length === 0) return null;
+  const list = items;
 
   return (
     <Section className="!py-12 sm:!py-16">
