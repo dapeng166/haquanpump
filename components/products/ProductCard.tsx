@@ -24,6 +24,9 @@ export function ProductCard({
 }) {
   const { t } = useTranslation();
   const href = `${hrefBase}/products/${product.slug}`;
+  // Catalogue images (haquan-<model>-….png, 2026-10-26) already carry the brand,
+  // series and specs: skip the series chip and the white fade that hid them.
+  const isCatalogImage = /\/haquan-[^/]+\.png$/i.test(product.image);
   // A row of three "—" tells the buyer nothing: hide it when no figure is set.
   const hasSpecs = [product.specs.flowRate, product.specs.head, product.specs.power].some(
     (v) => v && v.trim() !== "—",
@@ -49,10 +52,14 @@ export function ProductCard({
           priority={priority}
           className="object-contain p-3 transition-transform duration-700 group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-white via-white/20 to-transparent" />
-        <span className="absolute left-4 top-4 rounded-full border border-slate-300 bg-white/70 px-3 py-1 text-xs font-medium text-slate-600 backdrop-blur">
-          {product.seriesName}
-        </span>
+        {!isCatalogImage && (
+          <>
+            <div className="absolute inset-0 bg-gradient-to-t from-white via-white/20 to-transparent" />
+            <span className="absolute left-4 top-4 rounded-full border border-slate-300 bg-white/70 px-3 py-1 text-xs font-medium text-slate-600 backdrop-blur">
+              {product.seriesName}
+            </span>
+          </>
+        )}
       </Link>
 
       <div className="flex flex-1 flex-col p-5">
