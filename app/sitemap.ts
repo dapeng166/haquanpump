@@ -17,6 +17,25 @@ const TOOL_PATHS = [
 ];
 
 /**
+ * Up to `limit` unique image URLs for an image-sitemap entry: real uploads only
+ * (no fallback stock photos), percent-encoded because many media files have
+ * Chinese filenames and sitemap URLs must be valid URIs.
+ */
+function imageUrls(urls: (string | undefined)[], limit: number): string[] {
+  const out: string[] = [];
+  for (const u of urls) {
+    if (!u || !u.startsWith("https://cms.haquanpump.com/")) continue;
+    let encoded = u;
+    try {
+      encoded = encodeURI(decodeURI(u));
+    } catch {}
+    if (!out.includes(encoded)) out.push(encoded);
+    if (out.length >= limit) break;
+  }
+  return out;
+}
+
+/**
  * Generates /sitemap.xml — the six core pages plus every product detail and
  * news article (so Google can discover and index each one). Falls back to just
  * the static pages if the CMS is unreachable.
@@ -145,13 +164,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         changeFrequency: "weekly" as const,
         priority: 0.5,
       })),
-      // Each product: English URL carrying hreflang alternates to every locale.
+      // Each product: English URL carrying hreflang alternates to every locale,
+      // plus its photos (image sitemap) so Google Images finds the catalogue
+      // pictures with the model and specs on them.
       ...products.map((p) => ({
         url: `${base}/products/${p.slug}`,
         lastModified: now,
         changeFrequency: "monthly" as const,
         priority: 0.7,
         alternates: { languages: altLanguages(`/products/${p.slug}`) },
+        images: imageUrls([p.image, ...p.gallery], 5),
       })),
       ...news.map((n) => ({
         url: `${base}/news/${n.slug}`,
@@ -159,6 +181,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         changeFrequency: "monthly" as const,
         priority: 0.6,
         alternates: { languages: altLanguages(`/news/${n.slug}`) },
+        images: imageUrls([n.image], 1),
       })),
     ];
   } catch {
