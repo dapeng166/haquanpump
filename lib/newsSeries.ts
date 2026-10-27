@@ -5,6 +5,7 @@
 export const SERIES_SHORT: Record<string, string> = {
   "deep-well-pump": "Deep Well Pumps",
   "pipeline-centrifugal-pump": "Pipeline & CDL Pumps",
+  "qdx-small-submersible-pump": "QDX Small Pumps",
   "submersible-sewage-pumps": "WQ Submersible Pumps",
   "gnwq-cutting-submersible-sewage-pump": "GNWQ Cutter Pumps",
   "chopper-pump": "WQK Cutter Pumps",

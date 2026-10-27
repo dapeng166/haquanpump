@@ -177,6 +177,25 @@ export const SERIES: SeriesSpec[] = [
       "Cast iron or stainless steel; 316 for salty or corrosive water",
     ],
   },
+  // QDX / QX all-stainless small submersible pumps (added 2026-10-27, from the
+  // supplier manual): 1.5–10 m³/h, 12–72 m, solids ≤0.2 mm, so clean or lightly
+  // dirty water only.
+  {
+    slug: "qdx-small-submersible-pump",
+    name: "QDX Stainless Steel Small Submersible Pump",
+    flow: [1.5, 10],
+    head: [12, 72],
+    install: "submersible",
+    drive: "electric",
+    liquids: ["clean", "drainage"],
+    best: ["clean"],
+    materials: ["ss304", "ss316"],
+    points: [
+      "All stainless steel, 304 or 316 for seawater and mild chemicals",
+      "220 V single-phase or 380 V three-phase, 0.37 to 7.5 kW",
+      "For clean or lightly dirty water up to 60 °C, solids 0.2 mm max.",
+    ],
+  },
   {
     slug: "pipeline-centrifugal-pump",
     name: "Pipeline Centrifugal Pump (ISG / CDL Multistage)",
