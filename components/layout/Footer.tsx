@@ -70,7 +70,7 @@ export function Footer({ series }: { series?: PumpSeries[] }) {
 
           {/* Quick links */}
           <div className="lg:col-span-2">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-amber-400">
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-amber-500">
               {t("footer.quickLinks")}
             </h3>
             <ul className="mt-5 space-y-3 text-sm">
@@ -78,14 +78,14 @@ export function Footer({ series }: { series?: PumpSeries[] }) {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="text-slate-300 transition-colors hover:text-amber-400"
+                    className="text-slate-300 transition-colors hover:text-amber-500"
                   >
                     {t(item.key)}
                   </Link>
                 </li>
               ))}
               <li>
-                <Link href={toolsHref} className="text-slate-300 transition-colors hover:text-amber-400">
+                <Link href={toolsHref} className="text-slate-300 transition-colors hover:text-amber-500">
                   Engineering Tools
                 </Link>
               </li>
@@ -94,7 +94,7 @@ export function Footer({ series }: { series?: PumpSeries[] }) {
 
           {/* Products */}
           <div className="lg:col-span-3">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-amber-400">
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-amber-500">
               {t("footer.ourProducts")}
             </h3>
             <ul className="group mt-5 space-y-3 text-sm">
@@ -105,7 +105,7 @@ export function Footer({ series }: { series?: PumpSeries[] }) {
                 >
                   <Link
                     href={seriesHref(s.slug)}
-                    className="text-slate-300 transition-colors hover:text-amber-400"
+                    className="text-slate-300 transition-colors hover:text-amber-500"
                   >
                     {s.name}
                   </Link>
@@ -117,7 +117,7 @@ export function Footer({ series }: { series?: PumpSeries[] }) {
                     type="button"
                     onClick={() => setSeriesOpen(true)}
                     aria-label={`Show ${hiddenCount} more product series`}
-                    className="inline-flex items-center gap-1 font-semibold text-amber-400 transition-colors hover:text-amber-300"
+                    className="inline-flex items-center gap-1 font-semibold text-amber-500 transition-colors hover:text-amber-400"
                   >
                     +{hiddenCount}
                     <ChevronDown className="h-4 w-4" aria-hidden />
@@ -129,29 +129,29 @@ export function Footer({ series }: { series?: PumpSeries[] }) {
 
           {/* Contact */}
           <div className="col-span-2 lg:col-span-3">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-amber-400">
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-amber-500">
               {t("footer.contactUs")}
             </h3>
             <ul className="mt-5 space-y-4 text-sm text-slate-300">
               <li className="flex gap-3">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-amber-400" />
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-amber-500" />
                 <span>{company.address.full}</span>
               </li>
               <li>
                 <a
                   href={`tel:${company.phoneHref}`}
-                  className="flex gap-3 transition-colors hover:text-amber-400"
+                  className="flex gap-3 transition-colors hover:text-amber-500"
                 >
-                  <Phone className="mt-0.5 h-4 w-4 shrink-0 text-amber-400" />
+                  <Phone className="mt-0.5 h-4 w-4 shrink-0 text-amber-500" />
                   {company.phone}
                 </a>
               </li>
               <li>
                 <a
                   href={`mailto:${company.email}`}
-                  className="flex gap-3 transition-colors hover:text-amber-400"
+                  className="flex gap-3 transition-colors hover:text-amber-500"
                 >
-                  <Mail className="mt-0.5 h-4 w-4 shrink-0 text-amber-400" />
+                  <Mail className="mt-0.5 h-4 w-4 shrink-0 text-amber-500" />
                   {company.email}
                 </a>
               </li>

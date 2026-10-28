@@ -56,13 +56,13 @@ export function Header() {
               className={`relative rounded-full px-2.5 py-2 text-sm font-medium xl:px-3 2xl:px-4 transition-colors ${
                 isActive(item.href)
                   ? "text-[#16305a]"
-                  : "text-slate-200 hover:text-amber-300"
+                  : "text-slate-200 hover:text-amber-400"
               }`}
             >
               {isActive(item.href) && (
                 <motion.span
                   layoutId="nav-active"
-                  className="absolute inset-0 -z-10 rounded-full bg-amber-400"
+                  className="absolute inset-0 -z-10 rounded-full bg-amber-500"
                   transition={{ type: "spring", stiffness: 380, damping: 30 }}
                 />
               )}
@@ -114,7 +114,7 @@ export function Header() {
                   href={item.href}
                   className={`rounded-lg px-4 py-3 text-base font-medium transition-colors ${
                     isActive(item.href)
-                      ? "bg-amber-400/15 text-amber-300"
+                      ? "bg-amber-500/15 text-amber-400"
                       : "text-slate-200 hover:bg-white/10 hover:text-white"
                   }`}
                 >
