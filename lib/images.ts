@@ -32,6 +32,14 @@ export const productImages = [
 export const wildenFallbackImage =
   "https://cms.haquanpump.com/wp-content/uploads/2026/07/342c33565709fb992b67bba420e6223f.jpg";
 
+/**
+ * Square 800×800 catalogue images (haquan-<model>-….png, 2026-10-26 onward)
+ * already carry the brand, series and specs, so they are shown edge to edge.
+ */
+export function isCatalogueImage(src?: string) {
+  return !!src && /\/haquan-[^/]+\.png$/i.test(src);
+}
+
 export const newsImages = [
   `${U}1497435334941-8c899ee9e8e9${Q}&w=1000`,
   `${U}1542013936693-884638332954${Q}&w=1000`,

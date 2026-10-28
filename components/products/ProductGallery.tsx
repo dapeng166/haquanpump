@@ -2,16 +2,22 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { isCatalogueImage } from "@/lib/images";
 
 export function ProductGallery({ images, alt }: { images: string[]; alt: string }) {
   const gallery = images.length ? images : [];
   const [active, setActive] = useState(0);
+  // A square catalogue image as the main picture gets a square frame it fills.
+  const square = isCatalogueImage(gallery[0]);
+  const fills = isCatalogueImage(gallery[active]);
 
   return (
     <div>
-      <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-slate-200 bg-white">
+      <div
+        className={`relative ${square ? "aspect-square" : "aspect-[4/3]"} overflow-hidden rounded-2xl border border-slate-200 bg-white`}
+      >
         {/* contain, not cover: tall pump photos (vertical / multistage / borehole)
-            would otherwise lose their top and bottom in the 4:3 frame */}
+            would otherwise lose their top and bottom in the frame */}
         <Image
           key={active}
           src={gallery[active]}
@@ -19,7 +25,7 @@ export function ProductGallery({ images, alt }: { images: string[]; alt: string 
           fill
           priority
           sizes="(max-width: 1024px) 100vw, 50vw"
-          className="object-contain p-2"
+          className={fills ? "object-cover" : "object-contain p-2"}
         />
       </div>
       {gallery.length > 1 && (

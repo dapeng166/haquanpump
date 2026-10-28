@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowUpRight, Droplets, Gauge, Zap } from "lucide-react";
 import type { Product } from "@/lib/types";
 import { useTranslation } from "@/lib/i18n/I18nProvider";
+import { isCatalogueImage } from "@/lib/images";
 
 export function ProductCard({
   product,
@@ -24,9 +25,9 @@ export function ProductCard({
 }) {
   const { t } = useTranslation();
   const href = `${hrefBase}/products/${product.slug}`;
-  // Catalogue images (haquan-<model>-….png, 2026-10-26) already carry the brand,
-  // series and specs: skip the series chip and the white fade that hid them.
-  const isCatalogImage = /\/haquan-[^/]+\.png$/i.test(product.image);
+  // Catalogue images already carry the brand, series and specs: skip the
+  // series chip and the white fade that hid them.
+  const isCatalogImage = isCatalogueImage(product.image);
   // A row of three "—" tells the buyer nothing: hide it when no figure is set.
   const hasSpecs = [product.specs.flowRate, product.specs.head, product.specs.power].some(
     (v) => v && v.trim() !== "—",
