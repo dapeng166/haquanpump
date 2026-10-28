@@ -2,13 +2,12 @@ import Link from "next/link";
 import { company } from "@/lib/site";
 
 /**
- * The registered "HQ" monogram — a hand-drawn brush H flowing into a Q whose
- * tail streams off like water. Served from /public as SVG so the (fairly long)
- * outline is fetched and cached once instead of inlined into every page.
+ * The HQAN mark — two sweeping arcs over the letters HQAN, traced from the
+ * artwork filed as the Class 7 trademark application (still under review, so
+ * it carries ™, never ®). Keep the outline exactly as filed: recolour it, but
+ * don't redraw, stretch or split it.
  *
- * Two colour cuts: the standard gradient for light surfaces, and a lifted-blue
- * cut for the navy header and footer — at full saturation the blue H sinks into
- * the navy and the mark reads as if its left half were missing.
+ * Two colour cuts: navy for light surfaces, white for the navy header/footer.
  */
 export function Logo({
   className = "",
@@ -20,17 +19,33 @@ export function Logo({
   return (
     <Link
       href="/"
-      className={`group inline-flex shrink-0 items-center gap-2.5 ${className}`}
+      className={`group inline-flex shrink-0 items-center gap-3 ${className}`}
       aria-label={`${company.shortName} — home`}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={onDark ? "/logo-hq-color-dark.svg" : "/logo-hq-color.svg"}
-        alt="HQ"
-        className="h-9 w-auto shrink-0 transition-transform duration-300 group-hover:scale-105"
-      />
+      <span className="relative inline-flex shrink-0 items-start">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={onDark ? "/logo-hqan-white.svg" : "/logo-hqan.svg"}
+          alt="HQAN"
+          className="h-9 w-auto transition-transform duration-300 group-hover:scale-105"
+        />
+        <span
+          aria-hidden
+          className={`-mt-0.5 ml-0.5 text-[0.55rem] font-semibold leading-none ${
+            onDark ? "text-white/80" : "text-slate-500"
+          }`}
+        >
+          ™
+        </span>
+      </span>
 
-      <span className="flex flex-col leading-none">
+      {/* The mark alone on phones: with the name beside it the header
+          pushes its buttons off a 375px screen. */}
+      <span
+        className={`hidden flex-col border-l pl-3 leading-none sm:flex ${
+          onDark ? "border-white/25" : "border-slate-300"
+        }`}
+      >
         <span
           translate="no"
           className={`font-display text-lg font-bold uppercase tracking-tight ${

@@ -15,7 +15,7 @@ export function OrganizationJsonLd() {
     name: company.name,
     alternateName: company.shortName,
     url: company.url,
-    logo: `${company.url}/logo-hq-color.svg`,
+    logo: `${company.url}/logo-hqan.svg`,
     foundingDate: String(company.founded),
     email: company.email,
     telephone: company.phone,
