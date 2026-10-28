@@ -1,9 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { indexableLocales } from "@/lib/i18n/config";
-import { Mail, Phone, MapPin, Linkedin, Facebook } from "lucide-react";
+import { Mail, Phone, MapPin, Linkedin, Facebook, ChevronDown } from "lucide-react";
 import { company, mainNav } from "@/lib/site";
 import { pumpSeries } from "@/lib/data/products";
 import type { PumpSeries } from "@/lib/types";
@@ -26,9 +27,12 @@ export function Footer({ series }: { series?: PumpSeries[] }) {
   // falling back to the curated list when the CMS hasn't provided any.
   const cms = series ?? [];
   const withProducts = cms.filter((s) => (s.count ?? 0) > 0);
-  const productSeries = (
-    withProducts.length ? withProducts : cms.length ? cms : pumpSeries
-  ).slice(0, 8);
+  const productSeries = withProducts.length ? withProducts : cms.length ? cms : pumpSeries;
+  // Show the first few; the rest open on hover (desktop) or with the "+N" button
+  // (touch). All links stay in the HTML so search engines still see them.
+  const SHOWN = 8;
+  const [seriesOpen, setSeriesOpen] = useState(false);
+  const hiddenCount = Math.max(0, productSeries.length - SHOWN);
 
   const socials = [
     { href: company.social.linkedin, icon: Linkedin, label: "LinkedIn", brand: "#0A66C2" },
@@ -93,9 +97,12 @@ export function Footer({ series }: { series?: PumpSeries[] }) {
             <h3 className="text-sm font-semibold uppercase tracking-wider text-amber-400">
               {t("footer.ourProducts")}
             </h3>
-            <ul className="mt-5 space-y-3 text-sm">
-              {productSeries.map((s) => (
-                <li key={s.slug}>
+            <ul className="group mt-5 space-y-3 text-sm">
+              {productSeries.map((s, i) => (
+                <li
+                  key={s.slug}
+                  className={i >= SHOWN && !seriesOpen ? "hidden lg:group-hover:list-item" : undefined}
+                >
                   <Link
                     href={seriesHref(s.slug)}
                     className="text-slate-300 transition-colors hover:text-amber-400"
@@ -104,6 +111,19 @@ export function Footer({ series }: { series?: PumpSeries[] }) {
                   </Link>
                 </li>
               ))}
+              {hiddenCount > 0 && !seriesOpen && (
+                <li className="lg:group-hover:hidden">
+                  <button
+                    type="button"
+                    onClick={() => setSeriesOpen(true)}
+                    aria-label={`Show ${hiddenCount} more product series`}
+                    className="inline-flex items-center gap-1 font-semibold text-amber-400 transition-colors hover:text-amber-300"
+                  >
+                    +{hiddenCount}
+                    <ChevronDown className="h-4 w-4" aria-hidden />
+                  </button>
+                </li>
+              )}
             </ul>
           </div>
 
