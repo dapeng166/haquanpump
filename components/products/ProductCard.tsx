@@ -43,15 +43,17 @@ export function ProductCard({
     <article className="group glass-card flex h-full flex-col overflow-hidden p-0">
       <Link
         href={href}
-        className="relative block aspect-[4/3] overflow-hidden bg-white"
+        className="relative block aspect-square overflow-hidden bg-white"
       >
+        {/* Square for every card so a grid that mixes square catalogue images
+            and ordinary photos keeps one row height; catalogue images fill it. */}
         <Image
           src={product.image}
           alt={`${product.name} — ${product.seriesName} by Haquan`}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1280px) 33vw, 360px"
           priority={priority}
-          className="object-contain p-3 transition-transform duration-700 group-hover:scale-105"
+          className={`${isCatalogImage ? "object-cover" : "object-contain p-3"} transition-transform duration-700 group-hover:scale-105`}
         />
         {!isCatalogImage && (
           <>
