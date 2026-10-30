@@ -19,6 +19,15 @@ const BASE_PATHS = ["/", "/products", "/news", "/support", WILDEN_HUB_PATH];
 const PRODUCT_PATHS = ["/", "/products", "/news", WILDEN_HUB_PATH, "/tools/pump-selector"];
 const NEWS_PATHS = ["/", "/news"];
 
+// Listings are refreshed in English only. Each localized listing is ~2 MB of
+// HTML + RSC, so refreshing all six on every publish cost ~1,600 ISR writes per
+// publish and pushed the Hobby plan to 526K/200K (2026-10-30). The localized
+// listings now pick new items up on their own timed window (data cache, 7 days);
+// the published page itself is still refreshed in every language below.
+function revalidateEnglish(path: string) {
+  revalidatePath(path);
+}
+
 function revalidateAllLocales(path: string) {
   revalidatePath(path);
   for (const locale of indexableLocales) {
@@ -53,20 +62,17 @@ async function handle(req: NextRequest) {
   const extra = req.nextUrl.searchParams.get("path");
 
   // Only refresh the listings the published item actually appears on — every
-  // refreshed page is rewritten in 7 languages and billed as ISR writes.
+  // refreshed page is rewritten and billed as ISR writes (per 8 KB).
   const listings = extra?.startsWith("/products/")
     ? PRODUCT_PATHS
     : extra?.startsWith("/news/")
       ? NEWS_PATHS
       : BASE_PATHS;
-  for (const path of listings) revalidateAllLocales(path);
-  // The localized pump selectors load the catalogue from a per-locale JSON (only
-  // their small default-duty seed is in the page, refreshed with it above).
-  if (listings === PRODUCT_PATHS)
-    for (const locale of indexableLocales) revalidatePath(`/api/tools/catalogue/${locale}`);
-  // Sitemaps have no locale prefix.
+  for (const path of listings) revalidateEnglish(path);
+  // The localized pump selectors' catalogue JSON and the HTML /sitemap page
+  // follow their own timed windows. The XML sitemap stays here so Google finds
+  // new URLs the same day.
   revalidatePath("/sitemap.xml");
-  revalidatePath("/sitemap");
   // Site search index, so new products, documents and news are searchable now
   // rather than after its daily refresh.
   revalidatePath("/api/search");
