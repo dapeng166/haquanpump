@@ -2,6 +2,10 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
+    // Serve images straight from their source instead of through Vercel's optimizer: the Hobby plan's
+    // image-optimization allowance ran out (2026-10-31, rolling 30 days) and every new image then
+    // returned 402 and showed blank. Most WP media is already web-sized (median ~240 KB).
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",
