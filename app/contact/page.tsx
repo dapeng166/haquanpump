@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { Mail, MapPin, Phone, Clock, Linkedin, Facebook } from "lucide-react";
+import { Mail, MapPin, Phone, Clock, Linkedin, Youtube, Facebook } from "lucide-react";
 import QRCode from "qrcode";
 import { company } from "@/lib/site";
 import { getSitePage, acfStr } from "@/lib/wordpress";
@@ -20,6 +20,7 @@ export const metadata: Metadata = {
 
 const socials = [
   { href: company.social.linkedin, icon: Linkedin, label: "LinkedIn", brand: "#0A66C2" },
+  { href: company.social.youtube, icon: Youtube, label: "YouTube", brand: "#FF0000" },
   { href: company.social.facebook, icon: Facebook, label: "Facebook", brand: "#1877F2" },
   { href: company.social.x, icon: XIcon, label: "X", brand: "#000000" },
   { href: company.social.whatsapp, icon: WhatsappIcon, label: "WhatsApp", brand: "#25D366" },

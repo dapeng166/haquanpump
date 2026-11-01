@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { indexableLocales } from "@/lib/i18n/config";
-import { Mail, Phone, MapPin, Linkedin, Facebook, ChevronDown } from "lucide-react";
+import { Mail, Phone, MapPin, Linkedin, Youtube, Facebook, ChevronDown } from "lucide-react";
 import { company, mainNav } from "@/lib/site";
 import { pumpSeries } from "@/lib/data/products";
 import type { PumpSeries } from "@/lib/types";
@@ -36,6 +36,7 @@ export function Footer({ series }: { series?: PumpSeries[] }) {
 
   const socials = [
     { href: company.social.linkedin, icon: Linkedin, label: "LinkedIn", brand: "#0A66C2" },
+    { href: company.social.youtube, icon: Youtube, label: "YouTube", brand: "#FF0000" },
     { href: company.social.facebook, icon: Facebook, label: "Facebook", brand: "#1877F2" },
     { href: company.social.x, icon: XIcon, label: "X", brand: "#000000" },
     { href: company.social.whatsapp, icon: WhatsappIcon, label: "WhatsApp", brand: "#25D366" },

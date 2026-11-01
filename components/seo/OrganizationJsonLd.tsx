@@ -29,6 +29,7 @@ export function OrganizationJsonLd() {
     },
     sameAs: [
       company.social.linkedin,
+      company.social.youtube,
       company.social.facebook,
       company.social.x,
     ],
