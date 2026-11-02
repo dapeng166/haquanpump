@@ -33,6 +33,7 @@ const PAGES: SearchDoc[] = [
   { type: "Page", title: "About Us", excerpt: "Our story, factory, capabilities and mission.", href: "/about", keywords: "about history factory mission team company profile" },
   { type: "Page", title: "Products", excerpt: "Browse the full range of sewage and process pumps.", href: "/products", keywords: "products catalogue catalog pumps range series filter" },
   { type: "Page", title: "WILDEN AODD Pumps", excerpt: "Genuine, original WILDEN pumps and spare parts.", href: "/wilden-aodd-pumps", keywords: "wilden aodd diaphragm spare parts pro-flo shift turbo-flo" },
+  { type: "Page", title: "KSB Pumps & Valves", excerpt: "Genuine, original KSB thermal oil pumps, standard pumps and valves.", href: "/ksb-pumps", keywords: "ksb etanorm etabloc syt etny etby etb rsy hpk hpk-l boa-h boa-s thermal oil hot water valve strainer" },
   { type: "Page", title: "News", excerpt: "Latest company news, articles and updates.", href: "/news", keywords: "news blog articles updates press" },
   { type: "Page", title: "Support", excerpt: "Technical documents, FAQ and after-sales service.", href: "/support", keywords: "support faq downloads documents help service warranty manual datasheet" },
   { type: "Page", title: "Contact", excerpt: "Request a quote or reach our engineers.", href: "/contact", keywords: "contact quote rfq inquiry email phone address map location" },

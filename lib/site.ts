@@ -40,6 +40,7 @@ export const mainNav = [
   { key: "nav.about", href: "/about" },
   { key: "nav.products", href: "/products" },
   { key: "nav.wilden", href: "/wilden-aodd-pumps" },
+  { key: "nav.ksb", href: "/ksb-pumps" },
   { key: "nav.news", href: "/news" },
   { key: "nav.support", href: "/support" },
   { key: "nav.contact", href: "/contact" },

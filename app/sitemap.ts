@@ -3,6 +3,7 @@ import { company } from "@/lib/site";
 import { getNews, getProducts } from "@/lib/wordpress";
 import { indexableLocales } from "@/lib/i18n/config";
 import { WILDEN_HUB_PATH, WILDEN_LOOKUP_PATHS } from "@/lib/wilden";
+import { KSB_HUB_PATH } from "@/lib/ksb";
 
 // Refresh the sitemap hourly so newly published news/products are submitted to
 // search engines automatically.
@@ -86,6 +87,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "weekly",
       priority: 0.9,
       alternates: { languages: altLanguages(WILDEN_HUB_PATH) },
+    },
+    // KSB brand page is English-only (no locale routes yet).
+    {
+      url: `${base}${KSB_HUB_PATH}`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
     },
     // WILDEN lookups: pump builds per material, spare parts per category.
     ...WILDEN_LOOKUP_PATHS.map((path) => ({

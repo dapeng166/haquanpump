@@ -10,6 +10,7 @@ const en = {
     about: "About",
     products: "Products",
     wilden: "WILDEN",
+    ksb: "KSB",
     news: "News & Guides",
     support: "Support",
     contact: "Contact",

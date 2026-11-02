@@ -53,7 +53,7 @@ export function Header() {
             <Link
               key={item.href}
               href={item.href}
-              className={`relative rounded-full px-2.5 py-2 text-sm font-medium xl:px-3 2xl:px-4 transition-colors ${
+              className={`relative whitespace-nowrap rounded-full px-2.5 py-2 text-sm font-medium xl:px-3 2xl:px-4 transition-colors ${
                 isActive(item.href)
                   ? "text-[#16305a]"
                   : "text-slate-200 hover:text-amber-400"
