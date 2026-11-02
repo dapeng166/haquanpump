@@ -5,6 +5,7 @@ import { seriesCodes } from "@/lib/searchCodes";
 import { WILDEN_PUMP_MATERIALS, WILDEN_SPARE_CATEGORIES, pumpLookupPath, spareLookupPath } from "@/lib/wilden";
 import { WILDEN_PUMP_BUILDS } from "@/lib/data/wildenPumps";
 import { partsOf, SPARES_EN } from "@/components/wilden/WildenSparesView";
+import { KSB_ITEMS, ksbPath } from "@/lib/ksb";
 
 // Lightweight, self-contained search index for the whole site: the main pages,
 // every product, news article, technical document and Support FAQ. The client
@@ -121,7 +122,15 @@ export async function GET() {
     };
   });
 
+  const ksbDocs: SearchDoc[] = KSB_ITEMS.map((i) => ({
+    type: "Page",
+    title: i.title,
+    excerpt: i.summary,
+    href: ksbPath(i),
+    keywords: `ksb ${i.name} ${i.code} ${i.kind} ${i.uses.join(" ")}`,
+  }));
+
   return NextResponse.json({
-    docs: [...PAGES, ...wildenPumps, ...wildenSpares, ...productDocs, ...documentDocs, ...faqDocs, ...newsDocs],
+    docs: [...PAGES, ...ksbDocs, ...wildenPumps, ...wildenSpares, ...productDocs, ...documentDocs, ...faqDocs, ...newsDocs],
   });
 }

@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, BadgeCheck, Clock, Hash } from "lucide-react";
 import { img } from "@/lib/images";
-import { KSB_HUB_PATH, KSB_PUMPS, KSB_VALVES, type KsbItem } from "@/lib/ksb";
+import { KSB_HUB_PATH, KSB_PUMPS, KSB_VALVES, ksbPath, type KsbItem } from "@/lib/ksb";
 import { PageHero } from "@/components/ui/PageHero";
 import { Container, Section, SectionHeading } from "@/components/ui/Primitives";
 import { Reveal } from "@/components/ui/Reveal";
@@ -57,7 +57,7 @@ function Spec({ label, value, unit }: { label: string; value: string; unit: stri
 
 function ItemCard({ item }: { item: KsbItem }) {
   return (
-    <div className="glass-card flex h-full flex-col p-6">
+    <Link href={ksbPath(item)} className="glass-card group flex h-full flex-col p-6 transition hover:border-accent/40">
       <div className="mb-4 flex aspect-[4/3] items-center justify-center overflow-hidden rounded-xl bg-white">
         <Image
           src={item.image}
@@ -91,7 +91,11 @@ function ItemCard({ item }: { item: KsbItem }) {
           </li>
         ))}
       </ul>
-    </div>
+      <span className="mt-auto inline-flex items-center gap-1.5 pt-5 text-sm font-semibold text-accent-600 group-hover:text-accent-700">
+        View details
+        <ArrowRight className="h-4 w-4 rtl-flip" aria-hidden />
+      </span>
+    </Link>
   );
 }
 
