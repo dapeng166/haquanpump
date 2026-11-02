@@ -88,18 +88,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9,
       alternates: { languages: altLanguages(WILDEN_HUB_PATH) },
     },
-    // KSB brand page is English-only (no locale routes yet).
+    // KSB brand hub and series pages, with hreflang to every locale.
     {
       url: `${base}${KSB_HUB_PATH}`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.8,
+      alternates: { languages: altLanguages(KSB_HUB_PATH) },
     },
     ...KSB_ITEMS.map((item) => ({
       url: `${base}${ksbPath(item)}`,
       lastModified: now,
       changeFrequency: "monthly" as const,
       priority: 0.7,
+      alternates: { languages: altLanguages(ksbPath(item)) },
       images: [`${base}${item.image}`],
     })),
     // WILDEN lookups: pump builds per material, spare parts per category.
@@ -151,9 +153,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "weekly" as const,
       priority: 0.9,
     })),
-    // Localized about / support / contact / Wilden hub (static, CMS-independent).
+    // Localized about / support / contact / Wilden / KSB (static, CMS-independent).
     ...indexableLocales.flatMap((locale) =>
-      ["/about", "/support", "/contact", WILDEN_HUB_PATH, ...WILDEN_LOOKUP_PATHS].map((path) => ({
+      [
+        "/about",
+        "/support",
+        "/contact",
+        WILDEN_HUB_PATH,
+        ...WILDEN_LOOKUP_PATHS,
+        KSB_HUB_PATH,
+        ...KSB_ITEMS.map(ksbPath),
+      ].map((path) => ({
         url: `${base}/${locale}${path}`,
         lastModified: now,
         changeFrequency: "monthly" as const,

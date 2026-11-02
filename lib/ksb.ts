@@ -193,3 +193,13 @@ export const KSB_VALVES: KsbItem[] = [
 export const KSB_ITEMS = [...KSB_PUMPS, ...KSB_VALVES];
 
 export const ksbPath = (item: KsbItem) => `${KSB_HUB_PATH}/${item.slug}`;
+
+export const isKsbValve = (item: KsbItem) => KSB_VALVES.includes(item);
+
+/** Meta description for a series detail page (English; locale routes translate it). */
+export function ksbDetailDescription(item: KsbItem): string {
+  const specs = isKsbValve(item)
+    ? `${item.pn}, up to ${item.dn}, up to ${item.temp} °C`
+    : `up to ${item.flow} m³/h, ${item.head} m head, ${item.temp} °C and ${item.pressure} bar`;
+  return `Genuine, original KSB ${item.name} (${item.code}): ${item.kind.toLowerCase()}, ${specs}. Quote by model code, 12-month warranty, lead time about 6 weeks.`;
+}
