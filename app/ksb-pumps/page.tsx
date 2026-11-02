@@ -38,8 +38,8 @@ const why = [
   },
   {
     icon: Clock,
-    title: "About 6 weeks",
-    text: "Typical lead time is about 6 weeks from order confirmation, with export packing and shipping arranged by us.",
+    title: "About 6 weeks, 12-month warranty",
+    text: "Typical lead time is about 6 weeks from order confirmation, with export packing and shipping arranged by us. Every KSB pump and valve comes with a 12-month warranty.",
   },
 ];
 

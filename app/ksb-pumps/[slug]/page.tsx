@@ -30,7 +30,7 @@ function specLine(item: KsbItem): string {
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const item = find((await params).slug);
   if (!item) return {};
-  const description = `Genuine, original KSB ${item.name} (${item.code}): ${item.kind.toLowerCase()}, ${specLine(item)}. Quote by model code, lead time about 6 weeks.`;
+  const description = `Genuine, original KSB ${item.name} (${item.code}): ${item.kind.toLowerCase()}, ${specLine(item)}. Quote by model code, 12-month warranty, lead time about 6 weeks.`;
   return {
     title: item.title,
     description,
@@ -134,7 +134,7 @@ export default async function KsbSeriesPage({ params }: { params: Params }) {
               </p>
               <div className="mt-6 flex items-center gap-3 rounded-2xl border border-accent/30 bg-accent/5 p-4 text-sm text-slate-700">
                 <Clock className="h-5 w-5 shrink-0 text-accent-600" aria-hidden />
-                Genuine, original KSB. Typical lead time about 6 weeks from order confirmation.
+                Genuine, original KSB with a 12-month warranty. Typical lead time about 6 weeks from order confirmation.
               </div>
               <Link href="/contact" className="btn-primary mt-6">
                 Request a Quote
