@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, BadgeCheck, Clock, Hash } from "lucide-react";
 import { img } from "@/lib/images";
@@ -16,7 +17,12 @@ export const metadata: Metadata = {
   title: TITLE,
   description: DESC,
   alternates: { canonical: KSB_HUB_PATH },
-  openGraph: { title: `${TITLE} | Haquan Pump`, description: DESC, url: KSB_HUB_PATH },
+  openGraph: {
+    title: `${TITLE} | Haquan Pump`,
+    description: DESC,
+    url: KSB_HUB_PATH,
+    images: [{ url: KSB_PUMPS[0].image, width: 720, height: 540, alt: `KSB ${KSB_PUMPS[0].name}` }],
+  },
 };
 
 const why = [
@@ -52,6 +58,15 @@ function Spec({ label, value, unit }: { label: string; value: string; unit: stri
 function ItemCard({ item }: { item: KsbItem }) {
   return (
     <div className="glass-card flex h-full flex-col p-6">
+      <div className="mb-4 flex aspect-[4/3] items-center justify-center overflow-hidden rounded-xl bg-white">
+        <Image
+          src={item.image}
+          alt={`KSB ${item.name} ${item.kind.toLowerCase()}`}
+          width={720}
+          height={540}
+          className="h-full w-full object-contain"
+        />
+      </div>
       <div className="flex items-baseline justify-between gap-3">
         <h3 className="font-display text-xl font-bold text-slate-900" translate="no">
           KSB {item.name}
