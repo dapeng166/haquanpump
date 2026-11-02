@@ -11,6 +11,9 @@ const en = {
     products: "Products",
     wilden: "WILDEN",
     ksb: "KSB",
+    brands: "Brands",
+    wildenDesc: "AODD diaphragm pumps & spare parts",
+    ksbDesc: "Thermal oil pumps, standard pumps & valves",
     news: "News & Guides",
     support: "Support",
     contact: "Contact",
@@ -109,7 +112,7 @@ type DeepPartial<T> = { [K in keyof T]?: DeepPartial<T[K]> };
 
 // --- Chinese -------------------------------------------------------------
 const zh: DeepPartial<Dictionary> = {
-  nav: { home: "首页", about: "关于我们", products: "产品中心", wilden: "WILDEN", news: "资讯", support: "技术支持", contact: "联系我们" },
+  nav: { home: "首页", about: "关于我们", products: "产品中心", wilden: "WILDEN", ksb: "KSB", brands: "品牌", wildenDesc: "气动隔膜泵及配件", ksbDesc: "热油泵、标准泵及阀门", news: "资讯", support: "技术支持", contact: "联系我们" },
   newsFilter: { all: "全部", company: "公司新闻", guides: "技术文章", cases: "相关案例", allSeries: "全部系列", general: "通用" },
   cta: {
     getQuote: "获取报价", requestQuote: "索取报价", viewProducts: "查看全部产品", exploreProducts: "浏览产品",
@@ -157,7 +160,7 @@ const zh: DeepPartial<Dictionary> = {
 
 // --- Spanish -------------------------------------------------------------
 const es: DeepPartial<Dictionary> = {
-  nav: { home: "Inicio", about: "Nosotros", products: "Productos", wilden: "WILDEN", news: "Noticias y guías", support: "Soporte", contact: "Contacto" },
+  nav: { home: "Inicio", about: "Nosotros", products: "Productos", wilden: "WILDEN", ksb: "KSB", brands: "Marcas", wildenDesc: "Bombas de diafragma AODD y repuestos", ksbDesc: "Bombas de aceite térmico, bombas estándar y válvulas", news: "Noticias y guías", support: "Soporte", contact: "Contacto" },
   newsFilter: { all: "Todo", company: "Noticias de la empresa", guides: "Guías técnicas", cases: "Casos", allSeries: "Todas las series", general: "General" },
   cta: {
     getQuote: "Solicitar Cotización", requestQuote: "Pedir Cotización", viewProducts: "Ver Todos los Productos",
@@ -205,7 +208,7 @@ const es: DeepPartial<Dictionary> = {
 
 // --- German --------------------------------------------------------------
 const de: DeepPartial<Dictionary> = {
-  nav: { home: "Startseite", about: "Über uns", products: "Produkte", wilden: "WILDEN", news: "News & Ratgeber", support: "Support", contact: "Kontakt" },
+  nav: { home: "Startseite", about: "Über uns", products: "Produkte", wilden: "WILDEN", ksb: "KSB", brands: "Marken", wildenDesc: "Druckluft-Membranpumpen und Ersatzteile", ksbDesc: "Thermalölpumpen, Normpumpen und Armaturen", news: "News & Ratgeber", support: "Support", contact: "Kontakt" },
   newsFilter: { all: "Alle", company: "Firmennews", guides: "Technische Ratgeber", cases: "Fallstudien", allSeries: "Alle Serien", general: "Allgemein" },
   cta: {
     getQuote: "Angebot Anfordern", requestQuote: "Angebot Anfordern", viewProducts: "Alle Produkte Ansehen",
@@ -253,7 +256,7 @@ const de: DeepPartial<Dictionary> = {
 
 // --- Russian -------------------------------------------------------------
 const ru: DeepPartial<Dictionary> = {
-  nav: { home: "Главная", about: "О компании", products: "Продукция", wilden: "WILDEN", news: "Новости и статьи", support: "Поддержка", contact: "Контакты" },
+  nav: { home: "Главная", about: "О компании", products: "Продукция", wilden: "WILDEN", ksb: "KSB", brands: "Бренды", wildenDesc: "Пневматические мембранные насосы и запчасти", ksbDesc: "Насосы для термомасла, стандартные насосы и арматура", news: "Новости и статьи", support: "Поддержка", contact: "Контакты" },
   newsFilter: { all: "Все", company: "Новости компании", guides: "Технические статьи", cases: "Кейсы", allSeries: "Все серии", general: "Общие" },
   cta: {
     getQuote: "Запросить Цену", requestQuote: "Запросить Цену", viewProducts: "Вся Продукция",
@@ -301,7 +304,7 @@ const ru: DeepPartial<Dictionary> = {
 
 // --- Arabic (RTL) --------------------------------------------------------
 const ar: DeepPartial<Dictionary> = {
-  nav: { home: "الرئيسية", about: "من نحن", products: "المنتجات", wilden: "WILDEN", news: "الأخبار والأدلة", support: "الدعم", contact: "اتصل بنا" },
+  nav: { home: "الرئيسية", about: "من نحن", products: "المنتجات", wilden: "WILDEN", ksb: "KSB", brands: "العلامات التجارية", wildenDesc: "مضخات غشائية تعمل بالهواء وقطع الغيار", ksbDesc: "مضخات الزيت الحراري والمضخات القياسية والصمامات", news: "الأخبار والأدلة", support: "الدعم", contact: "اتصل بنا" },
   newsFilter: { all: "الكل", company: "أخبار الشركة", guides: "أدلة فنية", cases: "دراسات حالة", allSeries: "كل السلاسل", general: "عام" },
   cta: {
     getQuote: "اطلب عرض سعر", requestQuote: "اطلب عرض سعر", viewProducts: "عرض كل المنتجات",
@@ -349,7 +352,7 @@ const ar: DeepPartial<Dictionary> = {
 
 // --- French ---------------------------------------------------------------
 const fr: DeepPartial<Dictionary> = {
-  nav: { home: "Accueil", about: "À propos", products: "Produits", wilden: "WILDEN", news: "Actualités et guides", support: "Support", contact: "Contact" },
+  nav: { home: "Accueil", about: "À propos", products: "Produits", wilden: "WILDEN", ksb: "KSB", brands: "Marques", wildenDesc: "Pompes pneumatiques à membrane et pièces détachées", ksbDesc: "Pompes à huile thermique, pompes normalisées et vannes", news: "Actualités et guides", support: "Support", contact: "Contact" },
   newsFilter: { all: "Tout", company: "Actualités de l'entreprise", guides: "Guides techniques", cases: "Études de cas", allSeries: "Toutes les séries", general: "Général" },
   cta: { viewDetails: "Voir les détails", getQuote: "Demander un devis", exploreProducts: "Voir les produits", contactUs: "Nous contacter", readMore: "Lire la suite" },
   specs: { flow: "Débit", head: "Hauteur", power: "Puissance", diameter: "Entrée / Sortie", material: "Matériau", specifications: "Spécifications" },
@@ -359,7 +362,7 @@ const fr: DeepPartial<Dictionary> = {
 
 // --- Portuguese -----------------------------------------------------------
 const pt: DeepPartial<Dictionary> = {
-  nav: { home: "Início", about: "Sobre", products: "Produtos", wilden: "WILDEN", news: "Notícias e guias", support: "Suporte", contact: "Contato" },
+  nav: { home: "Início", about: "Sobre", products: "Produtos", wilden: "WILDEN", ksb: "KSB", brands: "Marcas", wildenDesc: "Bombas pneumáticas de diafragma e peças de reposição", ksbDesc: "Bombas de óleo térmico, bombas padrão e válvulas", news: "Notícias e guias", support: "Suporte", contact: "Contato" },
   newsFilter: { all: "Todos", company: "Notícias da empresa", guides: "Guias técnicos", cases: "Estudos de caso", allSeries: "Todas as séries", general: "Geral" },
   cta: { viewDetails: "Ver detalhes", getQuote: "Solicitar orçamento", exploreProducts: "Ver produtos", contactUs: "Fale conosco", readMore: "Leia mais" },
   specs: { flow: "Vazão", head: "Altura", power: "Potência", diameter: "Entrada / Saída", material: "Material", specifications: "Especificações" },

@@ -46,6 +46,15 @@ export const mainNav = [
   { key: "nav.contact", href: "/contact" },
 ] as const;
 
+/**
+ * Brand pages, grouped under one "Brands" dropdown in the header so new brands
+ * do not crowd the top bar. They stay in mainNav for the footer link list.
+ */
+export const brandNav = [
+  { key: "nav.wilden", desc: "nav.wildenDesc", href: "/wilden-aodd-pumps" },
+  { key: "nav.ksb", desc: "nav.ksbDesc", href: "/ksb-pumps" },
+] as const;
+
 export const industries = [
   "Sewage & Wastewater",
   "Municipal Water",
