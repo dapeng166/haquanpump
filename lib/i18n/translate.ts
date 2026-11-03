@@ -73,6 +73,9 @@ const PROTECTED: [RegExp, string, string][] = [
   [/\bWILDEN\b/g, "ZXQ0QXZ", "WILDEN"],
   [/\bWilden\b/g, "ZXQ1QXZ", "Wilden"],
   [/\bwilden\b/g, "ZXQ2QXZ", "wilden"],
+  // "rotan" is Indonesian/Malay for rattan, so DESMI's series name needs the same guard.
+  [/\bROTAN\b/g, "ZXQ3QXZ", "ROTAN"],
+  [/\bDESMI\b/g, "ZXQ4QXZ", "DESMI"],
 ];
 const protect = (s: string) =>
   PROTECTED.reduce((acc, [re, token]) => acc.replace(re, token), s);

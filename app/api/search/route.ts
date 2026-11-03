@@ -6,6 +6,7 @@ import { WILDEN_PUMP_MATERIALS, WILDEN_SPARE_CATEGORIES, pumpLookupPath, spareLo
 import { WILDEN_PUMP_BUILDS } from "@/lib/data/wildenPumps";
 import { partsOf, SPARES_EN } from "@/components/wilden/WildenSparesView";
 import { KSB_ITEMS, ksbPath } from "@/lib/ksb";
+import { DESMI_ITEMS, desmiPath } from "@/lib/desmi";
 
 // Lightweight, self-contained search index for the whole site: the main pages,
 // every product, news article, technical document and Support FAQ. The client
@@ -35,6 +36,7 @@ const PAGES: SearchDoc[] = [
   { type: "Page", title: "Products", excerpt: "Browse the full range of sewage and process pumps.", href: "/products", keywords: "products catalogue catalog pumps range series filter" },
   { type: "Page", title: "WILDEN AODD Pumps", excerpt: "Genuine, original WILDEN pumps and spare parts.", href: "/wilden-aodd-pumps", keywords: "wilden aodd diaphragm spare parts pro-flo shift turbo-flo" },
   { type: "Page", title: "KSB Pumps & Valves", excerpt: "Genuine, original KSB thermal oil pumps, standard pumps and valves.", href: "/ksb-pumps", keywords: "ksb etanorm etabloc syt etny etby etb rsy hpk hpk-l boa-h boa-s thermal oil hot water valve strainer" },
+  { type: "Page", title: "DESMI ROTAN Gear Pumps", excerpt: "Genuine, original DESMI ROTAN internal gear pumps for viscous, hot and corrosive liquids.", href: "/desmi-pumps", keywords: "desmi rotan gear pump internal gear gp hd pd cd ed chd viscous oil bitumen asphalt chemical magnetic drive chocolate" },
   { type: "Page", title: "News", excerpt: "Latest company news, articles and updates.", href: "/news", keywords: "news blog articles updates press" },
   { type: "Page", title: "Support", excerpt: "Technical documents, FAQ and after-sales service.", href: "/support", keywords: "support faq downloads documents help service warranty manual datasheet" },
   { type: "Page", title: "Contact", excerpt: "Request a quote or reach our engineers.", href: "/contact", keywords: "contact quote rfq inquiry email phone address map location" },
@@ -130,7 +132,15 @@ export async function GET() {
     keywords: `ksb ${i.name} ${i.code} ${i.kind} ${i.uses.join(" ")}`,
   }));
 
+  const desmiDocs: SearchDoc[] = DESMI_ITEMS.map((i) => ({
+    type: "Page",
+    title: i.title,
+    excerpt: i.summary,
+    href: desmiPath(i),
+    keywords: `desmi rotan gear pump ${i.name} ${i.code} ${i.kind} ${i.material} ${i.uses.join(" ")}`,
+  }));
+
   return NextResponse.json({
-    docs: [...PAGES, ...ksbDocs, ...wildenPumps, ...wildenSpares, ...productDocs, ...documentDocs, ...faqDocs, ...newsDocs],
+    docs: [...PAGES, ...ksbDocs, ...desmiDocs, ...wildenPumps, ...wildenSpares, ...productDocs, ...documentDocs, ...faqDocs, ...newsDocs],
   });
 }

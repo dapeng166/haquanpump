@@ -41,6 +41,7 @@ export const mainNav = [
   { key: "nav.products", href: "/products" },
   { key: "nav.wilden", href: "/wilden-aodd-pumps" },
   { key: "nav.ksb", href: "/ksb-pumps" },
+  { key: "nav.desmi", href: "/desmi-pumps" },
   { key: "nav.news", href: "/news" },
   { key: "nav.support", href: "/support" },
   { key: "nav.contact", href: "/contact" },
@@ -53,6 +54,7 @@ export const mainNav = [
 export const brandNav = [
   { key: "nav.wilden", desc: "nav.wildenDesc", href: "/wilden-aodd-pumps" },
   { key: "nav.ksb", desc: "nav.ksbDesc", href: "/ksb-pumps" },
+  { key: "nav.desmi", desc: "nav.desmiDesc", href: "/desmi-pumps" },
 ] as const;
 
 export const industries = [

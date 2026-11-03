@@ -4,6 +4,7 @@ import { getNews, getProducts } from "@/lib/wordpress";
 import { indexableLocales } from "@/lib/i18n/config";
 import { WILDEN_HUB_PATH, WILDEN_LOOKUP_PATHS } from "@/lib/wilden";
 import { KSB_HUB_PATH, KSB_ITEMS, ksbPath } from "@/lib/ksb";
+import { DESMI_HUB_PATH, DESMI_ITEMS, desmiPath } from "@/lib/desmi";
 
 // Refresh the sitemap hourly so newly published news/products are submitted to
 // search engines automatically.
@@ -104,6 +105,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       alternates: { languages: altLanguages(ksbPath(item)) },
       images: [`${base}${item.image}`],
     })),
+    // DESMI brand hub and series pages, same pattern as KSB.
+    {
+      url: `${base}${DESMI_HUB_PATH}`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+      alternates: { languages: altLanguages(DESMI_HUB_PATH) },
+    },
+    ...DESMI_ITEMS.map((item) => ({
+      url: `${base}${desmiPath(item)}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+      alternates: { languages: altLanguages(desmiPath(item)) },
+      images: [`${base}${item.image}`],
+    })),
     // WILDEN lookups: pump builds per material, spare parts per category.
     ...WILDEN_LOOKUP_PATHS.map((path) => ({
       url: `${base}${path}`,
@@ -163,6 +180,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         ...WILDEN_LOOKUP_PATHS,
         KSB_HUB_PATH,
         ...KSB_ITEMS.map(ksbPath),
+        DESMI_HUB_PATH,
+        ...DESMI_ITEMS.map(desmiPath),
       ].map((path) => ({
         url: `${base}/${locale}${path}`,
         lastModified: now,
