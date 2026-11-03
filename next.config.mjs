@@ -32,10 +32,44 @@ const nextConfig = {
         "genuine-wilden-diaphragm-pump-supplier-original-pumps-spare-parts-in-stock",
       ],
     ];
-    return renamed.flatMap(([from, to]) => [
-      { source: `/news/${from}`, destination: `/news/${to}`, permanent: true },
-      { source: `/:locale(es|pt|fr|de|ru|ar)/news/${from}`, destination: `/:locale/news/${to}`, permanent: true },
-    ]);
+    // Old or garbled addresses Search Console reported as 404 (2026-11-03):
+    // typos, machine-translated slugs and early placeholder products, each
+    // sent to the closest live page. Removed test articles stay 404.
+    const moved = [
+      ["/wilden-aodd-pumps/part-numbers/polypropene", "/wilden-aodd-pumps/part-numbers/polypropylene"],
+      [`/wilden-aodd-pumps/part-numbers/${encodeURIComponent("polyпропилен")}`, "/wilden-aodd-pumps/part-numbers/polypropylene"],
+      ["/news/60hz-special-length-sewage-pumps", "/news/60hz-special-voltage-sewage-pumps"],
+      [`/news/${encodeURIComponent("non-clog-corrosion-résistant-sewage-pump-guide")}`, "/news/non-clog-corrosion-resistant-sewage-pump-guide"],
+      ["/news/non-clog-corrosion-treatment-sewage-pump-guide", "/news/non-clog-corrosion-resistant-sewage-pump-guide"],
+      ["/news/non-clog-corrosion-resistent-sewage-pump-guide", "/news/non-clog-corrosion-resistant-sewage-pump-guide"],
+      ["/products/wilden-t15-tree-15-3800-09-07-2", "/products/wilden-t15-shaft-15-3800-09-07-2"],
+      ["/products/qby-aodd-pump", "/products/qby-diaphragm-pump-complete-product-range-and-selection-guide"],
+      ["/products/qw258221-1mobilesubmersiblewastepump", "/products/qw-25-8-22-1-1-mobile-submersible-waste-pump"],
+      ["/products/qby-air-diaphragm-pump-for-chemical-netrochemical-transfer", "/products/qby-air-diaphragm-pump-for-chemical-petrochemical-transfer"],
+      ["/products/wilden-t4-aodd-pump-2-inch-turbo-flo-833-l-min-high-pression", "/products/wilden-t4-aodd-pump-2-inch-turbo-flo-833-l-min-high-pressure"],
+      ["/products/wilden-t4-aodd-pump-2-inch-turbo-flo-833-l-min-high-%20Pressure", "/products/wilden-t4-aodd-pump-2-inch-turbo-flo-833-l-min-high-pressure"],
+      ["/products/50gnwq20-15-2-2-cutter-pump-factory-canteen-2", "/products/50gnwq20-15-2-2-cutter-pump-factory-canteen"],
+      ["/products/qby-aodd-pump-for-ceramics-paint-ink-transfer-glaze-pigments-coatings-efficiency", "/products/qby-aodd-pump-for-ceramics-paint-ink-transfer-glaze-pigments-coatings-efficiently"],
+      ["/products/wilden-aodd-pump-handles-any-fluid-from-high-viscosity-to-abrasive-slurries", "/wilden-aodd-pumps"],
+      ["/products/wq-submersible-sewage-pump", "/news/wq-qw-submersible-sewage-pump-differences"],
+      ["/products/wqd-sewage-pump", "/products/wq-32-8-12-0-75kw-32mm-submersible-sewage-pump"],
+      ["/products/wqp-stainless-submersible-pump", "/products/stainless-steel-wq-submersible-pump-corrosive-wastewater"],
+      ["/products/wqk-grinder-pump", "/products/wqk-submersible-grinder-sewage-pump-factory-direct"],
+      ["/products/isg-vertical-pipeline-pump", "/products/isg-vertical-inline-centrifugal-pump"],
+      ["/products/isw-horizontal-pipeline-pump", "/products/isw-horizontal-pump-dust-suppression-water"],
+      ["/products/irg-hot-water-pipeline-pump", "/news/irg-hot-water-circulation-pump"],
+      ["/products/ihg-chemical-pipeline-pump", "/news/ihg-stainless-steel-chemical-inline-pump"],
+    ];
+    return [
+      ...renamed.flatMap(([from, to]) => [
+        { source: `/news/${from}`, destination: `/news/${to}`, permanent: true },
+        { source: `/:locale(es|pt|fr|de|ru|ar)/news/${from}`, destination: `/:locale/news/${to}`, permanent: true },
+      ]),
+      ...moved.flatMap(([from, to]) => [
+        { source: from, destination: to, permanent: true },
+        { source: `/:locale(es|pt|fr|de|ru|ar)${from}`, destination: `/:locale${to}`, permanent: true },
+      ]),
+    ];
   },
 };
 
