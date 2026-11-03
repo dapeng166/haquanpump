@@ -8,7 +8,7 @@ import { Advantages } from "@/components/home/Advantages";
 import { ProductPreview } from "@/components/home/ProductPreview";
 import { Testimonials } from "@/components/home/Testimonials";
 import { FinalCTA } from "@/components/home/FinalCTA";
-import { toCard } from "@/lib/cardProduct";
+import { homeCards } from "@/lib/cardProduct";
 
 // Statically cache the homepage. Publishing revalidates "/" on demand
 // (WordPress → /api/revalidate), so the timed window is just a daily safety net.
@@ -22,8 +22,7 @@ export const metadata: Metadata = {
 
 export default async function HomePage() {
   const [products, page] = await Promise.all([getProducts(), getSitePage("home")]);
-  const featured = products.filter((p) => p.featured);
-  const preview = (featured.length >= 3 ? featured : products).slice(0, 9);
+  const preview = homeCards(products, 9);
 
   // Editable-in-WordPress advantages (only used when all three are filled in).
   const cmsAdvantages = [1, 2, 3]
@@ -48,7 +47,7 @@ export default async function HomePage() {
       <Hero subtitle={page?.subtitle} heroImage={page?.heroImage} />
       <TrustBar text={acfStr(page, "trust_bar_text") || undefined} />
       <Advantages items={cmsAdvantages.length === 3 ? cmsAdvantages : undefined} />
-      <ProductPreview products={preview.map(toCard)} />
+      <ProductPreview products={preview} />
       <Testimonials items={cmsTestimonials.length > 0 ? cmsTestimonials : undefined} />
       <FinalCTA />
     </>

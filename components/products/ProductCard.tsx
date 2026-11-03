@@ -24,7 +24,7 @@ export function ProductCard({
   hideSpecs?: boolean;
 }) {
   const { t } = useTranslation();
-  const href = `${hrefBase}/products/${product.slug}`;
+  const href = `${hrefBase}${product.href ?? `/products/${product.slug}`}`;
   // Catalogue images already carry the brand, series and specs: skip the
   // series chip and the white fade that hid them.
   const isCatalogImage = isCatalogueImage(product.image);

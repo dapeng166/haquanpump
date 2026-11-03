@@ -16,7 +16,7 @@ import { translateMany } from "@/lib/i18n/translate";
 import { translateProductCard } from "@/lib/i18n/translateProduct";
 import { cardLabels } from "@/lib/i18n/uiLabels";
 import { dictionaries } from "@/lib/i18n/dictionaries";
-import { toCard } from "@/lib/cardProduct";
+import { homeCards } from "@/lib/cardProduct";
 
 type Params = Promise<{ locale: string }>;
 
@@ -76,8 +76,7 @@ export default async function LocalizedHome({ params }: { params: Params }) {
   if (!isIndexableLocale(locale)) notFound();
 
   const products = await getProducts();
-  const featured = products.filter((p) => p.featured);
-  const preview = (featured.length >= 3 ? featured : products).slice(0, 6);
+  const preview = homeCards(products, 6);
 
   // Translate every static string, the industry names and the advantages
   // in batched calls, plus the featured product cards.
@@ -93,7 +92,7 @@ export default async function LocalizedHome({ params }: { params: Params }) {
     translateMany([...industries], locale),
     translateMany(advantages.map((a) => a.title), locale),
     translateMany(advantages.map((a) => a.description), locale),
-    Promise.all(preview.map((p) => translateProductCard(toCard(p), locale))),
+    Promise.all(preview.map((p) => translateProductCard(p, locale))),
   ]);
   const T = Object.fromEntries(enKeys.map((k, i) => [k, staticValues[i]])) as typeof EN;
   // Same order as `stats` in lib/data/content.ts. Hand-written labels from the

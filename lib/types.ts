@@ -31,6 +31,8 @@ export interface Product {
   applications: string[];
   brochureUrl?: string;
   featured?: boolean;
+  /** Card link when the item is not a WordPress product (KSB / DESMI brand pages). */
+  href?: string;
   /** Comma-separated SEO keywords (from the CMS), used in <meta keywords>. */
   seoKeywords?: string;
   /** Set when this `pump` entry is really a guide or case study (WP category);
