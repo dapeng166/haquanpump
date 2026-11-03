@@ -39,7 +39,7 @@ const en = {
     // the headline stays comparative-free in every language.
     title: "Sewage Pumps Engineered for Demanding Industries",
     subtitle:
-      "Shanghai Haquan Pump Valve Manufacturing Co., Ltd. is a professional sewage pump manufacturer and a supplier of genuine, original Wilden AODD diaphragm pumps and spare parts — supplying submersible, cutter and self-priming sewage pumps, and genuine Wilden pumps for chemical, food & beverage, pharmaceutical, mining and industrial fluid transfer worldwide.",
+      "Shanghai Haquan Pump Valve Manufacturing Co., Ltd. is a professional sewage pump manufacturer and a supplier of genuine, original WILDEN, KSB and DESMI pumps — supplying submersible, cutter and self-priming sewage pumps from our own factories, plus genuine WILDEN AODD diaphragm pumps, KSB pumps and valves and DESMI ROTAN gear pumps for chemical, food & beverage, pharmaceutical, thermal oil and industrial fluid transfer worldwide.",
   },
   // Owner-confirmed figures only (2026-10-23); the old "300+ models" and
   // "10k+ units" were never confirmed.
@@ -55,7 +55,7 @@ const en = {
       "A decade of engineering discipline, in-house manufacturing and export experience behind every pump we ship.",
     productsTitle: "Our Pump Series",
     productsSubtitle:
-      "We manufacture and supply a full sewage-focused pump range — stainless-steel sewage pumps, ZW and ZWL self-priming pumps, YW submersible sewage pumps, the QBY air-operated diaphragm series, irrigation & drainage mobile pump trucks, GNWQ and WQK cutter submersible pumps, IHG/IHW/IRG/IRW pipeline pumps, metering pumps, high-head sewage pumps, QDX submersible pumps and QD oil-filled submersible pumps. We also supply genuine, original Wilden AODD diaphragm pumps and spare parts.",
+      "We manufacture and supply a full sewage-focused pump range — stainless-steel sewage pumps, ZW and ZWL self-priming pumps, YW submersible sewage pumps, the QBY air-operated diaphragm series, irrigation & drainage mobile pump trucks, GNWQ and WQK cutter submersible pumps, IHG/IHW/IRG/IRW pipeline pumps, metering pumps, high-head sewage pumps, QDX submersible pumps and QD oil-filled submersible pumps. We also supply genuine, original WILDEN AODD diaphragm pumps and spare parts, KSB pumps and valves, and DESMI ROTAN gear pumps.",
     testimonialsTitle: "Trusted by Industry Leaders",
     newsTitle: "News & Engineering Insights",
     ctaTitle: "Ready to Solve Your Fluid Challenge?",
@@ -133,7 +133,7 @@ const zh: DeepPartial<Dictionary> = {
     advantagesSubtitle: "十年如一的工程标准、自有制造能力与丰富的出口经验，铸就每一台水泵。",
     productsTitle: "产品系列",
     productsSubtitle:
-      "专业生产销售威尔顿隔膜泵、不锈钢排污泵、ZW 自吸泵、YW 液下式排污泵、QBY 隔膜泵系列、农田灌溉/排水移动泵车、GNWQ 带切割刀排污泵、IHG/IHW/IRG/IRW 系列管道排污泵、计量泵、高扬程排污泵、QDX 系列潜水电泵、QD 系列油浸式潜水电泵。",
+      "专业生产销售不锈钢排污泵、ZW 自吸泵、YW 液下式排污泵、QBY 隔膜泵系列、农田灌溉/排水移动泵车、GNWQ 带切割刀排污泵、IHG/IHW/IRG/IRW 系列管道排污泵、计量泵、高扬程排污泵、QDX 系列潜水电泵、QD 系列油浸式潜水电泵；同时供应原装正品威尔顿（WILDEN）气动隔膜泵及配件、KSB 泵与阀门、DESMI ROTAN 齿轮泵。",
     testimonialsTitle: "深受行业领军企业信赖",
     newsTitle: "新闻与工程洞察",
     ctaTitle: "准备好解决您的流体难题了吗？",
@@ -181,7 +181,7 @@ const es: DeepPartial<Dictionary> = {
     advantagesSubtitle: "Una década de disciplina de ingeniería, fabricación propia y experiencia exportadora detrás de cada bomba.",
     productsTitle: "Nuestras Series de Bombas",
     productsSubtitle:
-      "Fabricamos y suministramos bombas de diafragma WILDEN AODD, bombas de aguas residuales de acero inoxidable, bombas autocebantes ZW, bombas sumergibles de aguas residuales YW, la serie de diafragma QBY, carros-bomba móviles de riego y drenaje, bombas trituradoras GNWQ, bombas de tubería IHG/IHW/IRG/IRW, bombas dosificadoras, bombas de aguas residuales de gran altura, bombas sumergibles QDX y bombas sumergibles en baño de aceite QD.",
+      "Fabricamos y suministramos bombas de aguas residuales de acero inoxidable, bombas autocebantes ZW, bombas sumergibles de aguas residuales YW, la serie de diafragma QBY, carros-bomba móviles de riego y drenaje, bombas trituradoras GNWQ, bombas de tubería IHG/IHW/IRG/IRW, bombas dosificadoras, bombas de aguas residuales de gran altura, bombas sumergibles QDX y bombas sumergibles en baño de aceite QD. También suministramos bombas de diafragma WILDEN AODD y repuestos originales, bombas y válvulas KSB, y bombas de engranajes DESMI ROTAN.",
     testimonialsTitle: "La Confianza de Líderes de la Industria",
     newsTitle: "Noticias e Información Técnica",
     ctaTitle: "¿Listo para Resolver su Desafío de Fluidos?",
@@ -229,7 +229,7 @@ const de: DeepPartial<Dictionary> = {
     advantagesSubtitle: "Ein Jahrzehnt technischer Disziplin, eigene Fertigung und Exporterfahrung in jeder Pumpe.",
     productsTitle: "Unsere Pumpenserien",
     productsSubtitle:
-      "Wir fertigen und liefern WILDEN AODD Membranpumpen, Abwasserpumpen aus Edelstahl, ZW Selbstansaugpumpen, YW Tauch-Abwasserpumpen, die QBY Membranpumpen-Serie, mobile Bewässerungs- und Entwässerungs-Pumpwagen, GNWQ Schneidrad-Abwasserpumpen, IHG/IHW/IRG/IRW Rohrpumpen, Dosierpumpen, Hochdruck-Abwasserpumpen, QDX Tauchpumpen und QD ölgefüllte Tauchpumpen.",
+      "Wir fertigen und liefern Abwasserpumpen aus Edelstahl, ZW Selbstansaugpumpen, YW Tauch-Abwasserpumpen, die QBY Membranpumpen-Serie, mobile Bewässerungs- und Entwässerungs-Pumpwagen, GNWQ Schneidrad-Abwasserpumpen, IHG/IHW/IRG/IRW Rohrpumpen, Dosierpumpen, Hochdruck-Abwasserpumpen, QDX Tauchpumpen und QD ölgefüllte Tauchpumpen. Außerdem liefern wir originale WILDEN AODD Membranpumpen und Ersatzteile, KSB Pumpen und Armaturen sowie DESMI ROTAN Zahnradpumpen.",
     testimonialsTitle: "Vertrauen der Branchenführer",
     newsTitle: "Aktuelles & Technische Einblicke",
     ctaTitle: "Bereit, Ihre Fluid-Herausforderung zu Lösen?",
@@ -277,7 +277,7 @@ const ru: DeepPartial<Dictionary> = {
     advantagesSubtitle: "Десятилетие инженерной дисциплины, собственное производство и опыт экспорта в каждом насосе.",
     productsTitle: "Наши Серии Насосов",
     productsSubtitle:
-      "Мы производим и поставляем мембранные насосы WILDEN AODD, канализационные насосы из нержавеющей стали, самовсасывающие насосы ZW, погружные канализационные насосы YW, серию мембранных насосов QBY, мобильные насосные установки для орошения и дренажа, канализационные насосы с режущим механизмом GNWQ, трубопроводные насосы IHG/IHW/IRG/IRW, дозирующие насосы, канализационные насосы с большим напором, погружные насосы QDX и маслозаполненные погружные насосы QD.",
+      "Мы производим и поставляем канализационные насосы из нержавеющей стали, самовсасывающие насосы ZW, погружные канализационные насосы YW, серию мембранных насосов QBY, мобильные насосные установки для орошения и дренажа, канализационные насосы с режущим механизмом GNWQ, трубопроводные насосы IHG/IHW/IRG/IRW, дозирующие насосы, канализационные насосы с большим напором, погружные насосы QDX и маслозаполненные погружные насосы QD. Также мы поставляем оригинальные мембранные насосы WILDEN AODD и запчасти, насосы и арматуру KSB, а также шестерённые насосы DESMI ROTAN.",
     testimonialsTitle: "Нам Доверяют Лидеры Отрасли",
     newsTitle: "Новости и Технические Материалы",
     ctaTitle: "Готовы Решить Вашу Задачу по Перекачке?",
@@ -325,7 +325,7 @@ const ar: DeepPartial<Dictionary> = {
     advantagesSubtitle: "عقد من الانضباط الهندسي والتصنيع الذاتي وخبرة التصدير وراء كل مضخة.",
     productsTitle: "سلاسل المضخات لدينا",
     productsSubtitle:
-      "نصنّع ونورّد مضخات الحجاب الحاجز WILDEN AODD، ومضخات الصرف من الفولاذ المقاوم للصدأ، ومضخات ZW ذاتية التحضير، ومضخات الصرف الغاطسة YW، وسلسلة الحجاب الحاجز QBY، وعربات الضخ المتنقلة للري والصرف، ومضخات الصرف بسكين القطع GNWQ، ومضخات الأنابيب IHG/IHW/IRG/IRW، ومضخات القياس والجرعات، ومضخات الصرف عالية الرفع، ومضخات QDX الغاطسة، ومضخات QD الغاطسة المغمورة بالزيت.",
+      "نصنّع ونورّد مضخات الصرف من الفولاذ المقاوم للصدأ، ومضخات ZW ذاتية التحضير، ومضخات الصرف الغاطسة YW، وسلسلة الحجاب الحاجز QBY، وعربات الضخ المتنقلة للري والصرف، ومضخات الصرف بسكين القطع GNWQ، ومضخات الأنابيب IHG/IHW/IRG/IRW، ومضخات القياس والجرعات، ومضخات الصرف عالية الرفع، ومضخات QDX الغاطسة، ومضخات QD الغاطسة المغمورة بالزيت. كما نورّد مضخات WILDEN AODD الغشائية وقطع غيارها الأصلية، ومضخات وصمامات KSB، ومضخات التروس DESMI ROTAN.",
     testimonialsTitle: "ثقة كبار قادة الصناعة",
     newsTitle: "الأخبار والرؤى الهندسية",
     ctaTitle: "هل أنت مستعد لحل تحدي السوائل لديك؟",
