@@ -6,7 +6,7 @@ const U = "https://images.unsplash.com/photo-";
 const Q = "?auto=format&fit=crop&q=80";
 
 export const img = {
-  // Real workshop photo (rows of WQ sewage pumps); replaced the stock sparks photo.
+  // Owner-supplied workshop photo (WQ sewage pumps ready to ship); replaced the stock sparks photo.
   heroPrimary: "/hero-pumps.jpg",
   heroSecondary: `${U}1581092160562-40aa08e78837${Q}&w=1200`,
   aboutFactory: `${U}1565793298595-6a879b1d9492${Q}&w=1400`,
