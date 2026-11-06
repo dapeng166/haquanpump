@@ -115,7 +115,7 @@ export default async function LocalizedHome({ params }: { params: Params }) {
         <div className="absolute inset-0 -z-10">
           <Image
             src={img.heroPrimary}
-            alt="Sewage pump manufacturing facility with stainless steel pipework"
+            alt="Rows of Haquan submersible sewage pumps in the workshop"
             fill
             priority
             sizes="100vw"
