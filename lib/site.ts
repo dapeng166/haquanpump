@@ -81,5 +81,5 @@ export const siteConfig = {
   titleTemplate: "%s | Haquan Pump",
   defaultDescription: company.description,
   ogImage:
-    "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80",
+    "https://www.haquanpump.com/og-home.jpg",
 };

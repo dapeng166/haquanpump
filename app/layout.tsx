@@ -62,7 +62,8 @@ export const metadata: Metadata = {
     description: siteConfig.defaultDescription,
     images: [siteConfig.ogImage],
   },
-  robots: { index: true, follow: true },
+  // max-image-preview:large lets Google show a big thumbnail beside results.
+  robots: { index: true, follow: true, "max-image-preview": "large", googleBot: { index: true, follow: true, "max-image-preview": "large" } },
   // Search Console ownership verification (Google + Yandex).
   verification: {
     google: "8tRFB2QF-m6vSDXQUkxA4seKvaRQAq8ZW7MkyMKTFFk",
