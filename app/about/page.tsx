@@ -99,7 +99,7 @@ export default async function AboutPage() {
               <div className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-slate-200">
                 <Image
                   src={img.aboutTeam}
-                  alt="Haquan engineers inspecting a sewage pump on the factory floor"
+                  alt="Haquan stainless steel submersible sewage pumps in the warehouse"
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover"

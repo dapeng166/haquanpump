@@ -9,8 +9,8 @@ export const img = {
   // Owner-supplied workshop photo (WQ sewage pumps ready to ship); replaced the stock sparks photo.
   heroPrimary: "/hero-pumps.jpg",
   heroSecondary: `${U}1581092160562-40aa08e78837${Q}&w=1200`,
-  aboutFactory: `${U}1565793298595-6a879b1d9492${Q}&w=1400`,
-  aboutTeam: `${U}1581092918056-0c4c3acd3789${Q}&w=1200`,
+  aboutFactory: "/about-warehouse.jpg", // owner photo: stainless sewage pumps in the warehouse
+  aboutTeam: "/about-pumps.jpg", // owner photo: two stainless sewage pumps
   ctaBackground: `${U}1531297484001-80022131f5a1${Q}&w=1920`,
   supportHero: `${U}1454165804606-c3d57bc86b40${Q}&w=1600`,
   contactHero: `${U}1486406146926-c627a92ad1ab${Q}&w=1600`,
