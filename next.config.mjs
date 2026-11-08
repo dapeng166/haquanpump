@@ -65,16 +65,21 @@ const nextConfig = {
       ["/products/qby-diaphragm-pump-explosion-proof-for-flammable-liquids", "/products/qby-diaphragm-pump-for-flammable-liquids"],
       ["/products/qby-explosion-proof-diaphragm-pump-safe-transfer-of-acids-solvents-hazardous-chemicals", "/products/qby-diaphragm-pump-acids-solvents-hazardous-chemicals"],
       // WQK20-15QG: the old address gave the flow as 80 m³/h; the owner confirmed 20 (2026-11-08).
-      // Both escape spellings: WordPress links (and Google) use lowercase %c2%b3, and redirect matching is case-sensitive.
       [`/products/${encodeURIComponent("wqk20-15qg-sewage-pump-80-m³-h-flow-1-5-kw-cuts-everything")}`, "/products/wqk20-15qg-cutting-sewage-pump-20-m3-h-15-m-1-5-kw"],
-      ["/products/wqk20-15qg-sewage-pump-80-m%c2%b3-h-flow-1-5-kw-cuts-everything", "/products/wqk20-15qg-cutting-sewage-pump-20-m3-h-15-m-1-5-kw"],
     ];
+    // Redirect matching is case-sensitive, and an escaped address can arrive as
+    // %C2%B3 (encodeURIComponent) or %c2%b3 (WordPress links, Google). Add the
+    // lowercase spelling of every escaped source.
+    const withLower = moved.flatMap(([from, to]) => {
+      const lower = from.replace(/%[0-9A-F]{2}/g, (e) => e.toLowerCase());
+      return lower !== from ? [[from, to], [lower, to]] : [[from, to]];
+    });
     return [
       ...renamed.flatMap(([from, to]) => [
         { source: `/news/${from}`, destination: `/news/${to}`, permanent: true },
         { source: `/:locale(es|pt|fr|de|ru|ar)/news/${from}`, destination: `/:locale/news/${to}`, permanent: true },
       ]),
-      ...moved.flatMap(([from, to]) => [
+      ...withLower.flatMap(([from, to]) => [
         { source: from, destination: to, permanent: true },
         { source: `/:locale(es|pt|fr|de|ru|ar)${from}`, destination: `/:locale${to}`, permanent: true },
       ]),
