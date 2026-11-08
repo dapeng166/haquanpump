@@ -59,6 +59,11 @@ const nextConfig = {
       ["/products/isw-horizontal-pipeline-pump", "/products/isw-horizontal-pump-dust-suppression-water"],
       ["/products/irg-hot-water-pipeline-pump", "/news/irg-hot-water-circulation-pump"],
       ["/products/ihg-chemical-pipeline-pump", "/news/ihg-stainless-steel-chemical-inline-pump"],
+      // QBY pages renamed 2026-11-08: the old addresses called the pump itself
+      // "explosion-proof", which the company does not claim for QBY.
+      ["/products/qby-air-diaphragm-pump-spark-free-explosion-proof-transfer", "/products/qby-air-diaphragm-pump-air-driven-flammable-liquid-transfer"],
+      ["/products/qby-diaphragm-pump-explosion-proof-for-flammable-liquids", "/products/qby-diaphragm-pump-for-flammable-liquids"],
+      ["/products/qby-explosion-proof-diaphragm-pump-safe-transfer-of-acids-solvents-hazardous-chemicals", "/products/qby-diaphragm-pump-acids-solvents-hazardous-chemicals"],
     ];
     return [
       ...renamed.flatMap(([from, to]) => [

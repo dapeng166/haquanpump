@@ -14,11 +14,12 @@ import { WorldwideSection } from "@/components/about/WorldwideSection";
 export const metadata: Metadata = {
   // Distinct About-page title (absolute = no "| Haquan Pump" suffix).
   title: {
-    absolute:
-      "Haquan Pump Valve – Professional Sewage Pump Manufacturer & Supplier in China",
+    // Kept under ~60 characters so Google shows it whole (2026-11-08: the old
+    // 77-character title ranked ~8 with no clicks in Search Console).
+    absolute: "About Haquan: Sewage Pump Manufacturer in China Since 2014",
   },
   description:
-    "Founded in 2014, Shanghai Haquan Pump Valve Manufacturing Co., Ltd. is a professional sewage pump manufacturer and supplier of genuine, original WILDEN, KSB and DESMI pumps, supplying QBY diaphragm, submersible, self-priming, grinder and pipeline pumps to B2B clients across wastewater, food & beverage, irrigation, biopharmaceutical and petrochemical industries.",
+    "Shanghai Haquan has made sewage pumps in-house since 2014 and supplies genuine WILDEN, KSB and DESMI pumps. 12-month warranty, reply within 24 hours.",
   alternates: { canonical: "/about", languages: localeAlternates("/about") },
 };
 
