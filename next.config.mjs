@@ -64,6 +64,8 @@ const nextConfig = {
       ["/products/qby-air-diaphragm-pump-spark-free-explosion-proof-transfer", "/products/qby-air-diaphragm-pump-air-driven-flammable-liquid-transfer"],
       ["/products/qby-diaphragm-pump-explosion-proof-for-flammable-liquids", "/products/qby-diaphragm-pump-for-flammable-liquids"],
       ["/products/qby-explosion-proof-diaphragm-pump-safe-transfer-of-acids-solvents-hazardous-chemicals", "/products/qby-diaphragm-pump-acids-solvents-hazardous-chemicals"],
+      // WQK20-15QG: the old address gave the flow as 80 m³/h; the owner confirmed 20 (2026-11-08).
+      [`/products/${encodeURIComponent("wqk20-15qg-sewage-pump-80-m³-h-flow-1-5-kw-cuts-everything")}`, "/products/wqk20-15qg-cutting-sewage-pump-20-m3-h-15-m-1-5-kw"],
     ];
     return [
       ...renamed.flatMap(([from, to]) => [
