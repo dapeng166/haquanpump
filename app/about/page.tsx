@@ -74,7 +74,7 @@ export default async function AboutPage() {
                     <p>
                       Today we design, manufacture and export a full sewage-focused range —
                       stainless-steel sewage pumps, ZW and ZWL self-priming pumps, YW
-                      submersible sewage pumps, the QBY air-operated diaphragm series, GNWQ and
+                      vertical sump pumps, the QBY air-operated diaphragm series, GNWQ and
                       WQK cutter submersible pumps, IHG/IHW/IRG/IRW pipeline pumps, metering
                       pumps, high-head sewage pumps, and QDX and QD submersible pumps. We also supply genuine,
                       original WILDEN AODD diaphragm pumps and spare parts, KSB pumps and valves,
