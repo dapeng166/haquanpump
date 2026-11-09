@@ -64,6 +64,14 @@ const nextConfig = {
       ["/products/qby-air-diaphragm-pump-spark-free-explosion-proof-transfer", "/products/qby-air-diaphragm-pump-air-driven-flammable-liquid-transfer"],
       ["/products/qby-diaphragm-pump-explosion-proof-for-flammable-liquids", "/products/qby-diaphragm-pump-for-flammable-liquids"],
       ["/products/qby-explosion-proof-diaphragm-pump-safe-transfer-of-acids-solvents-hazardous-chemicals", "/products/qby-diaphragm-pump-acids-solvents-hazardous-chemicals"],
+      // T15 spare-part pages written twice (2026-09-21 and 2026-10-06). The
+      // October pages are kept (longer, linked from the T15 parts guide); the
+      // September copies were set to draft 2026-11-09.
+      ["/products/wilden-t15-air-valve-assembly-15-2000-07-turbo-flo", "/products/wilden-t15-air-valve-15-2000-07-brass"],
+      ["/products/wilden-t15-shaft-15-3800-09-07", "/products/wilden-t15-shaft-15-3800-09-07-2"],
+      ["/products/wilden-t15-center-block-15-3100-01-225", "/products/wilden-t15-center-block-15-3100-01-225-2"],
+      ["/products/wilden-t15-washer-15-6850-08", "/products/wilden-t15-washer-15-6850-08-2"],
+      ["/products/wilden-t15-glyd-ring-shaft-seal-15-3210-55-225", "/products/wilden-t15-glyd-ring-15-3210-55-225"],
       // WQK20-15QG: the old address gave the flow as 80 m³/h; the owner confirmed 20 (2026-11-08).
       [`/products/${encodeURIComponent("wqk20-15qg-sewage-pump-80-m³-h-flow-1-5-kw-cuts-everything")}`, "/products/wqk20-15qg-cutting-sewage-pump-20-m3-h-15-m-1-5-kw"],
     ];
