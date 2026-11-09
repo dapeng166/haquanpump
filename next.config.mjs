@@ -1,6 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // Listing pages load the whole WP `pump` collection (~780 entries, 8+ pages of
+  // 100 with _embed, fetched two at a time). From Vercel that passed the default
+  // 60 s per-page build limit and failed two deploys on 2026-11-09.
+  staticPageGenerationTimeout: 240,
   images: {
     // Serve images straight from their source instead of through Vercel's optimizer: the Hobby plan's
     // image-optimization allowance ran out (2026-10-31, rolling 30 days) and every new image then
