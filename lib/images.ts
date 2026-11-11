@@ -54,6 +54,13 @@ const OLD_LOGO_UPLOADS = [
   "2026/07/YW液下泵",
   "2026/08/ZW自吸泵",
   "2026/09/不锈钢排污泵-2",
+  // Gallery-only photos with the same old logo (audit 2026-11-11).
+  "2026/06/3",
+  "2026/07/YW",
+  "2026/07/ZW自吸泵",
+  "2026/07/防爆ZW自吸排污泵",
+  "2026/09/QW潜水排污泵副本",
+  "2026/09/排污泵耦合装置",
 ];
 
 /** True for an upload URL (any WP size variant) of an old-logo photo. */
