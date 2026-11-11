@@ -2,7 +2,7 @@ import { WP_API_URL } from "@/lib/site";
 import type { NewsPost, Product, PumpSeries, SitePage, TechDocument } from "@/lib/types";
 import { pumpSeries, seedProducts, seriesWithCounts } from "@/lib/data/products";
 import { seedNews } from "@/lib/data/news";
-import { productImages, newsImages, pickImage, wildenFallbackImage } from "@/lib/images";
+import { productImages, newsImages, pickImage, wildenFallbackImage, isOldLogoImage } from "@/lib/images";
 import { WILDEN_SERIES } from "@/lib/wilden";
 
 /**
@@ -318,7 +318,9 @@ function mapPump(raw: WPPump, index: number): Product {
   // Resolved image URLs (Featured Image + Gallery 1–4) from our custom REST
   // field. Falls back to the embedded featured image, then a seed image.
   const cmsGallery = Array.isArray(raw.gallery)
-    ? raw.gallery.filter((u) => typeof u === "string" && u.startsWith("http"))
+    ? raw.gallery.filter(
+        (u) => typeof u === "string" && u.startsWith("http") && !isOldLogoImage(u),
+      )
     : [];
   const fallbackImage =
     term?.slug === WILDEN_SERIES ? wildenFallbackImage : pickImage(productImages, index);

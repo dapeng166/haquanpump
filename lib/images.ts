@@ -33,6 +33,41 @@ export const productImages = [
 export const wildenFallbackImage =
   "https://cms.haquanpump.com/wp-content/uploads/2026/07/342c33565709fb992b67bba420e6223f.jpg";
 
+// Old photos carrying the retired "HQ 哈泉泵阀" logo / company-name watermark
+// (owner 2026-11-11: none of these may show on the site). Featured images were
+// swapped in WordPress; these lines also drop them from the ACF Gallery 1–4
+// fields, which ~120 older pump posts still reference.
+const OLD_LOGO_UPLOADS = [
+  "2026/06/带切割刀排污泵",
+  "2026/06/HQK带切割排污泵",
+  "2026/06/HQK带切割刀排污泵",
+  "2026/06/1",
+  "2026/06/2",
+  "2026/06/4",
+  "2026/06/5",
+  "2026/07/ZWL直连式自吸泵",
+  "2026/07/ZW自吸排污泵",
+  "2026/07/自吸排污泵副本",
+  "2026/07/YW液下排污泵",
+  "2026/07/YW液下排污泵副本",
+  "2026/07/YW副本",
+  "2026/07/YW液下泵",
+  "2026/08/ZW自吸泵",
+  "2026/09/不锈钢排污泵-2",
+];
+
+/** True for an upload URL (any WP size variant) of an old-logo photo. */
+export function isOldLogoImage(src: string) {
+  let path: string;
+  try {
+    path = decodeURIComponent(new URL(src).pathname);
+  } catch {
+    return false;
+  }
+  const m = path.match(/\/wp-content\/uploads\/(.+?)(?:-scaled)?(?:-\d+x\d+)?\.(?:jpe?g|png|webp)$/i);
+  return !!m && OLD_LOGO_UPLOADS.includes(m[1]);
+}
+
 /**
  * Square 800×800 catalogue images (haquan-<model>-….png, 2026-10-26 onward)
  * already carry the brand, series and specs, so they are shown edge to edge.
